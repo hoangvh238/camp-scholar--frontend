@@ -1,0 +1,77 @@
+// {
+//   "compilerOptions": {
+//     "target": "es5",
+//     "lib": ["dom", "dom.iterable", "esnext"],
+//     "allowJs": true,
+//     "skipLibCheck": true,
+//     "types": [
+//       "@editorjs/editorjs",
+//       // ... các kiểu dữ liệu khác
+//     ],
+//     "strict": true,
+//     "forceConsistentCasingInFileNames": true,
+//     "noEmit": true,
+//     "esModuleInterop": true,
+//     "module": "esnext",
+//     "moduleResolution": "node",
+//     "resolveJsonModule": true,
+//     "isolatedModules": true,
+//     "jsx": "preserve",
+//     "incremental": true,
+//     "paths": {
+//       "@/*": ["./src/*"],
+//       "@assets/*" : ["./assets/*"],
+//       "@icon/*": ["./assets/icon/*"],
+//       "@image/*" : ["./assets/images/*"],
+//       "@component/*": ["./components/*"],
+//       "@lexial/*" : ["./lexical_Lib/lexical/*"],
+//       "@theme/*" : ["./lexical_Lib/theme/*"],
+//       "@nodes/*" : ["./lexical_Lib/nodes/*"],
+//       "@imageInput/*" : ["./lexical_Lib/images/*"],
+//       "@plugins/*" : ["./lexical_Lib/plugins/*"],
+//       "@ui/*" : ["./lexical_Lib/ui/*"],
+//       "@lexicalLib/*" : ["./lexical_Lib/*"],
+//     }
+//   },
+//   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+//   "exclude": ["node_modules"]
+// }
+{
+  "compilerOptions": {
+    "target": "es6",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@assets/*" : ["./assets/*"],
+      "@icon/*": ["./assets/icon/*"],
+      "@image/*" : ["./assets/images/*"],
+      "@component/*": ["./components/*"],
+      "@lexial/*" : ["./lexical_Lib/lexical/*"],
+      "@theme/*" : ["./lexical_Lib/theme/*"],
+      "@nodes/*" : ["./lexical_Lib/nodes/*"],
+      "@imageInput/*" : ["./lexical_Lib/images/*"],
+      "@plugins/*" : ["./lexical_Lib/plugins/*"],
+      "@ui/*" : ["./lexical_Lib/ui/*"],
+      "@lexicalLib/*" : ["./lexical_Lib/*"],
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/plugins/AutoLinkPlugin.js", "components/plugins/ListMaxIndentLevelPlugin.js", "components/plugins/ToolbarPlugin.js", "components/plugins/CodeHighlightPlugin.js", "components/EditorLarge/index.tsx", "components/plugins/TreeViewPlugin.js", "components/SettingElement/Skills.tsx", "components/SettingElement/TagField/index.tsx", "lexical_Lib/plugins/DomToLexicalPlugin"],
+  "exclude": ["node_modules"]
+}
