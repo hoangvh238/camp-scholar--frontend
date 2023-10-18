@@ -14,6 +14,8 @@ import { useRecoilValue } from "recoil";
 import { CommunityState } from "../../atoms/CommunitiesAtom";
 import CreateCommunityModel from "../../components/Modal/CreateCommunity/CreateCommunityModel";
 import MenuListItem from "./MenuListItem";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 type CommunitiesProps = {};
 
@@ -22,34 +24,42 @@ const Communities: React.FC<CommunitiesProps> = () => {
   const mySnippets = useRecoilValue(CommunityState).mySnippets;
   const hoverBg = useColorModeValue("gray.200", "#2A4365");
   const textColor = useColorModeValue("gray.500", "gray.400");
+  const point = useSelector((state: RootState) => state.userInfor.userPoint)
+  console.log("point la"+point.activityPoint);
+  
 
   return (
     <>
       <CreateCommunityModel open={open} handleClose={() => setOpen(false)} />
 
       <Box mt={3} mb={4}>
-        <Text pl={3} mb={1} fontSize="7pt" fontWeight={500} color={textColor}>
-          MODERATING
+        <Text pl={3} mb={1} fontSize="12px" fontWeight={500} color={textColor}>
+          Nhóm của tôi
         </Text>
-        {mySnippets
-          .filter((item) => item.isModerator)
-          .map((snippet) => (
-            <MenuListItem
-              key={snippet.communityId}
-              icon={FaReddit}
-              displayText={`r/${snippet.communityId}`}
-              link={`/r/${snippet.communityId}`}
-              iconColor={"brand.100"}
-              imageURL={snippet.imageURL}
-            />
-          ))}
+        {mySnippets && mySnippets.length > 0 && (
+          <>
+            {mySnippets
+              .filter((item) => item.isModerator)
+              .map((snippet) => (
+                <MenuListItem
+                  key={snippet.groupId}
+                  icon={FaReddit}
+                  displayText={`r/${snippet.groupName}`}
+                  link={`/group/${snippet.groupId}`}
+                  iconColor={"brand.100"}
+                  imageURL={snippet.imageURLGAvatar}
+                />
+              ))}
+          </>
+        )}
+
       </Box>
 
       <Box mt={3} mb={4}>
-        <Text pl={3} mb={1} fontSize="7pt" fontWeight={500} color={textColor}>
-          MY COMMUNITIES
+        <Text pl={3} mb={1} fontSize="12px" fontWeight={500} color={textColor}>
+          Nhóm đã tham gia  
         </Text>
-        <MenuItem
+        {point.activityPoint > 1000 && <MenuItem
           width="100%"
           fontSize="10pt"
           _hover={{ bg: hoverBg }}
@@ -59,19 +69,36 @@ const Communities: React.FC<CommunitiesProps> = () => {
         >
           <Flex align="center">
             <Icon as={GrAdd} mr={2} color="white" />
-            Create Community
+            Tạo nhóm
           </Flex>
-        </MenuItem>
-        {mySnippets.map((snippet) => (
+        </MenuItem>}
+        {mySnippets && mySnippets.length > 0 && (
+          <>
+            {mySnippets
+              .filter((item) => item.isModerator)
+              .map((snippet) => (
+                <MenuListItem
+                  key={snippet.groupId}
+                  icon={FaReddit}
+                  displayText={`${snippet.groupName}`}
+                  link={`/group/${snippet.groupId}`}
+                  iconColor={"brand.100"}
+                  imageURL={snippet.imageURLGAvatar}
+                />
+              ))}
+          </>
+        )}
+        {mySnippets && mySnippets.map((snippet) => (
           <MenuListItem
-            key={snippet.communityId}
+            key={snippet.groupId}
             icon={FaReddit}
-            displayText={`r/${snippet.communityId}`}
-            link={`/r/${snippet.communityId}`}
+            displayText={`${snippet.groupName}`}
+            link={`/group/${snippet.groupId}`}
             iconColor={"blue.500"}
-            imageURL={snippet.imageURL}
+            imageURL={snippet.imageURLGAvatar}
           />
         ))}
+
       </Box>
     </>
   );

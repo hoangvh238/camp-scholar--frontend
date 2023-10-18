@@ -1,6 +1,6 @@
 import type {EditorThemeClasses} from 'lexical';
 
-import './EditorTheme.css';
+import './EditorTheme.module.css';
 
 const theme: EditorThemeClasses = {
   blockCursor: 'EditorTheme__blockCursor',

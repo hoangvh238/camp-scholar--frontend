@@ -1,5 +1,5 @@
 "use client"
-import './index.css';
+import './index.module.css';
 import dynamic from 'next/dynamic';
 
 import {

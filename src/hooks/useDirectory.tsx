@@ -40,9 +40,9 @@ const useDirectory = () => {
       setDirectoryState((prev) => ({
         ...prev,
         selectedMenuItem: {
-          displayText: `r/${currentCommunity.id}`,
-          link: `/r/${currentCommunity.id}`,
-          imageURL: currentCommunity.imageURL,
+          displayText: `r/${currentCommunity.groupName}`,
+          link: `/group/${currentCommunity.groupId}`,
+          imageURL: currentCommunity.imageURLGAvatar,
           icon: FaReddit,
           iconColor: "blue.500",
         },

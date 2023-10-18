@@ -14,7 +14,7 @@ import type {
   RangeSelection,
 } from 'lexical';
 
-import './ImageNode.css';
+
 
 import {AutoFocusPlugin} from '@lexical/react/LexicalAutoFocusPlugin';
 import {useCollaborationContext} from '@lexical/react/LexicalCollaborationContext';

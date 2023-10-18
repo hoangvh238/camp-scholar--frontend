@@ -21,19 +21,37 @@ const Header: React.FC<HeaderProps> = ({ communityData }) => {
   const { communityStateValue, onJoinOrCommunity, loading } =
     useCommunityData();
   const isJoined = !!communityStateValue.mySnippets.find(
-    (item) => item.communityId === communityData.id
+    (item) => item.groupId === communityData?.groupId
   );
-
+  console.log("data"+communityData.groupId);
+  
   return (
-    <Flex direction="column" width="100%" height="146px">
-      <Box height="50%" bg="blue.400" />
-      <Flex justifyContent="center" bg={bg} height="50%">
+    <Flex direction="column" width="100%" height="306px">
+     <Flex
+  align="flex-end"
+  justify="center"
+  color="white"
+  p="6px 10px"
+  bg="blue.500"
+  height="90%"
+  borderRadius="4px 4px 0px 0px"
+  fontWeight={600}
+  // Set the background image and size
+  bgImage={`url(${communityData.imageUrlGCover})`}
+  backgroundSize="cover"
+  bgGradient="linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75)),
+  url('https://source.unsplash.com/1600x900/?nature,photography,technolog')"
+>
+  
+</Flex>
+
+      <Flex justifyContent="center" bg={bg} height="20%">
         <Flex width="95%" maxWidth="860px">
-          {communityStateValue.currentCommunity?.imageURL ? (
+          {communityData.imageURLGAvatar ? (
             <Image
               borderRadius="full"
               boxSize="66px"
-              src={communityStateValue.currentCommunity.imageURL}
+              src={communityData.imageURLGAvatar}
               alt="profile Image"
               position="relative"
               top={-3}
@@ -54,10 +72,10 @@ const Header: React.FC<HeaderProps> = ({ communityData }) => {
           <Flex padding="10px 16px">
             <Flex direction="column" mr={6}>
               <Text fontWeight={800} fontSize="16px">
-                {communityData.id}
+                {communityData?.groupName}
               </Text>
               <Text fontWeight={600} fontSize="10px" color="gray.500">
-                r/{communityData.id}
+                group/{communityData?.groupName}
               </Text>
             </Flex>
             <Button
@@ -70,7 +88,7 @@ const Header: React.FC<HeaderProps> = ({ communityData }) => {
                 onJoinOrCommunity(communityData, isJoined);
               }}
             >
-              {isJoined ? "Joined" : "Join"}
+              {isJoined ? "Rời nhóm" : "Tham gia"}
             </Button>
           </Flex>
         </Flex>

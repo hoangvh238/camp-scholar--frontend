@@ -120,7 +120,7 @@ const Login: React.FC<LoginProps> = () => {
       <Input
         required
         name="password"
-        placeholder="Password..."
+        placeholder="Mật khẩu..."
         type="password"
         mb={2}
         onChange={onChange}
@@ -150,11 +150,11 @@ const Login: React.FC<LoginProps> = () => {
         type="submit"
         isLoading={isLoading}
       >
-        Log In
+        Đăng nhập
       </Button>
       <Flex justifyContent="center" mb={2}>
         <Text fontSize="9pt" mr={1}>
-          Forgot your password?
+         Quên mật khẩu ?
         </Text>
         <Text
           fontSize="9pt"
@@ -171,7 +171,7 @@ const Login: React.FC<LoginProps> = () => {
         </Text>
       </Flex>
       <Flex fontSize="9pt" justifyContent="center">
-        <Text mr={1}>New Here?</Text>
+        <Text mr={1}>Tạo mới ?</Text>
         <Text
           color="blue.500"
           fontWeight={700}
@@ -183,7 +183,7 @@ const Login: React.FC<LoginProps> = () => {
             }))
           }
         >
-          Sign Up
+          Đăng ký
         </Text>
       </Flex>
     </form>

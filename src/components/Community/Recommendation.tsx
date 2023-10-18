@@ -18,6 +18,7 @@ import { FaReddit } from "react-icons/fa";
 import { Community } from "../../atoms/CommunitiesAtom";
 import { firestore } from "../../firebase/clientApp";
 import useCommunityData from "../../hooks/useCommunityData";
+import { getAllGroup, getSuggest } from "../../../apis/groups";
 
 const Recommendation: React.FC = () => {
   const [communities, setCommunities] = useState<Community[]>([]);
@@ -30,28 +31,9 @@ const Recommendation: React.FC = () => {
   const getCommunityRecommendation = async () => {
     setLoading(true);
     try {
-      const communityQuery = query(
-        collection(firestore, "communities"),
-        orderBy("numberOfMembers", "desc")
-        //limit(5)
-      );
-      const communityDocs = await getDocs(communityQuery);
+      const communityDocs = await getSuggest();
 
-      if (isViewAll) {
-        const communities = communityDocs.docs
-          .slice(0, communityDocs.docs.length)
-          .map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          })) as Community[];
-        setCommunities(communities);
-      } else {
-        const communities = communityDocs.docs.slice(0, 5).map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        })) as Community[];
-        setCommunities(communities);
-      }
+      setCommunities(communityDocs.data);
     } catch (error) {
       console.log("getCommunityRecommendation", error);
     }
@@ -59,9 +41,15 @@ const Recommendation: React.FC = () => {
   };
 
   useEffect(() => {
+    if(!isViewAll) setCommunities([]);
+    else 
     getCommunityRecommendation();
   }, [isViewAll]);
 
+  useEffect(() => {
+    console.log(communities);
+
+  }, [communities]);
   return (
     <Flex
       direction="column"
@@ -84,7 +72,7 @@ const Recommendation: React.FC = () => {
         bgGradient="linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75)),
         url('images/xw6wqhhjubh31.webp')"
       >
-        Top Communities
+        Những nhóm mà bạn có thể quan tâm
       </Flex>
       <Flex direction="column">
         {loading ? (
@@ -104,12 +92,12 @@ const Recommendation: React.FC = () => {
           </Stack>
         ) : (
           <>
-            {communities.map((item, index) => {
+            {communities && communities.map((item, index) => {
               const isJoined = !!communityStateValue.mySnippets.find(
-                (snippet) => snippet.communityId === item.id
+                (snippet) => snippet.groupId === item.groupId
               );
               return (
-                <Link key={item.id} href={`/r/${item.id}`}>
+                <Link key={item.groupId} href={`/group/${item.groupId}`}>
                   <Flex
                     position="relative"
                     align="center"
@@ -124,11 +112,11 @@ const Recommendation: React.FC = () => {
                         <Text mr={2}>{index + 1}</Text>
                       </Flex>
                       <Flex align="center" width="80%">
-                        {item.imageURL ? (
+                        {item.imageURLGAvatar ? (
                           <Image
                             borderRadius="full"
                             boxSize="28px"
-                            src={item.imageURL}
+                            src={item.imageURLGAvatar}
                             mr={2}
                           />
                         ) : (
@@ -145,7 +133,7 @@ const Recommendation: React.FC = () => {
                             overflow: "hidden",
                             textOverflow: "ellipsis",
                           }}
-                        >{`r/${item.id}`}</span>
+                        >{`${item.groupName}`}</span>
                       </Flex>
                     </Flex>
                     <Box position="absolute" right="10px">
@@ -169,7 +157,7 @@ const Recommendation: React.FC = () => {
                   isViewAll ? setIsViewAll(false) : setIsViewAll(true)
                 }
               >
-                {isViewAll ? "Collapse Items" : "View All"}
+                {isViewAll ? "Thu gọn" : "Xem tất cả"}
               </Button>
             </Box>
           </>

@@ -4,20 +4,20 @@ import { atom } from "recoil";
 export interface Community {
   groupId: number;
   groupName: string;
-  auth : string;
-  tags: string;
+  host: string;
+  hashtag: string;
   description: string;
-  imageURLGAvatar: string;
-  imageURL?: string;
-  timeCreate : Date;
-  category : string
+  imageURLGAvatar : string;
+  imageUrlGCover : string;
+  timeCreate: Date;
+  category: string
 }
 
-
 export interface CommunitySnippet {
-  groupId: string;
+  groupId: number;
+  groupName: string
   isModerator?: boolean;
-  imageURL?: string;
+  imageURLGAvatar?: string;
   timeCreate?: Date;
 }
 
@@ -25,6 +25,23 @@ interface CommunityState {
   mySnippets: CommunitySnippet[];
   currentCommunity?: Community;
   snippetsFetched: boolean;
+}
+
+export type CreateGroup = {
+  groupName: string,
+  description: string;
+  timeCreate: Date;
+  category: string;
+  hashtag: string;
+}
+
+export type UpdateImage = {
+  imageURLGAvatar : string;
+  imageUrlGCover : string;
+}
+
+export type UpdateInFor = {
+  description: string;
 }
 
 export const defaultCommunityState: CommunityState = {

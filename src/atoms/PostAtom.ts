@@ -7,6 +7,7 @@ export type Post = {
   time : Date,
   author : string,
   groupName : string,
+  groupId : number,
   comments : Comment[],
   report : [],
   likes: Like[],
@@ -36,7 +37,7 @@ export const postState = atom<PostState>({
 
 
 
-type Comment = { 
+export type Comment = { 
  commentId: number,
  postId : number,
  commentParentId : number;
@@ -48,10 +49,9 @@ type Comment = {
 }
 
 
-type Posting = {
+export type Posting = {
  content : string;
  time : Date;
- userId : number;
  groupId : number;
- tiltle : string;
+ titles : string;
 }

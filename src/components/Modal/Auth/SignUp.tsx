@@ -4,10 +4,18 @@ import { addDoc, collection } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useSetRecoilState } from "recoil";
-
+import { registerAccount } from "../../../../apis/auth";
 import { authModelState } from "../../../atoms/authModalAtom";
 import { auth, firestore } from "../../../firebase/clientApp";
 import { FIREBASE_ERRORS } from "../../../firebase/errors";
+import {toast} from "react-toastify"
+
+type UserRegister = { 
+  email : string, 
+  password : string,
+  userName: string
+};
+
 
 const SignUp: React.FC = () => {
   const setAuthModelState = useSetRecoilState(authModelState);
@@ -21,13 +29,12 @@ const SignUp: React.FC = () => {
   const inputBg = useColorModeValue("gray.50", "#4A5568");
   const focusedInputBg = useColorModeValue("white", "#2D3748");
   const placeholderColor = useColorModeValue("gray.500", "#CBD5E0");
-
   //console.log(signUpForm);
 
   const [createUserWithEmailAndPassword, userCred, loading, userError] =
     useCreateUserWithEmailAndPassword(auth);
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (error) setError("");
 
@@ -35,8 +42,18 @@ const SignUp: React.FC = () => {
       setError("Password Do Not Match");
       return;
     }
-
-    createUserWithEmailAndPassword(signUpForm.email, signUpForm.password);
+    
+    const data:UserRegister = {
+       userName :  signUpForm.email.split('@')[0],
+       password : signUpForm.password,
+       email : signUpForm.email
+    }
+    await registerAccount(data);
+    toast.success("Đăng ký thành công");
+    setAuthModelState((prev) => ({
+      ...prev,
+      view: "login",
+    }))
   };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,7 +104,7 @@ const SignUp: React.FC = () => {
       <Input
         required
         name="password"
-        placeholder="Password..."
+        placeholder="Mật khẩu..."
         type="password"
         mb={2}
         onChange={onChange}
@@ -110,7 +127,7 @@ const SignUp: React.FC = () => {
       <Input
         required
         name="conformPassword"
-        placeholder="Confirm Password..."
+        placeholder="Nhập lại mật khẩu..."
         type="password"
         mb={2}
         onChange={onChange}

@@ -2,85 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: #fff;
+  --background-end-rgb: #fff;
+}
+
+
+/* @media (prefers-color-scheme: dark) {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 47.4% 11.2%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 47.4% 11.2%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 100% 50%;
-    --destructive-foreground: 210 40% 98%;
-
-    --ring: 215 20.2% 65.1%;
-
-    --radius: 0.5rem;
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
   }
-
-  .dark {
-    --background: 224 71% 4%;
-    --foreground: 213 31% 91%;
-
-    --muted: 223 47% 11%;
-    --muted-foreground: 215.4 16.3% 56.9%;
-
-    --popover: 224 71% 4%;
-    --popover-foreground: 215 20.2% 65.1%;
-
-    --card: 224 71% 4%;
-    --card-foreground: 213 31% 91%;
-
-    --border: 216 34% 17%;
-    --input: 216 34% 17%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 1.2%;
-
-    --secondary: 222.2 47.4% 11.2%;
-    --secondary-foreground: 210 40% 98%;
-
-    --accent: 216 34% 17%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
-
-    --ring: 216 34% 17%;
-
-    --radius: 0.5rem;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-    font-feature-settings: 'rlig' 1, 'calt' 1;
-  }
-}
-
-
+} */
 
 body {
   color: rgb(var(--foreground-rgb));
@@ -120,13 +56,6 @@ body::-webkit-scrollbar-thumb:hover {
     -moz-osx-font-smoothing: grayscale;
   } */
 
-  .search-bar-loading {
-    /* Định nghĩa hiệu ứng dài ra ở đây, ví dụ: */
-    transition: height 0.3s ease-in-out;
-    height: 0; /* Điều này khiến SearchBar bị thu gọn */
-    overflow: hidden;
-  }
-  
 .editor-input {
     min-height: 520px;
     resize: none;
@@ -346,19 +275,19 @@ pre::-webkit-scrollbar-thumb {
 }
 
 #options-button::after {
-  background-image: url(../../lexical_Lib/images/icons/gear.svg);
+  background-image: url(../lexical_Lib/images/icons/gear.svg);
 }
 
 #test-recorder-button::after {
-  background-image: url(../../lexical_Lib/images/icons/journal-code.svg);
+  background-image: url(../lexical_Lib/images/icons/journal-code.svg);
 }
 
 #paste-log-button::after {
-  background-image: url(../../lexical_Lib/images/icons/clipboard.svg);
+  background-image: url(../lexical_Lib/images/icons/clipboard.svg);
 }
 
 #docs-button::after {
-  background-image: url(../../lexical_Lib/images/icons/file-earmark-text.svg);
+  background-image: url(../lexical_Lib/images/icons/file-earmark-text.svg);
 }
 
 #test-recorder-button-snapshot {
@@ -366,15 +295,15 @@ pre::-webkit-scrollbar-thumb {
 }
 
 #test-recorder-button-snapshot::after {
-  background-image: url(../../lexical_Lib/images/icons/camera.svg);
+  background-image: url(../lexical_Lib/images/icons/camera.svg);
 }
 
 #test-recorder-button-copy::after {
-  background-image: url(../../lexical_Lib/images/icons/clipboard.svg);
+  background-image: url(../lexical_Lib/images/icons/clipboard.svg);
 }
 
 #test-recorder-button-download::after {
-  background-image: url(../../lexical_Lib/images/icons/download.svg);
+  background-image: url(../lexical_Lib/images/icons/download.svg);
 }
 
 .typeahead-popover {
@@ -486,81 +415,81 @@ pre::-webkit-scrollbar-thumb {
 }
 
 i.palette {
-  background-image: url(../../lexical_Lib/images/icons/palette.svg);
+  background-image: url(../lexical_Lib/images/icons/palette.svg);
 }
 
 i.bucket {
-  background-image: url(../../lexical_Lib/images/icons/paint-bucket.svg);
+  background-image: url(../lexical_Lib/images/icons/paint-bucket.svg);
 }
 
 i.bold {
-  background-image: url(../../lexical_Lib/images/icons/type-bold.svg);
+  background-image: url(../lexical_Lib/images/icons/type-bold.svg);
 }
 
 i.italic {
-  background-image: url(../../lexical_Lib/images/icons/type-italic.svg);
+  background-image: url(../lexical_Lib/images/icons/type-italic.svg);
 }
 
 i.clear {
-  background-image: url(../../lexical_Lib/images/icons/trash.svg);
+  background-image: url(../lexical_Lib/images/icons/trash.svg);
 }
 
 i.code {
-  background-image: url(../../lexical_Lib/images/icons/code.svg);
+  background-image: url(../lexical_Lib/images/icons/code.svg);
 }
 
 i.underline {
-  background-image: url(../../lexical_Lib/images/icons/type-underline.svg);
+  background-image: url(../lexical_Lib/images/icons/type-underline.svg);
 }
 
 i.strikethrough {
-  background-image: url(../../lexical_Lib/images/icons/type-strikethrough.svg);
+  background-image: url(../lexical_Lib/images/icons/type-strikethrough.svg);
 }
 
 i.subscript {
-  background-image: url(../../lexical_Lib/images/icons/type-subscript.svg);
+  background-image: url(../lexical_Lib/images/icons/type-subscript.svg);
 }
 
 i.superscript {
-  background-image: url(../../lexical_Lib/images/icons/type-superscript.svg);
+  background-image: url(../lexical_Lib/images/icons/type-superscript.svg);
 }
 
 i.link {
-  background-image: url(../../lexical_Lib/images/icons/link.svg);
+  background-image: url(../lexical_Lib/images/icons/link.svg);
 }
 
 i.horizontal-rule {
-  background-image: url(../../lexical_Lib/images/icons/horizontal-rule.svg);
+  background-image: url(../lexical_Lib/images/icons/horizontal-rule.svg);
 }
 
 .icon.plus {
-  background-image: url(../../lexical_Lib/images/icons/plus.svg);
+  background-image: url(../lexical_Lib/images/icons/plus.svg);
 }
 
 .icon.caret-right {
-  background-image: url(../../lexical_Lib/images/icons/caret-right-fill.svg);
+  background-image: url(../lexical_Lib/images/icons/caret-right-fill.svg);
 }
 
 .icon.dropdown-more {
-  background-image: url(../../lexical_Lib/images/icons/dropdown-more.svg);
+  background-image: url(../lexical_Lib/images/icons/dropdown-more.svg);
 }
 
 .icon.font-color {
-  background-image: url(../../lexical_Lib/images/icons/font-color.svg);
+  background-image: url(../lexical_Lib/images/icons/font-color.svg);
 }
 
 .icon.font-family {
-  background-image: url(../../lexical_Lib/images/icons/font-family.svg);
+  background-image: url(../lexical_Lib/images/icons/font-family.svg);
 }
 
 .icon.bg-color {
-  background-image: url(../../lexical_Lib/images/icons/bg-color.svg);
+  background-image: url(../lexical_Lib/images/icons/bg-color.svg);
 }
 
 .icon.table {
   background-color: #6c757d;
-  mask-image: url(../../lexical_Lib/images/icons/table.svg);
-  -webkit-mask-image: url(../../lexical_Lib/images/icons/table.svg);
+  mask-image: url(../lexical_Lib/images/icons/table.svg);
+  -webkit-mask-image: url(../lexical_Lib/images/icons/table.svg);
   mask-repeat: no-repeat;
   -webkit-mask-repeat: no-repeat;
   mask-size: contain;
@@ -568,121 +497,121 @@ i.horizontal-rule {
 }
 
 i.image {
-  background-image: url(../../lexical_Lib/images/icons/file-image.svg);
+  background-image: url(../lexical_Lib/images/icons/file-image.svg);
 }
 
 i.table {
-  background-image: url(../../lexical_Lib/images/icons/table.svg);
+  background-image: url(../lexical_Lib/images/icons/table.svg);
 }
 
 i.close {
-  background-image: url(../../lexical_Lib/images/icons/close.svg);
+  background-image: url(../lexical_Lib/images/icons/close.svg);
 }
 
 i.figma {
-  background-image: url(../../lexical_Lib/images/icons/figma.svg);
+  background-image: url(../lexical_Lib/images/icons/figma.svg);
 }
 
 i.poll {
-  background-image: url(../../lexical_Lib/images/icons/card-checklist.svg);
+  background-image: url(../lexical_Lib/images/icons/card-checklist.svg);
 }
 
 i.tweet {
-  background-image: url(../../lexical_Lib/images/icons/tweet.svg);
+  background-image: url(../lexical_Lib/images/icons/tweet.svg);
 }
 
 i.youtube {
-  background-image: url(../../lexical_Lib/images/icons/youtube.svg);
+  background-image: url(../lexical_Lib/images/icons/youtube.svg);
 }
 
 .icon.left-align,
 i.left-align {
-  background-image: url(../../lexical_Lib/images/icons/text-left.svg);
+  background-image: url(../lexical_Lib/images/icons/text-left.svg);
 }
 
 i.center-align {
-  background-image: url(../../lexical_Lib/images/icons/text-center.svg);
+  background-image: url(../lexical_Lib/images/icons/text-center.svg);
 }
 
 i.right-align {
-  background-image: url(../../lexical_Lib/images/icons/text-right.svg);
+  background-image: url(../lexical_Lib/images/icons/text-right.svg);
 }
 
 i.justify-align {
-  background-image: url(../../lexical_Lib/images/icons/justify.svg);
+  background-image: url(../lexical_Lib/images/icons/justify.svg);
 }
 
 i.indent {
-  background-image: url(../../lexical_Lib/images/icons/indent.svg);
+  background-image: url(../lexical_Lib/images/icons/indent.svg);
 }
 
 i.markdown {
-  background-image: url(../../lexical_Lib/images/icons/markdown.svg);
+  background-image: url(../lexical_Lib/images/icons/markdown.svg);
 }
 
 i.outdent {
-  background-image: url(../../lexical_Lib/images/icons/outdent.svg);
+  background-image: url(../lexical_Lib/images/icons/outdent.svg);
 }
 
 i.undo {
-  background-image: url(../../lexical_Lib/images/icons/arrow-counterclockwise.svg);
+  background-image: url(../lexical_Lib/images/icons/arrow-counterclockwise.svg);
 }
 
 i.redo {
-  background-image: url(../../lexical_Lib/images/icons/arrow-clockwise.svg);
+  background-image: url(../lexical_Lib/images/icons/arrow-clockwise.svg);
 }
 
 i.sticky {
-  background-image: url(../../lexical_Lib/images/icons/sticky.svg);
+  background-image: url(../lexical_Lib/images/icons/sticky.svg);
 }
 
 i.mic {
-  background-image: url(../../lexical_Lib/images/icons/mic.svg);
+  background-image: url(../lexical_Lib/images/icons/mic.svg);
 }
 
 i.import {
-  background-image: url(../../lexical_Lib/images/icons/upload.svg);
+  background-image: url(../lexical_Lib/images/icons/upload.svg);
 }
 
 i.export {
-  background-image: url(../../lexical_Lib/images/icons/download.svg);
+  background-image: url(../lexical_Lib/images/icons/download.svg);
 }
 
 i.diagram-2 {
-  background-image: url(../../lexical_Lib/images/icons/diagram-2.svg);
+  background-image: url(../lexical_Lib/images/icons/diagram-2.svg);
 }
 
 i.user {
-  background-image: url(../../lexical_Lib/images/icons/user.svg);
+  background-image: url(../lexical_Lib/images/icons/user.svg);
 }
 
 i.equation {
-  background-image: url(../../lexical_Lib/images/icons/plus-slash-minus.svg);
+  background-image: url(../lexical_Lib/images/icons/plus-slash-minus.svg);
 }
 
 i.gif {
-  background-image: url(../../lexical_Lib/images/icons/filetype-gif.svg);
+  background-image: url(../lexical_Lib/images/icons/filetype-gif.svg);
 }
 
 i.copy {
-  background-image: url(../../lexical_Lib/images/icons/copy.svg);
+  background-image: url(../lexical_Lib/images/icons/copy.svg);
 }
 
 i.success {
-  background-image: url(../../lexical_Lib/images/icons/success.svg);
+  background-image: url(../lexical_Lib/images/icons/success.svg);
 }
 
 i.prettier {
-  background-image: url(../../lexical_Lib/images/icons/prettier.svg);
+  background-image: url(../lexical_Lib/images/icons/prettier.svg);
 }
 
 i.prettier-error {
-  background-image: url(../../lexical_Lib/images/icons/prettier-error.svg);
+  background-image: url(../lexical_Lib/images/icons/prettier-error.svg);
 }
 
 i.page-break,
 .icon.page-break {
-  background-image: url(../../lexical_Lib/images/icons/scissors.svg);
+  background-image: url(../lexical_Lib/images/icons/scissors.svg);
 }
 
 .link-editor .button.active,
@@ -727,7 +656,7 @@ i.page-break,
 }
 
 .link-editor div.link-edit {
-  background-image: url(../../lexical_Lib/images/icons/pencil-fill.svg);
+  background-image: url(../lexical_Lib/images/icons/pencil-fill.svg);
   background-size: 16px;
   background-position: center;
   background-repeat: no-repeat;
@@ -741,7 +670,7 @@ i.page-break,
 }
 
 .link-editor div.link-trash {
-  background-image: url(../../lexical_Lib/images/icons/trash.svg);
+  background-image: url(../lexical_Lib/images/icons/trash.svg);
   background-size: 16px;
   background-position: center;
   background-repeat: no-repeat;
@@ -755,7 +684,7 @@ i.page-break,
 }
 
 .link-editor div.link-cancel {
-  background-image: url(../../lexical_Lib/images/icons/close.svg);
+  background-image: url(../lexical_Lib/images/icons/close.svg);
   background-size: 16px;
   background-position: center;
   background-repeat: no-repeat;
@@ -770,7 +699,7 @@ i.page-break,
 }
 
 .link-editor div.link-confirm {
-  background-image: url(../../lexical_Lib/images/icons/success-alt.svg);
+  background-image: url(../lexical_Lib/images/icons/success-alt.svg);
   background-size: 16px;
   background-position: center;
   background-repeat: no-repeat;
@@ -924,54 +853,54 @@ i.page-break,
 }
 
 .icon.paragraph {
-  background-image: url(../../lexical_Lib/images/icons/text-paragraph.svg);
+  background-image: url(../lexical_Lib/images/icons/text-paragraph.svg);
 }
 
 .icon.h1 {
-  background-image: url(../../lexical_Lib/images/icons/type-h1.svg);
+  background-image: url(../lexical_Lib/images/icons/type-h1.svg);
 }
 
 .icon.h2 {
-  background-image: url(../../lexical_Lib/images/icons/type-h2.svg);
+  background-image: url(../lexical_Lib/images/icons/type-h2.svg);
 }
 
 .icon.h3 {
-  background-image: url(../../lexical_Lib/images/icons/type-h3.svg);
+  background-image: url(../lexical_Lib/images/icons/type-h3.svg);
 }
 
 .icon.h4 {
-  background-image: url(../../lexical_Lib/images/icons/type-h4.svg);
+  background-image: url(../lexical_Lib/images/icons/type-h4.svg);
 }
 
 .icon.h5 {
-  background-image: url(../../lexical_Lib/images/icons/type-h5.svg);
+  background-image: url(../lexical_Lib/images/icons/type-h5.svg);
 }
 
 .icon.h6 {
-  background-image: url(../../lexical_Lib/images/icons/type-h6.svg);
+  background-image: url(../lexical_Lib/images/icons/type-h6.svg);
 }
 
 .icon.bullet-list,
 .icon.bullet {
-  background-image: url(../../lexical_Lib/images/icons/list-ul.svg);
+  background-image: url(../lexical_Lib/images/icons/list-ul.svg);
 }
 
 .icon.check-list,
 .icon.check {
-  background-image: url(../../lexical_Lib/images/icons/square-check.svg);
+  background-image: url(../lexical_Lib/images/icons/square-check.svg);
 }
 
 .icon.numbered-list,
 .icon.number {
-  background-image: url(../../lexical_Lib/images/icons/list-ol.svg);
+  background-image: url(../lexical_Lib/images/icons/list-ol.svg);
 }
 
 .icon.quote {
-  background-image: url(../../lexical_Lib/images/icons/chat-square-quote.svg);
+  background-image: url(../lexical_Lib/images/icons/chat-square-quote.svg);
 }
 
 .icon.code {
-  background-image: url(../../lexical_Lib/images/icons/code.svg);
+  background-image: url(../lexical_Lib/images/icons/code.svg);
 }
 
 .switches {
@@ -1132,7 +1061,7 @@ i.page-break,
 .editor-shell .editor-image .image-edit-button {
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 5px;
-  background-image: url(../../lexical_Lib/images/icons/pencil-fill.svg);
+  background-image: url(../lexical_Lib/images/icons/pencil-fill.svg);
   background-size: 16px;
   background-position: center;
   background-repeat: no-repeat;
@@ -1305,19 +1234,19 @@ i.page-break,
 }
 
 .emoji.happysmile {
-  background-image: url(../../lexical_Lib/images/1F642.png);
+  background-image: url(../lexical_Lib/images/1F642.png);
 }
 
 .emoji.veryhappysmile {
-  background-image: url(../../lexical_Lib/images/1F600.png);
+  background-image: url(../lexical_Lib/images/1F600.png);
 }
 
 .emoji.unhappysmile {
-  background-image: url(../../lexical_Lib/images/1F641.png);
+  background-image: url(../lexical_Lib/images/1F641.png);
 }
 
 .emoji.heart {
-  background-image: url(../../lexical_Lib/images/2764.png);
+  background-image: url(../lexical_Lib/images/2764.png);
 }
 
 .keyword {
@@ -1347,51 +1276,51 @@ i.page-break,
 }
 
 .actions i.indent {
-  background-image: url(../../lexical_Lib/images/icons/indent.svg);
+  background-image: url(../lexical_Lib/images/icons/indent.svg);
 }
 
 .actions i.outdent {
-  background-image: url(../../lexical_Lib/images/icons/outdent.svg);
+  background-image: url(../lexical_Lib/images/icons/outdent.svg);
 }
 
 .actions i.lock {
-  background-image: url(../../lexical_Lib/images/icons/lock-fill.svg);
+  background-image: url(../lexical_Lib/images/icons/lock-fill.svg);
 }
 
 .actions i.image {
-  background-image: url(../../lexical_Lib/images/icons/file-image.svg);
+  background-image: url(../lexical_Lib/images/icons/file-image.svg);
 }
 
 .actions i.table {
-  background-image: url(../../lexical_Lib/images/icons/table.svg);
+  background-image: url(../lexical_Lib/images/icons/table.svg);
 }
 
 .actions i.unlock {
-  background-image: url(../../lexical_Lib/images/icons/lock.svg);
+  background-image: url(../lexical_Lib/images/icons/lock.svg);
 }
 
 .actions i.left-align {
-  background-image: url(../../lexical_Lib/images/icons/text-left.svg);
+  background-image: url(../lexical_Lib/images/icons/text-left.svg);
 }
 
 .actions i.center-align {
-  background-image: url(../../lexical_Lib/images/icons/text-center.svg);
+  background-image: url(../lexical_Lib/images/icons/text-center.svg);
 }
 
 .actions i.right-align {
-  background-image: url(../../lexical_Lib/images/icons/text-right.svg);
+  background-image: url(../lexical_Lib/images/icons/text-right.svg);
 }
 
 .actions i.justify-align {
-  background-image: url(../../lexical_Lib/images/icons/justify.svg);
+  background-image: url(../lexical_Lib/images/icons/justify.svg);
 }
 
 .actions i.disconnect {
-  background-image: url(../../lexical_Lib/images/icons/plug.svg);
+  background-image: url(../lexical_Lib/images/icons/plug.svg);
 }
 
 .actions i.connect {
-  background-image: url(../../lexical_Lib/images/icons/plug-fill.svg);
+  background-image: url(../lexical_Lib/images/icons/plug-fill.svg);
 }
 
 .table-cell-action-button-container {
@@ -1420,7 +1349,7 @@ i.chevron-down {
   display: inline-block;
   height: 8px;
   width: 8px;
-  background-image: url(../../lexical_Lib/images/icons/chevron-down.svg);
+  background-image: url(../lexical_Lib/images/icons/chevron-down.svg);
 }
 
 .action-button {

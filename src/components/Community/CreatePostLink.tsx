@@ -13,7 +13,10 @@ import useDirectory from "../../hooks/useDirectory";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 
-const CreatePostLink: React.FC = () => {
+type CreatePost = {
+  groupID : number;
+}
+const CreatePostLink: React.FC<CreatePost> = ({groupID}) => {
   const router = useRouter();
   const user = useSelector((state:RootState)=>state.userInfor.currentUser);
   const { toggleMenuOpen } = useDirectory();
@@ -29,16 +32,9 @@ const CreatePostLink: React.FC = () => {
       return;
     }
 
-    const { communityId } = router.query;
-
-
-    toggleMenuOpen();
-
-    
-    if (communityId) {
-      router.push(`/r/${router.query.community}/submit`);
-      return;
-    }
+    // toggleMenuOpen();
+    router.push(`/group/submit`);
+    return;
     
   };
 
@@ -53,10 +49,11 @@ const CreatePostLink: React.FC = () => {
       borderColor={borderColor}
       p={2}
       mb={4}
+      onClick = {onClick}
     >
       <Icon as={FaReddit} fontSize={36} color="gray.300" mr={4} />
       <Input
-        placeholder="Create Post"
+        placeholder="Bạn đang nghĩ gì ?"
         fontSize="10pt"
         _placeholder={{ color: "gray.500" }}
         _hover={{

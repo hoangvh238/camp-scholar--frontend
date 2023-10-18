@@ -1,6 +1,15 @@
 import {
   Alert,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   AlertIcon,
+  Badge,
+  Button,
+  Collapse,
   Flex,
   Icon,
   Image,
@@ -9,6 +18,7 @@ import {
   Stack,
   Text,
   useColorModeValue,
+  useDisclosure,
 } from "@chakra-ui/react";
 import CryptoJS from "crypto-js";
 import moment from "moment";
@@ -17,6 +27,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { BsChat, BsDot } from "react-icons/bs";
+import { LiaDonateSolid } from "react-icons/lia";
 import { HiOutlineUserGroup } from "react-icons/hi2";
 
 import {
@@ -27,14 +38,17 @@ import {
   IoArrowUpCircleSharp,
   IoBookmarkOutline,
 } from "react-icons/io5";
+import { Community } from "@/atoms/CommunitiesAtom";
 
 import { Post } from "../../atoms/PostAtom";
 import PostVoteClient from "../Post/PostVoteClient";
 import EditorOutput from "../editor/EditorOutput";
 import { cn, formatTimeToNow } from "../../../ultils/utils";
 import { Bold } from "lucide-react";
-
-// const secretPass = process.env.NEXT_PUBLIC_CRYPTO_SECRET_PASS;
+import useCommunityData from "@/hooks/useCommunityData";
+import Donate from "./postService/Donate";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 type PostItemProps = {
   post: Post;
@@ -73,9 +87,17 @@ const PostItem: React.FC<PostItemProps> = ({
   const singlePostView = true; // function not passed to [pid]
   const pRef = useRef<HTMLParagraphElement>(null);
   const router = useRouter();
+  const user = useSelector((state: RootState) => state.userInfor.currentUser)
+
+  const { communityStateValue, onJoinOrCommunity, loading } =
+    useCommunityData();
+
 
   const [hover, setHover] = useState(false);
   const [isReading, setIsReading] = useState(false);
+
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const cancelRef = useRef<FocusableElement | null>(null);
 
   // Thames
   const bg = useColorModeValue("white", "#1A202C");
@@ -102,7 +124,7 @@ const PostItem: React.FC<PostItemProps> = ({
       console.log("Post was Successfully Deleted");
 
       if (singlePostPage) {
-        router.push(`/r/${post.groupName}`);
+        router.push(`/group/${post.groupId}`);
       }
     } catch (error: any) {
       setError(error.message);
@@ -116,11 +138,33 @@ const PostItem: React.FC<PostItemProps> = ({
     return voteIconBg
   }
 
+  const isJoined = () => {
+    return communityStateValue.mySnippets.find(
+      (item) => item.groupId === post?.groupId
+    );
+  }
+
+  const HandleJoinGroup = () => {
+    const gr: Community = {
+      groupId: post.groupId,
+      groupName: "",
+      host: "",
+      hashtag: "",
+      description: "",
+      imageURLGAvatar: "",
+      imageUrlGCover: "",
+      category: "",
+      timeCreate: new Date
+    }
+    onJoinOrCommunity(gr, false);
+    onClose();
+  }
 
   const handleLike = async (event: React.MouseEvent<Element, MouseEvent>) => {
 
-    if (!await onVote(event, post.postId, 1, post.groupName)) return;
 
+    if (!await onVote(event, post.postId, 1, post.groupName)) return;
+    if (!isJoined()) { onOpen(); return };
 
     if (currentVote === 1) {
       handleSetAmt(votesAmt - 1);
@@ -137,9 +181,9 @@ const PostItem: React.FC<PostItemProps> = ({
   }
 
   const handleDisLike = async (event: React.MouseEvent<Element, MouseEvent>) => {
-    // router.push(`dilike`);
-    if (!await onVote(event, post.postId, -1, post.groupName)) return;
 
+    if (!await onVote(event, post.postId, -1, post.groupName)) return;
+    if (!isJoined()) { onOpen(); return };
     if (currentVote === 1) {
       handleSetAmt(votesAmt - 2);
       handleVoting(-1);
@@ -163,7 +207,7 @@ const PostItem: React.FC<PostItemProps> = ({
     setCurrentVote(vote);
   }
 
-  console.log(currentVote);
+  console.log("length is" + post.content?.length);
 
 
   return (
@@ -176,6 +220,62 @@ const PostItem: React.FC<PostItemProps> = ({
       cursor={singlePostPage ? "unset" : "pointer"}
 
     >
+      <>
+        {/* <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+              Xóa bài viết ?
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Bạn có chắc chữ ? Dữ liệu sẽ mất và không thể khôi phục 
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onClose}>
+                Thoát
+              </Button>
+              <Button colorScheme='red' onClick={onClose} ml={3}>
+                Chấp nhận
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog> */}
+
+
+        <AlertDialog
+          isOpen={isOpen}
+          leastDestructiveRef={cancelRef}
+          onClose={onClose}
+        >
+          <AlertDialogOverlay>
+            <AlertDialogContent>
+              <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                Tham gia ngay
+              </AlertDialogHeader>
+
+              <AlertDialogBody>
+                Bạn nó muốn tham gia nhóm : {post.groupName}
+              </AlertDialogBody>
+
+              <AlertDialogFooter>
+                <Button ref={cancelRef} bg={"blue.200"} onClick={onClose}>
+                  Thoát
+                </Button>
+                <Button colorScheme='red' bg={"orange.500"} onClick={HandleJoinGroup} ml={3}>
+                  Tham gia
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialogOverlay>
+        </AlertDialog>
+      </>
       <Flex
         direction="column"
         align="center"
@@ -234,7 +334,7 @@ const PostItem: React.FC<PostItemProps> = ({
                   <Icon as={HiOutlineUserGroup} fontSize="18px" color="blue.500" />
                 )}
 
-                <Link href={`group/${post.groupName}`}>
+                <Link href={`group/${post.groupId}`}>
                   <Text
                     fontWeight={700}
                     _hover={{ textDecoration: "underline" }}
@@ -244,14 +344,28 @@ const PostItem: React.FC<PostItemProps> = ({
                 <Icon as={BsDot} color="gray.500" fontSize={8} />
               </>
             )}
+            <Text className="pr-1">Posted by</Text>
+            <Stack direction='row' className="pr-1"> <Badge colorScheme='yellow'>Chuyên gia</Badge></Stack>
             <Text>
-              Posted by <Link className="font-bold" href={`profile/${post.author}`}>{post.author}</Link>{" "}
-              {formatTimeToNow(new Date(post.time))}
+             <Link className="font-bold" href={`profile/${post.author}`}>{post.author}</Link>{" "}
+
+
+
             </Text>
+            <Icon as={BsDot} color="gray.500" fontSize={8} />
+            <Text>  {formatTimeToNow(new Date(post.time))}</Text>
+
           </Stack>
-          <div className='relative pt-[20px] text-sm  w-full overflow-clip' ref={pRef} onMouseMove={() =>setIsReading(true)} onMouseLeave={() => setIsReading(false)} onClick={() => onSelectPost && onSelectPost(post)}>
-            <div style={!isReading ? { maxHeight: "200px" } : { maxHeight: "10000px" }}>
+          <div onMouseMove={() => setIsReading(true)} onMouseLeave={() => setIsReading(false)} onClick={() => onSelectPost && onSelectPost(post)}>
+            <Collapse startingHeight={post.content?.length < 600 ? 50 : 400} in={isReading} >
+
               <EditorOutput content={post.content} />
+            </Collapse>
+          </div>
+
+          <div className='relative pt-[20px] text-sm  w-full overflow-clip' ref={pRef} onMouseMove={() => setIsReading(true)} onMouseLeave={() => setIsReading(false)} onClick={() => onSelectPost && onSelectPost(post)}>
+            <div style={!isReading ? { maxHeight: "200px" } : { maxHeight: "10000px" }}>
+
             </div>
             {pRef.current ? (
               pRef.current.clientHeight >= 500 ? (
@@ -300,18 +414,7 @@ const PostItem: React.FC<PostItemProps> = ({
               {commentAmt}
             </Text>
           </Flex>
-          <Flex
-            align="center"
-            p="8px 10px"
-            borderRadius={4}
-            _hover={{ bg: IconHoverBg }}
-            cursor="pointer"
-          >
-            <Icon as={IoArrowRedoOutline} mr={2} color={IconBg} />
-            <Text fontSize="9pt" color={IconBg}>
-              Share
-            </Text>
-          </Flex>
+          {user?.userName == post.author ? "" : <Donate postId={post.postId} type={"post"}></Donate>}
           <Flex
             align="center"
             p="8px 10px"

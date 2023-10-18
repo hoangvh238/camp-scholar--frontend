@@ -43,8 +43,8 @@ const AuthModel: React.FC = () => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader textAlign="center">
-            {modelState.view === "login" && "Login"}
-            {modelState.view === "signup" && "Sign Up"}
+            {modelState.view === "login" && "Đăng nhập"}
+            {modelState.view === "signup" && "Đăng ký"}
             {modelState.view === "resetPassword" && "Reset Password"}
           </ModalHeader>
           <ModalCloseButton />
@@ -65,7 +65,7 @@ const AuthModel: React.FC = () => {
                 <>
                   <OAuthButtons />
                   <Text color="gray.500" fontWeight={700}>
-                    OR
+                    Hoặc
                   </Text>
                   <AuthInput />
                 </>

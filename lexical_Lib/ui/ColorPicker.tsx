@@ -1,4 +1,4 @@
-import './ColorPicker.css';
+import './ColorPicker.module.css';
 
 import {useEffect, useMemo, useRef, useState} from 'react';
 import * as React from 'react';

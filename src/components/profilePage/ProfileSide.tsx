@@ -1,11 +1,14 @@
 import {
   Avatar,
   Button,
+  CircularProgress,
+  CircularProgressLabel,
   Flex,
   Icon,
   Image,
   Stack,
   Text,
+  Tooltip,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { doc, getDoc, Timestamp } from "firebase/firestore";
@@ -22,6 +25,9 @@ import { authModelState } from "../../atoms/authModalAtom";
 import { auth, firestore } from "../../firebase/clientApp";
 import useDirectory from "../../hooks/useDirectory";
 import { User } from "@/atoms/userAtom";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { PiMedalFill } from "react-icons/Pi"
 interface RedditUserDocument {
   userId?: string;
   userName: string;
@@ -32,19 +38,21 @@ interface RedditUserDocument {
 }
 
 type Props = {
-  userData : User
+  userData: User
 };
 
 
-function ProfileSide({userData}: Props) {
+function ProfileSide({ userData }: Props) {
   const [open, setOpen] = useState(false);
+  const user = useSelector((state: RootState) => state.userInfor.currentUser);
   const [redditUser, setRedditUser] = useState<RedditUserDocument>();
   const { toggleMenuOpen } = useDirectory();
   const setAuthModelState = useSetRecoilState(authModelState);
   const bg = useColorModeValue("white", "#1A202C");
   const borderColor = useColorModeValue("gray.300", "#2D3748");
+  const coint = useSelector((state: RootState) => state.userInfor.userCoint);
+  const point = useSelector((state: RootState) => state.userInfor.userPoint)
 
- 
   const onClick = () => {
     if (false) {
       setAuthModelState({ open: true, view: "login" });
@@ -64,7 +72,7 @@ function ProfileSide({userData}: Props) {
       border="1px solid"
       borderColor={borderColor}
     >
-      <EditProfileModal open={open} handleClose={() => setOpen(false)} user={userData}/>
+      <EditProfileModal open={open} handleClose={() => setOpen(false)} user={userData} />
       <Flex
         align="flex-end"
         justify="center"
@@ -117,9 +125,9 @@ function ProfileSide({userData}: Props) {
         </Flex>
       </Flex>
       <Text fontWeight="bold" fontSize="8pt" textAlign="center">
-        r/{userData?.email}
+        {user.userId == userData.userId ? userData?.email : ""}
       </Text>
-      <Button
+      {user.userId == userData.userId ? <Button
         width={80}
         mt={2}
         mb={2}
@@ -133,17 +141,17 @@ function ProfileSide({userData}: Props) {
         }}
         display="flex"
         justifyContent="start"
-        gap={20}
-        onClick={()=>{setOpen(true)}}
+        gap={10}
+        onClick={() => { setOpen(true) }}
       >
         <Icon as={IoShirtOutline} />
-        Style Your Avatar
-      </Button>
+        Chỉnh sửa thông tin cá nhân
+      </Button> : ""}
       <Flex justify="center" gap={20} pt={5} pb={5}>
         <Stack>
           <Stack>
             <Text fontWeight="bold" fontSize="10pt" textAlign="start">
-              Karma
+              Coint
             </Text>
             <Text
               fontWeight="medium"
@@ -159,12 +167,12 @@ function ProfileSide({userData}: Props) {
                 mt="auto"
                 mb="auto"
               />
-              27,465
+              {user.userId == userData.userId ? coint.coint : "*"}
             </Text>
           </Stack>
           <Stack>
             <Text fontWeight="bold" fontSize="10pt" textAlign="start">
-              Followers
+              Nhóm đã tham gia
             </Text>
             <Text
               fontWeight="medium"
@@ -180,38 +188,31 @@ function ProfileSide({userData}: Props) {
                 mt="auto"
                 mb="auto"
               />
-              180
+              2
             </Text>
           </Stack>
         </Stack>
         <Stack>
+          <Text fontWeight="bold" fontSize="10pt" textAlign="start">
+            Cấp độ
+          </Text>
           <Stack>
-            <Text fontWeight="bold" fontSize="10pt" textAlign="start">
-              Cake Day
-            </Text>
-            {redditUser?.timestamp && (
-              <Text
-                fontWeight="medium"
-                fontSize="9pt"
-                p="auto"
-                display="flex"
-                gap={1}
-              >
-                <Icon
-                  as={GiCakeSlice}
-                  color="blue.500"
-                  textAlign="center"
-                  m="auto"
-                />
-                {moment(new Date(redditUser?.timestamp?.seconds * 1000)).format(
-                  "MMMM Do, YYYY"
-                )}
-              </Text>
-            )}
+          <Tooltip label={`Tiến trình : ${userData.activityPoint}/${userData.activityPoint > 1000 ? 3000 : 1000}`} fontSize='md'>
+              <span>  <CircularProgress value={userData.activityPoint > 1000 ? (userData.activityPoint)/ 30 : (userData.activityPoint / 10)} color='green.400'>
+              <CircularProgressLabel>{userData.activityPoint > 1000 ? Math.ceil(userData.activityPoint / 30) : (userData.activityPoint / 10)} %</CircularProgressLabel>
+            </CircularProgress></span>
+            </Tooltip>
+          
           </Stack>
+          <div className="w-full flex justify-center ">
+          <Tooltip label={userData.activityPoint > 1000 ? "Cấp độ chuyên gia" : "Cấp độ người mới"} fontSize='md'>
+                <span><PiMedalFill className="w-6 h-6"></PiMedalFill></span>
+            </Tooltip>
+          </div>
         </Stack>
+
       </Flex>
-      <Flex width="350px" pr={5} pl={5} gap={5} justify="center">
+      {user.userId == userData.userId ? <>  <Flex width="350px" pr={5} pl={5} gap={5} justify="center">
         <Icon
           as={IoRocketSharp}
           color="brand.100"
@@ -219,24 +220,24 @@ function ProfileSide({userData}: Props) {
           m="auto"
         />
         <Text textAlign="center" fontSize="9pt">
-          Receives the Rocket Like Award and more in the past 30 days
+          Nhận sự hỗ trợ tốt hơn của chúng tôi khi đăng ký
         </Text>
       </Flex>
-      <Button
-        width={80}
-        mt={2}
-        mb={2}
-        ml="auto"
-        mr="auto"
-        height="30px"
-        display="flex"
-        justifyContent="center"
-        rounded="md"
-        onClick={onClick}
-      >
-        NEW POST
-      </Button>
-      <Text
+        <Button
+          width={80}
+          mt={2}
+          mb={2}
+          ml="auto"
+          mr="auto"
+          height="30px"
+          display="flex"
+          justifyContent="center"
+          rounded="md"
+          onClick={onClick}
+        >
+          NEW POST
+        </Button></> : ""}
+      {/* <Text
         textAlign="end"
         fontSize="9pt"
         p={2}
@@ -244,7 +245,7 @@ function ProfileSide({userData}: Props) {
         fontWeight="bold"
       >
         More Options
-      </Text>
+      </Text> */}
     </Flex>
   );
 }

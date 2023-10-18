@@ -6,15 +6,17 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaReddit } from "react-icons/fa";
 
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase/clientApp";
 import CreateCommunityModel from "../Modal/CreateCommunity/CreateCommunityModel";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 const PersonalHome: React.FC = () => {
-  const [user] = useAuthState(auth);
+  const user= useSelector((state:RootState) => state.userInfor.currentUser)
   const [open, setOpen] = useState(false);
   const bg = useColorModeValue("white", "#1A202C");
   const borderColor = useColorModeValue("gray.300", "#2D3748");
@@ -43,24 +45,24 @@ const PersonalHome: React.FC = () => {
       ></Flex>
       <Flex direction="column" p="12px">
         <Flex align="center" mb={2}>
-          <Icon as={FaReddit} fontSize={50} color="brand.100" mr={2} />
-          <Text fontWeight={600}>Home</Text>
+         
+          <Text fontWeight={600}>Có gì mới ?</Text>
         </Flex>
         <Stack spacing={3}>
           <Text fontSize="9pt">
-            Your personal Reddit frontpage, built for you.
+            Nói tôi bạn muốn gì ?
           </Text>
-          <Button height="30px">Create Post</Button>
-          <Button
-            disabled={!user}
+          <Button height="30px">Tạo bài viết</Button>
+         {user?.role.includes("MEMBER") ?   <Button
+            disabled={!user.userName}
             variant="outline"
             height="30px"
             onClick={() => {
               setOpen(true);
             }}
           >
-            Create Community
-          </Button>
+            Tạo nhóm
+          </Button> : null}
         </Stack>
       </Flex>
     </Flex>

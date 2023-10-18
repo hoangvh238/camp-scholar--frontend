@@ -17,10 +17,10 @@ import Directory from "./Directory/Directory";
 import RightContent from "./RightContent/RightContent";
 import SearchInput from "./SearchInput";
 import { redditProfileImage } from "./store";
-import { getUser } from "@/hooks/userStorage";
 import { getCookie } from "cookies-next";
 import { useDispatch } from "react-redux";
-import { store } from "@/redux/slices/userInfor";
+import { UserCoint, UserPoint, store, updateCoint, updatePoint } from "@/redux/slices/userInfor";
+import { getCoint, getPoint } from "../../apis/profile";
 
 interface RedditUserDocument {
   userId?: string;
@@ -32,6 +32,7 @@ interface RedditUserDocument {
 }
 type UserBase = {
   userName: string,
+  userId : number,
   role: string,
 };
 
@@ -39,10 +40,10 @@ const Navbar: React.FC = () => {
   const [userCreates, setUserCreate] = useState<boolean>(false);
   const { onSelectMenuItem } = useDirectory();
   const { colorMode } = useColorMode();
-  const bg = useColorModeValue("white", "#232020");
+  const bg = useColorModeValue("white", "gray.800");
   const dispatch = useDispatch();
   const [user,setUser] = useState<UserBase>();
-
+  
   const storage = async () => {
     const token =  getCookie("token");
 
@@ -50,14 +51,33 @@ const Navbar: React.FC = () => {
 
     var decoded: UserBase = jwt_decode(token);
     const user = {
+      userId : decoded!.userId,
       userName: decoded!.userName,
       role: decoded!.role,
     };
-    
     setUser(user);
     dispatch(
       store({
         user
+      })
+    );
+    const getDBCoint = await getCoint();
+    const getDBPoint = await getPoint();
+    
+    const coint:UserCoint = {
+      coint :  getDBCoint.data.data
+    }
+    const point:UserPoint = {
+      activityPoint : getDBPoint.data.data
+    }
+    dispatch(
+      updateCoint({
+        coint
+      })
+    );
+    dispatch(
+      updatePoint({
+        point
       })
     );
   }
@@ -83,7 +103,7 @@ const Navbar: React.FC = () => {
         cursor="pointer"
         onClick={() => onSelectMenuItem(defaultMenuItem)}
       >
-        <Image src="/images/redditFace.svg" height="30px" />
+        {/* <Image src="/images/redditFace.svg" height="30px" />
         <Image
           src={
             colorMode === "light"
@@ -92,7 +112,8 @@ const Navbar: React.FC = () => {
           }
           height="46px"
           display={{ base: "none", md: "unset" }}
-        />
+        /> */}
+        <Image src="/images/redditlogo.png" height="50px" />
       </Flex>
       {user && <Directory />}
       <SearchInput user={user} />

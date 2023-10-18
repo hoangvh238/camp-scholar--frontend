@@ -8,9 +8,9 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 const formatDistanceLocale = {
-  lessThanXSeconds: 'just now',
-  xSeconds: 'just now',
-  halfAMinute: 'just now',
+  lessThanXSeconds: 'ngay bây giờ',
+  xSeconds: 'ngay bây giờ',
+  halfAMinute: 'ngay bây giờ',
   lessThanXMinutes: '{{count}}m',
   xMinutes: '{{count}}m',
   aboutXHours: '{{count}}h',
@@ -37,8 +37,8 @@ function formatDistance(token: string, count: number, options?: any): string {
     if (options.comparison > 0) {
       return 'in ' + result
     } else {
-      if (result === 'just now') return result
-      return result + ' ago'
+      if (result === 'ngay bây giờ') return result
+      return result + ' trước'
     }
   }
 

@@ -13,14 +13,14 @@ const PageContent: React.FC<PageContentProps> = ({ children }) => {
   return (
     <Flex justify="center" p="16px 0px">
       <Flex
-        width="95%"
+        width="98%"
         justify="center"
-        maxWidth={uid.uid ? "1160px" : "860px"}
+        maxWidth={true ? "1200px" : "860px"}
       >
         {/* Left */}
         <Flex
           direction="column"
-          width={{ base: "100%", md: "65%" }}
+          width={{ base: "100%", md: "75%" }}
           mr={{ base: 0, md: 6 }}
         >
           {children && children[0 as keyof typeof children]}

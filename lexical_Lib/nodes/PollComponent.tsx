@@ -8,7 +8,7 @@
 
 import type {Option, Options, PollNode} from './PollNode';
 
-import './PollNode.css';
+import './PollNode.module.css';
 
 import {useCollaborationContext} from '@lexical/react/LexicalCollaborationContext';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';

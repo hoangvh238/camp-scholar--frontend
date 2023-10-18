@@ -15,15 +15,17 @@ import PostLoader from "../posts/PostLoader";
 import NoPost from "./NoPost";
 import ProfileSide from "./ProfileSide";
 import ProfileTopBar from "./ProfileTopBar";
-import {User} from "@/atoms/userAtom"
+import { User } from "@/atoms/userAtom"
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import userProfile from "@/hooks/userProfile";
+import NotFound from "../Community/NotFound";
+import { getAllPost, getPostByLike, getPostByTime } from "../../../apis/posts";
 type Props = {
-  slug : string | undefined
+  slug: string | undefined
 };
 
-function MainContainer({slug}:Props) {
+function MainContainer({ slug }: Props) {
   const {
     user,
     setUser,
@@ -31,11 +33,11 @@ function MainContainer({slug}:Props) {
   } = userProfile();
   const router = useRouter();
   const slugdata = router.query.slug?.toString();
-  const currenUser = useSelector((state:RootState)=> state.userInfor.currentUser);
+  const currenUser = useSelector((state: RootState) => state.userInfor.currentUser);
 
-  useEffect(()=>{
-      if(slugdata) onLoad(slugdata)
-  },[slugdata])
+  useEffect(() => {
+    if (slugdata) onLoad(slugdata)
+  }, [slugdata])
 
 
   const [loading, setLoading] = useState(false);
@@ -48,154 +50,69 @@ function MainContainer({slug}:Props) {
   } = usePosts();
   const { communityStateValue } = useCommunityData();
 
-  //const communityStateValue = useRecoilValue(CommunityState);
 
-  // const buildUserHomeFeed = async () => {
-  //   try {
-  //     if (communityStateValue.mySnippets.length) {
-  //       const myCommunityIds = communityStateValue.mySnippets.map(
-  //         (snippet) => snippet.communityId
-  //       );
+  const buildNoUserHomeFeed = async () => {
+    setLoading(true);
+    try {
+      const postData = await getAllPost();
+      setPostStateValue((prev) => ({
+        ...prev,
+        posts: postData.data as Post[],
+      }));
+    } catch (error) {
+      console.error("BuildNoUserHome", error);
+    }
+    setLoading(false);
+  };
 
-  //       const postQuery = query(
-  //         collection(firestore, "posts"),
-  //         where("communityId", "in", myCommunityIds)
-  //       );
-
-  //       const postDoc = await getDocs(postQuery);
-  //       const posts = postDoc.docs.map((doc) => ({
-  //         id: doc.id,
-  //         ...doc.data(),
-  //       }));
-
-  //       setPostStateValue((prev: any) => ({
-  //         ...prev,
-  //         posts: posts as Post[],
-  //       }));
-  //     } else {
-  //       buildUserHomeFeed();
-  //     }
-  //   } catch (error) {
-  //     console.log("Building HHome Error", error);
-  //   }
-  // };
-  // const buildNoUserHomeFeed = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const postQuery = query(
-  //       collection(firestore, "posts"),
-  //       where("creatorId", "==", uid),
-  //       orderBy("voteStatus", "desc")
-  //     );
-
-  //     const postDocs = await getDocs(postQuery);
-  //     const posts = postDocs.docs.map((doc) => ({
-  //       id: doc.id,
-  //       ...doc.data(),
-  //     }));
-
-  //     setPostStateValue((prev) => ({
-  //       ...prev,
-  //       posts: posts as Post[],
-  //     }));
-  //   } catch (error) {
-  //     console.log("BuildNoUserHome", error);
-  //   }
-  //   setLoading(false);
-  // };
-
-  // const getUserPostVotes = async () => {
-  //   try {
-  //     const postIds = postStateValue.posts.map((post) => post.id);
-
-  //     const batches: PostVote[] | any[][] = [];
-
-  //     while (postIds.length) {
-  //       const batch = postIds.splice(0, 10);
-
-  //       const postVotesQuery = query(
-  //         collection(firestore, `users/${user?.uid}/postVotes`),
-  //         where("postId", "in", [...batch])
-  //       );
-  //       const postVoteDoc = await getDocs(postVotesQuery);
-
-  //       const postVotes = postVoteDoc.docs.map((doc: any) => ({
-  //         id: doc.id,
-  //         ...doc.data(),
-  //       }));
-
-  //       batches.push(postVotes as any);
-  //     }
-
-  //     setPostStateValue((prev) => ({
-  //       ...prev,
-  //       postVotes: batches.flat() as PostVote[],
-  //     }));
-  //   } catch (error) {
-  //     console.log("getUserPostVotes Error", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (communityStateValue.snippetsFetched) buildNoUserHomeFeed();
-  // }, [communityStateValue.snippetsFetched]);
-
-  // useEffect(() => {
-  //   if (!user && !loadingUser) buildNoUserHomeFeed();
-  // }, [user, loadingUser]);
-
-  // useEffect(() => {
-  //   if (user && postStateValue.posts.length) getUserPostVotes();
-
-  //   return () => {
-  //     setPostStateValue((prev) => ({
-  //       ...prev,
-  //       postVotes: [],
-  //     }));
-  //   };
-  // }, [user, postStateValue.posts]);
-
+  useEffect(() => {
+    buildNoUserHomeFeed();
+  }, []);
   return (
-    <PageContent>
-      <>
-        <ProfileTopBar />
-        {loading ? (
-          <PostLoader />
-        ) : (
-          <Stack>
-            <>
-              {postStateValue.posts.length > 0 ? (
-                <>
-                  {postStateValue.posts.map((post) => (
-                    // <PostItem
-                    //   key={post.id}
-                    //   post={post}
-                    //   onVote={onVote}
-                    //   onDeletePost={onDeletePost}
-                    //   userVoteValue={
-                    //     postStateValue.postVotes.find(
-                    //       (item) => item.postId === post.id
-                    //     )?.voteValue
-                    //   }
-                    //   userIsCreator={user?.uid === post.creatorId}
-                    //   onSelectPost={onSelectPost}
-                    //   homePage
-                    // />
-                    <></>
-                  ))}
-                </>
-              ) : (
-                <NoPost />
-              )}
-            </>
-          </Stack>
-        )}
-      </>
-      <Stack spacing={5}>
-        {currenUser?.userName && <ProfileSide userData={user} />}
-        <Recommendation />
-      </Stack>
-    </PageContent>
+    <>
+      {user?.userId ? "" : <NotFound></NotFound>}
+      <PageContent>
+
+        <>
+          {user?.userId ? <ProfileTopBar /> : ""}
+          {loading ? (
+            <PostLoader />
+          ) : (
+            <Stack>
+               {postStateValue.posts.map((post, index) => {
+                // Check if post.postVotes is defined before using reduce
+                const votesAmt = post.likes ? post.likes.reduce((acc, vote) => {
+                  if (vote.status === 1) return acc + 1;
+                  if (vote.status === -1) return acc - 1;
+                  return acc;
+                }, 0) : 0;
+
+                const currentVote = post.likes?.find((like) => like.auth === user?.userName);
+
+
+                return (
+
+                  <PostItem
+                    key={index}
+                    post={post}
+                    userIsCreator={user?.userName === post.author}
+                    userVoteValue={currentVote?.status}
+                    onVote={onVote}
+                    onSelectPost={onSelectPost}
+                    onDeletePost={onDeletePost} votesAmt={votesAmt} commentAmt={post.comments.length}
+                  />
+                )
+              })}
+            </Stack>
+          )}
+        </>
+        <Stack spacing={5}>
+          {currenUser?.userName && user?.userId ? <ProfileSide userData={user} /> : ""}
+          {user?.userId ? <Recommendation /> : ""}
+        </Stack>
+      </PageContent>
+    </>
+
   );
 }
 

@@ -30,7 +30,16 @@ import { HiLockClosed } from "react-icons/hi";
 
 import { auth, firestore } from "../../../firebase/clientApp";
 import useDirectory from "../../../hooks/useDirectory";
-import TagForm from "./hashtag/TagForm";
+import { createGroup } from "../../../../apis/groups";
+import Tag from "@/components/hashtag/Tag";
+
+type CreateGroup = {
+  groupName: string,
+  description: string;
+  timeCreate: Date;
+  category: string;
+  hashtag: string;
+}
 
 type CreateCommunityModelProps = {
   open: boolean;
@@ -41,6 +50,7 @@ const CreateCommunityModel: React.FC<CreateCommunityModelProps> = ({
   open,
   handleClose,
 }) => {
+  const isAlphaNumeric = (str: string) => /^[a-zA-Z0-9\s]+$/.test(str);
   const [user] = useAuthState(auth);
   const [CommunitiesName, setCommunities] = useState("");
   const [charsRemaining, setCharsRemaining] = useState(21);
@@ -51,101 +61,56 @@ const CreateCommunityModel: React.FC<CreateCommunityModelProps> = ({
   const { toggleMenuOpen } = useDirectory();
   const bg = useColorModeValue("gray.100", "#1A202C");
   const textColor = useColorModeValue("gray.500", "gray.400");
+  const [name, setName] = useState("");
+  const [depcriptions, setDepcriptions] = useState("");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.value.length > 21) return;
+    // if (event.target.value.length > 21) return;
 
     setCommunities(event.target.value);
-    setCharsRemaining(21 - event.target.value.length);
+    // setCharsRemaining(21 - event.target.value.length);
   };
 
-  const onCommunityTypeChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setCommunityType(event.target.name);
-  };
 
   const handleCreateCommunity = async () => {
-    if (error) setError("");
+    // if (error) setError("");
+    // console.log("create");
+    
+    // // if (!isAlphaNumeric(CommunitiesName) || CommunitiesName.length < 3) {
+    // //   return setError(
+    // //     "Tên phải dài ít nhất 3 kí tự và không chứa kí tự đặc biệt"
+    // //   );
+    // // }
+  
+    // // if (!isAlphaNumeric(depcriptions)) {
+    // //   return setError(
+    // //     "Tên không được chứa kí tự đặc biệt"
+    // //   );
+    // // }
+    const data:CreateGroup = {
+      groupName : name,
+      description : depcriptions,
+      timeCreate: new Date(),
+      category: localStorage.getItem('cate') ?? "",
+      hashtag: localStorage.getItem('hashtag') ?? "",
 
-    const format = /[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/;
-
-    if (format.test(CommunitiesName) || CommunitiesName.length < 3) {
-      return setError(
-        "Community names must be between 3–21 characters, and can only contain letters, numbers, or underscores."
-      );
     }
-
+    await createGroup(data);
     setLoading(true);
-
+  
     try {
-      const communityDocRef = doc(firestore, "communities", CommunitiesName);
-
-      await runTransaction(firestore, async (transaction) => {
-        const communityDoc = await transaction.get(communityDocRef);
-        if (communityDoc.exists()) {
-          throw new Error(
-            `Sorry, r/${CommunitiesName} is MdTakeoutDining. Try Another`
-          );
-          return;
-        }
-
-        await transaction.set(communityDocRef, {
-          creatorId: user?.uid,
-          createdAt: serverTimestamp(),
-          numberOfMembers: 1,
-          privacyTYpe: communityType,
-        });
-
-        //update
-        updateCommunitySnippet(user?.uid!, transaction);
-
-        // create
-        transaction.set(
-          doc(
-            firestore,
-            `users/${user?.uid}/communitySnippets`,
-            CommunitiesName
-          ),
-          {
-            communityId: CommunitiesName,
-            isModerator: true,
-            updateTimeStamp: serverTimestamp() as Timestamp,
-          }
-        );
-      });
-
-      handleClose();
-      toggleMenuOpen();
-      setCommunityType("");
-      setCommunities("");
-      router.push(`r/${CommunitiesName}`);
+      // ...
     } catch (error: any) {
       console.log("HandleCreateCommunity Error", error);
       setError(error.message);
     }
-
+  
     setLoading(false);
-    //setError("")
-  };
-
-  const updateCommunitySnippet = async (userId: string, transaction: any) => {
-    if (!userId) return;
-
-    const communityUpdateDocRef = doc(
-      firestore,
-      `communities/${CommunitiesName}/userInCommunity/${userId}`
-    );
-
-    await transaction.set(communityUpdateDocRef, {
-      userId: userId,
-      userEmail: user?.email,
-    });
   };
 
   return (
     <>
-      <Modal isOpen={open} onClose={handleClose} size="lg">
+      <Modal isOpen={open} onClose={handleClose} size="4xl">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader
@@ -154,59 +119,51 @@ const CreateCommunityModel: React.FC<CreateCommunityModelProps> = ({
             fontSize={15}
             padding={3}
           >
-            Create a Community
+            Tạo nhóm
           </ModalHeader>
 
           <Box pl={3} pr={3}>
             <ModalCloseButton />
             <ModalBody display="flex" flexDirection="column" padding="10px 0px">
               <div className='container flex items-center h-full max-w-3xl mx-auto'>
-                <div className='relative bg-white w-full h-fit p-4 rounded-lg space-y-6'>
-                  <div className='flex justify-between items-center'>
-                    <h1 className='text-xl font-semibold'>Create a Community</h1>
-                  </div>
-
-                  <hr className='bg-red-500 h-px' />
-
+                <div className='relative bg-white w-full h-fit rounded-lg space-y-6'>
                   <div>
-                    <h3 className="font-[700] text-[24px] ">Name</h3>
-                    <p className='font-[300] text-[14px] pb-2'>
-                      Community names including capitalization cannot be changed.
+                    <h3 className="font-[700] text-[24px] ">Tên</h3>
+                    <p className='font-[300] text-[14px] pb-2 text-red-600 font-bold '>
+                      Chú ý tên nhóm đặt không thể đổi !
                     </p>
                     <div className='relative'>
                       <p className='absolute text-sm left-0 w-8 inset-y-0 grid place-items-center text-zinc-400'>
                       </p>
-                      {/* <Input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              className='pl-6'
-            /> */}
+                      <Input
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className='pl-6'                       
+                        variant='flushed' placeholder='Nhập tên nhóm...'
+                      />
                     </div>
                   </div>
+                  <Tag></Tag>
+                 
                   <div>
-
-                  </div>
-                  <TagForm max={10} message="Input your category content in groups" name="Category" form={"category"}></TagForm>
-        <TagForm max={1} message="Hashtag helping people find your group" name="Hashtag" form={"hashtag"}></TagForm>
-        
-                  <div>
-                    <h3 className="font-[700] text-[24px] ">Depcripstion</h3>
-                    <p className='font-[300] text-[14px] pb-2'>
-                      Decrible your group
+                    <h3 className="font-[700] text-xl ">Mô tả nhóm</h3>
+                    <p className='font-[300] text-sm pb-2'>
+                     Mô tả nhóm của bạn
                     </p>
                     <div className='relative'>
                       <p className='absolute text-sm left-0 w-8 inset-y-0 grid place-items-center text-zinc-400'>
                       </p>
-                      {/* <Input
-              value={depcriptions}
-              onChange={(e) => setDepcriptions(e.target.value)}
-              className='pl-6'
-            /> */}
+                      <Input
+                        value={depcriptions}
+                        onChange={(e) => setDepcriptions(e.target.value)}
+                        className='pl-6'
+                        variant='flushed' placeholder='Nhập mô tả nhóm...'
+                      />
                     </div>
                   </div>
 
                   <div className='flex justify-end gap-4'>
-                    
+
                     {/* <Button
             isLoading={false}
             disabled={input.length === 0}
@@ -221,7 +178,6 @@ const CreateCommunityModel: React.FC<CreateCommunityModelProps> = ({
               </div>
             </ModalBody>
           </Box>
-
           <ModalFooter bg={bg} borderRadius="0px 0px 10px 10px">
             <Button
               variant="outline"
@@ -233,7 +189,7 @@ const CreateCommunityModel: React.FC<CreateCommunityModelProps> = ({
             </Button>
             <Button
               height="30px"
-              onClick={handleCreateCommunity}
+              onClick={()=> handleCreateCommunity()}
               isLoading={loading}
             >
               Create Community

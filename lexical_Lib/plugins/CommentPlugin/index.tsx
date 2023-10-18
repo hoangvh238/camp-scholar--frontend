@@ -9,7 +9,7 @@ import type {
 } from 'lexical';
 import type {Doc} from 'yjs';
 
-import './index.css';
+import './index.module.css';
 
 import {
   $createMarkNode,

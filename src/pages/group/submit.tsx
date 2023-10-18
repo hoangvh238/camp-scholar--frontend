@@ -1,7 +1,7 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Button, Divider, Select, Text } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import Head from "next/head";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 import About from "../../components/Community/About";
@@ -9,12 +9,54 @@ import PageContent from "../../components/Layout/PageContent";
 import NewPostForm from "../../components/posts/NewPostForm";
 import { auth } from "../../firebase/clientApp";
 import useCommunityData from "../../hooks/useCommunityData";
+import EditorLarge from "@/components/editor/EditorLarge";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import Rule from "@/components/Community/Rule";
+import { postingGroup } from "../../../apis/posts";
+import { useRouter } from "next/router";
+import EditorNormal from "@/components/editor/EditorNormal";
+type Posting = {
+  content: string;
+  time: Date;
+  userId: number;
+  groupId: number;
+  titles: string;
+}
 
-const SubmitPostPage: React.FC = () => {
-  const [user] = useAuthState(auth);
-
+const Page: React.FC = () => {
+  const user = useSelector((state: RootState) => state.userInfor.currentUser);
+  const [htmlString, setHtmlStringg] = useState<string>("");
   const { communityStateValue } = useCommunityData();
+  const [group, setGroup] = useState(-1);
+  const router = useRouter();
+  const handlePost = async () => {
+    if (group == -1 || group == 0) return;
+    try {
+      let post: Posting = {
+        content: htmlString,
+        time: new Date,
+        userId: user.userId,
+        groupId: group,
+        titles: ""
+      }
+      console.log("post data" + post.content);
 
+      await postingGroup(post);
+      router.push(`/group/${group}`);
+
+    } catch (error) {
+      console.log(error);
+
+    }
+
+  }
+
+  useEffect(() => {
+    console.log(group);
+    console.log("strinsadasdada" + htmlString);
+
+  }, [group])
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -27,24 +69,37 @@ const SubmitPostPage: React.FC = () => {
         <link rel="icon" href="/images/header.png" />
       </Head>
       <PageContent>
-        <>
-          <Box p="14px 0px" borderRadius="1px solid" borderColor="white">
-            <Text>Create a Post</Text>
-          </Box>
+        <div className="w-[100%]">
+
+          {/* {mySnippets && } */}
+
+          <Select placeholder='Select option' background={"whiteAlpha.800"} fontStyle={"bold"} onChange={(e) => setGroup(Number(e.target.value))}>
+            {communityStateValue.mySnippets.map((snippet) => (
+              <option value={snippet.groupId}> Group : {snippet.groupName}</option>
+            ))}
+          </Select>
           {user && (
-            <NewPostForm
-              user={user}
-              communityImageURL={communityStateValue.currentCommunity?.imageURL}
-            />
+            <> <EditorLarge formTitle=""
+              htmlString={htmlString}
+              setHtmlString={setHtmlStringg}
+              pageName="create_blog"></EditorLarge>
+              {/* <EditorNormal
+                htmlString={htmlString}
+                setHtmlString={setHtmlStringg}
+                useEditorFor="create_blog" isNeedSave={false}></EditorNormal> */}
+            </>
+
           )}
-        </>
-        <>
-          {communityStateValue.currentCommunity && (
-            <About communityData={communityStateValue.currentCommunity} />
-          )}
-        </>
+        </div>
+        <div className="flex flex-col fixed ">
+          <Rule />
+          <Divider />
+          <Button colorScheme='teal' variant='solid' disabled={group == -1 || group == 0 ? true : false} onClick={() => handlePost()}>
+            {group == -1 || group == 0 ? "Hãy chọn group" : "Đăng ngay"}
+          </Button>
+        </div>
       </PageContent>
     </motion.div>
   );
 };
-export default SubmitPostPage;
+export default Page;

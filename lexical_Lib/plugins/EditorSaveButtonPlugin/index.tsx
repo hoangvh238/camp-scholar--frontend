@@ -1,12 +1,10 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { $generateHtmlFromNodes } from '@lexical/html';
-import UnlinkButton from '@/components/UnlinkButton';
+
 import React from 'react'
 import {toast} from "react-toastify"
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
-import { updateAbout } from '@/apis/setting';
-
 
 type TPros = {
     setHtmlString: React.Dispatch<React.SetStateAction<string>>;
@@ -17,18 +15,18 @@ function EditorSaveButtonPlugin({setHtmlString, useFor}: TPros) {
     const [editor] = useLexicalComposerContext();
 
     const handleUpdateBio = async (bio: string) => {
-        try {
-            const access_token = getCookie("accessToken");
-            if(access_token) {
-                const response = await updateAbout(access_token, bio);
-                console.log(response);
-            }
-        } catch (error) {
-            if(axios.isAxiosError(error)) {
-                console.log(error);
-                toast.warning("Update bio failed!")
-            }
-        }
+        // try {
+        //     const access_token = getCookie("accessToken");
+        //     if(access_token) {
+        //         const response = await updateAbout(access_token, bio);
+        //         console.log(response);
+        //     }
+        // } catch (error) {
+        //     if(axios.isAxiosError(error)) {
+        //         console.log(error);
+        //         toast.warning("Update bio failed!")
+        //     }
+        // }
     }
 
     const handleSaveLetter = async () => {
@@ -44,14 +42,14 @@ function EditorSaveButtonPlugin({setHtmlString, useFor}: TPros) {
 
     return (
         <>
-            <UnlinkButton 
+            {/* <UnlinkButton 
             textContent={'Save'} 
             icon={''} 
             iconPosition={'left'} 
             backgroundColor={'bg-blue-700'} 
             method={() => handleSaveLetter()} 
             tailwind={'text-white mt-[20px]'}            
-            ></UnlinkButton>
+            ></UnlinkButton> */}
         </>
     )
 }

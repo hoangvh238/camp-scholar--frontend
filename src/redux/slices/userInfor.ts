@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { setCookie } from "cookies-next";
 
 type UserBase = {
+  userId : number,
   userName : string,
   role: string,
 };
@@ -20,10 +21,22 @@ type UserData = {
 type AppState = {
   currentUser: UserBase;
   userData : UserData;
+  userPoint : UserPoint;
+  userCoint : UserCoint
 };
+
+export type UserCoint = {
+   coint : number,
+
+}
+
+export type UserPoint = {
+  activityPoint : number
+}
 
 const initialState: AppState = {
   currentUser: {
+    userId :-1,
     userName: "",
     role:"",
   },
@@ -37,6 +50,12 @@ const initialState: AppState = {
     activityPoint: 0,
     avatarURL: "",
     backgroundURL: ""
+  },
+  userPoint : {
+    activityPoint : 0
+  },
+  userCoint : {
+     coint : 0
   }
 };
 
@@ -60,10 +79,16 @@ export const counterSlice = createSlice({
     storeData: (state, action) => {
       state.userData = action.payload.user;
     },
+    updateCoint : (state,action) => {
+      state.userCoint = action.payload.coint;
+    },
+    updatePoint : (state,action) => {
+      state.userPoint = action.payload.point;
+    }
   },
 });
 
 // Action creators được tạo ra cho mỗi hàm reducer
-export const { login, logout,store ,storeData} = counterSlice.actions;
+export const { login, logout,store ,storeData,updateCoint,updatePoint} = counterSlice.actions;
 
 export default counterSlice.reducer;

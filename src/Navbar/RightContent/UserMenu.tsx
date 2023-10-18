@@ -24,6 +24,7 @@ import { authModelState } from "../../atoms/authModalAtom";
 import { auth } from "../../firebase/clientApp";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/redux/slices/userInfor";
+import { RootState } from "@/redux/store";
 
 type UserBase = {
   userName: string,
@@ -39,7 +40,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
   const dispatch = useDispatch();
   const setAuthModalState = useSetRecoilState(authModelState);
   const { colorMode, toggleColorMode } = useColorMode();
-
+  const coint = useSelector((state:RootState) => state.userInfor.userCoint);
   const handelNavigatePage = () => {
     if (user) {
       router.push({
@@ -83,7 +84,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
                   </Text>
                   <Flex alignItems="center">
                     <Icon as={IoSparkles} color="brand.100" mr={1} />
-                    <Text color="gray.400">1 karma</Text>
+                    <Text fontWeight={"bold"} color={coint.coint > 0 ? "gray.1000" : "red.700"}>{coint.coint} XU</Text>
                   </Flex>
                 </Flex>
               </>

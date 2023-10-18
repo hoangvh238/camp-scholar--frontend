@@ -726,7 +726,7 @@ export default function ToolbarPlugin(): JSX.Element {
             style={'font-family'}
             value={fontFamily}
             editor={editor}
-          /> */}
+          /> 
           {/* <FontDropDown
             disabled={!isEditable}
             style={'font-size'}

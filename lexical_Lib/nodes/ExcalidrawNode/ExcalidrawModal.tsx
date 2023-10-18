@@ -6,7 +6,7 @@
  *
  */
 
-import './ExcalidrawModal.css';
+import './ExcalidrawModal.module.css';
 
 import {Excalidraw} from '@excalidraw/excalidraw';
 

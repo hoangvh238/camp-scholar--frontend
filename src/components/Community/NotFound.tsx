@@ -17,7 +17,7 @@ const NotFound: React.FC = () => {
         alignItems="center"
         minHeight="60vh"
       >
-        Sorry, that community does not exist or has been banned
+        Sorry, your access not exits
         <Link href="/">
           <Button mt={4}>GO HOME</Button>
         </Link>
