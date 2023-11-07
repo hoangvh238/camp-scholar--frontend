@@ -1,4 +1,4 @@
-import userProfile from "@/hooks/userProfile";
+import useUserProfile from "@/hooks/userProfile";
 import { RootState } from "@/redux/store";
 import {
   Flex,
@@ -34,7 +34,7 @@ type Props = {
 };
 
 function MainContainer({ slug }: Props) {
-  const { user, setUser, onLoad } = userProfile();
+  const { user, setUser, onLoad } = useUserProfile();
   const currenUser = useSelector(
     (state: RootState) => state.userInfor.currentUser,
   );

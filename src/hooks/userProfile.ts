@@ -1,9 +1,10 @@
 import { userState } from "@/atoms/userAtom";
 import { useRecoilState } from "recoil";
-import { getUserData } from "../../apis/profile";
 import { useEffect } from "react";
+import { getUserData } from "../../apis/profile";
 
-const UserProfile = () => {
+// Tạo một Hook riêng
+const useUserProfile = () => {
   const [user, setUser] = useRecoilState(userState);
 
   const onLoad = async (slug: string) => {
@@ -15,10 +16,6 @@ const UserProfile = () => {
     }
   };
 
-  useEffect(() => {
-    // Gọi onLoad ở đây nếu bạn muốn nó được gọi khi component được render.
-  }, []);
-
   return {
     user,
     setUser,
@@ -26,4 +23,4 @@ const UserProfile = () => {
   };
 };
 
-export default UserProfile;
+export default useUserProfile;
