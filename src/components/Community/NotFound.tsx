@@ -1,7 +1,7 @@
-import React from "react";
-import { Flex, Button } from "@chakra-ui/react";
-import Link from "next/link";
+import { Button, Flex } from "@chakra-ui/react";
 import Head from "next/head";
+import Link from "next/link";
+import React from "react";
 
 const NotFound: React.FC = () => {
   return (

@@ -10,6 +10,48 @@
 }
 
 
+/* Green row style */
+.green-row {
+  background-color: lightgreen;
+}
+
+/* Blue row style */
+.blue-row {
+  background-color: lightblue;
+}
+
+/* Red row style */
+.red-row {
+  background-color: lightcoral;
+}
+
+
+.react-pdf__Page__textContent{
+  display: none;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.ant-message{
+  z-index: 10000;
+}
+
+#no-renderer-download 
+{
+  display: none;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+.react-pdf__Page__annotations 
+{
+  display: none;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
 /* @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;

@@ -3,19 +3,18 @@ import { User } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { toast } from "react-toastify";
 import { useSetRecoilState } from "recoil";
 import { registerAccount } from "../../../../apis/auth";
 import { authModelState } from "../../../atoms/authModalAtom";
 import { auth, firestore } from "../../../firebase/clientApp";
 import { FIREBASE_ERRORS } from "../../../firebase/errors";
-import {toast} from "react-toastify"
 
-type UserRegister = { 
-  email : string, 
-  password : string,
-  userName: string
+type UserRegister = {
+  email: string;
+  password: string;
+  userName: string;
 };
-
 
 const SignUp: React.FC = () => {
   const setAuthModelState = useSetRecoilState(authModelState);
@@ -42,18 +41,18 @@ const SignUp: React.FC = () => {
       setError("Password Do Not Match");
       return;
     }
-    
-    const data:UserRegister = {
-       userName :  signUpForm.email.split('@')[0],
-       password : signUpForm.password,
-       email : signUpForm.email
-    }
+
+    const data: UserRegister = {
+      userName: signUpForm.email.split("@")[0],
+      password: signUpForm.password,
+      email: signUpForm.email,
+    };
     await registerAccount(data);
     toast.success("Đăng ký thành công");
     setAuthModelState((prev) => ({
       ...prev,
       view: "login",
-    }))
+    }));
   };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,7 +66,7 @@ const SignUp: React.FC = () => {
   const createUserDocument = async (user: User) => {
     await addDoc(
       collection(firestore, "users"),
-      JSON.parse(JSON.stringify(user))
+      JSON.parse(JSON.stringify(user)),
     );
   };
 
@@ -166,7 +165,7 @@ const SignUp: React.FC = () => {
         Sign Up
       </Button>
       <Flex fontSize="9pt" justifyContent="center">
-        <Text mr={1}>Already a redditor?</Text>
+        <Text mr={1}>Đã có tài khoản?</Text>
         <Text
           color="blue.500"
           fontWeight={700}

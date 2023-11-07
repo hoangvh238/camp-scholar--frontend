@@ -12,11 +12,7 @@ const CommentContent: React.FC<PageContentProps> = ({ children }) => {
 
   return (
     <Flex justify="center" p="16px 0px">
-      <Flex
-        width="95%"
-        justify="center"
-        maxWidth={true ? "1200px" : "860px"}
-      >
+      <Flex width="95%" justify="center" maxWidth={true ? "1200px" : "860px"}>
         {/* Left */}
         <Flex
           direction="column"
@@ -25,7 +21,6 @@ const CommentContent: React.FC<PageContentProps> = ({ children }) => {
         >
           {children && children[0 as keyof typeof children]}
         </Flex>
-    
 
         {/* Right */}
         <Flex

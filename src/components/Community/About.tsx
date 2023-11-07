@@ -4,58 +4,46 @@ import {
   Button,
   Divider,
   Flex,
-  HStack,
   Icon,
-  Image,
-  Spinner,
   Stack,
   Tag,
-  TagCloseButton,
   TagLabel,
   Text,
   Wrap,
   WrapItem,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { doc, updateDoc } from "firebase/firestore";
-import { getDownloadURL, ref, uploadString } from "firebase/storage";
-import moment from "moment";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { FaReddit } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { AiFillTags } from "react-icons/ai";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { RiCakeLine } from "react-icons/ri";
-import { AiFillTags } from "react-icons/ai";
 import { useSetRecoilState } from "recoil";
+import { getTotalMember } from "../../../apis/groups";
 import { formatTimeToNow } from "../../../ultils/utils";
 import { Community, CommunityState } from "../../atoms/CommunitiesAtom";
-import { auth, firestore, storage } from "../../firebase/clientApp";
 import useSelectFile from "../../hooks/useSelectFile";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-import { getTotalMember } from "../../../apis/groups";
 
 type AboutProps = {
   communityData: Community;
 };
 
 const About: React.FC<AboutProps> = ({ communityData }) => {
-  const user = useSelector((state: RootState) => state.userInfor.currentUser)
-  const selectedFieldRef = useRef<HTMLInputElement>(null);
-  const { selectedFile, setSelectedFile, onSelectedFile } = useSelectFile();
+  const { selectedFile } = useSelectFile();
   const [uploadingImage, setUploadingImage] = useState(false);
   const setCommunityStateValue = useSetRecoilState(CommunityState);
   const bg = useColorModeValue("white", "#1A202C");
-  const [totalMember,setTotalMember] = useState(0);
+  const [totalMember, setTotalMember] = useState(0);
 
   const getTotalMemberDB = async () => {
-    const getDb = await getTotalMember(communityData.groupId);
-    const data = getDb.data.data;
-    setTotalMember(data);
-  }
-  console.log("test" + communityData.host + "aaa" + user.userName);
-
+    try {
+      const getDb = await getTotalMember(communityData.groupId);
+      const data = getDb.data.data;
+      setTotalMember(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const onUploadingImage = async () => {
     if (!selectedFile) return;
@@ -64,14 +52,14 @@ const About: React.FC<AboutProps> = ({ communityData }) => {
     try {
       if (selectedFile !== null) {
         const PRESET = "camp_scholar";
-        const COULD_NAME = 'ds0av2boe'
+        const COULD_NAME = "ds0av2boe";
         const formData = new FormData();
-        formData.append('file', selectedFile);
-        formData.append('upload_preset', PRESET); // Create an upload preset in Cloudinary
+        formData.append("file", selectedFile);
+        formData.append("upload_preset", PRESET); // Create an upload preset in Cloudinary
 
         // Make a POST request to Cloudinary's upload endpoint
         fetch(`https://api.cloudinary.com/v1_1/${COULD_NAME}/image/upload`, {
-          method: 'POST',
+          method: "POST",
           body: formData,
         })
           .then((response) => response.json())
@@ -80,7 +68,7 @@ const About: React.FC<AboutProps> = ({ communityData }) => {
             url = data.url;
           })
           .catch((error) => {
-            console.error('Error uploading image to Cloudinary', error);
+            console.error("Error uploading image to Cloudinary", error);
           });
       }
 
@@ -97,9 +85,9 @@ const About: React.FC<AboutProps> = ({ communityData }) => {
     setUploadingImage(false);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     getTotalMemberDB();
-  },[])
+  }, []);
   return (
     <Box position="sticky" top="70px">
       <Flex
@@ -140,8 +128,7 @@ const About: React.FC<AboutProps> = ({ communityData }) => {
             {communityData.timeCreate && (
               <>
                 <Text>
-                  Tạo vào {" "}
-                  {formatTimeToNow(new Date(communityData.timeCreate))}
+                  Tạo vào {formatTimeToNow(new Date(communityData.timeCreate))}
                 </Text>
               </>
             )}
@@ -151,55 +138,6 @@ const About: React.FC<AboutProps> = ({ communityData }) => {
               Tạo bài viết
             </Button>
           </Link>
-          {user?.userName === communityData.host && (
-            <>
-              <Divider />
-              <Stack spacing={1} fontSize="10pt">
-                <Text fontWeight={600}>Admin</Text>
-                <Flex align="center" justify="space-between">
-                  <Text
-                    color="blue.500"
-                    cursor="pointer"
-                    _hover={{ textDecoration: "underline" }}
-                    onClick={() => selectedFieldRef.current?.click()}
-                  >
-                    Change Image
-                  </Text>
-                  {communityData.imageURLGAvatar || selectedFile ? (
-                    <Image
-                      src={communityData.imageURLGAvatar}
-                      borderRadius="full"
-                      boxSize="40px"
-                      alt="community Image"
-                    />
-                  ) : (
-                    <Icon
-                      as={FaReddit}
-                      fontSize={40}
-                      color="brand.100"
-                      mr={2}
-                    />
-                  )}
-                </Flex>
-                {selectedFile &&
-                  (uploadingImage ? (
-                    <Spinner />
-                  ) : (
-                    <Text cursor="pointer" onClick={onUploadingImage}>
-                      Save Changes
-                    </Text>
-                  ))}
-                <input
-                  id="file-upload"
-                  type="file"
-                  accept="image/x-png,image/gif,image/jpeg"
-                  hidden
-                  ref={selectedFieldRef}
-                  onChange={onSelectedFile}
-                />
-              </Stack>
-            </>
-          )}
         </Stack>
       </Flex>
 
@@ -219,34 +157,44 @@ const About: React.FC<AboutProps> = ({ communityData }) => {
         </Flex>
         <Flex direction="column" p={3} bg={bg} borderRadius="0px 0px 4px 4px">
           <Stack>
-            <Flex width="100%" p={2} fontSize="10pt" fontWeight={700} justify={"center"}>
-              <Tag size='lg' colorScheme='telegram' borderRadius='full'>
+            <Flex
+              width="100%"
+              p={2}
+              fontSize="10pt"
+              fontWeight={700}
+              justify={"center"}
+            >
+              <Tag size="lg" colorScheme="telegram" borderRadius="full">
                 <Avatar
-                  size='xs'
+                  size="xs"
                   name={communityData.category}
                   ml={-1}
                   mr={2}
                 />
                 <TagLabel>{communityData.category}</TagLabel>
               </Tag>
-              
             </Flex>
-            <div className="text-center"><Text maxWidth={"400px"}>{communityData.description}</Text></div>
+            <div className="text-center">
+              <Text maxWidth={"400px"}>{communityData.description}</Text>
+            </div>
             <Divider />
 
-            <Wrap  spacing='10px' maxWidth={"400px"}>
-            {communityData.hashtag.split(',').map((value:string) => (
-                  <WrapItem>
-                    <Tag size={"lg"} key={"lg"} variant='solid' colorScheme='telegram' gap={2}>
-                      <AiFillTags></AiFillTags>
-                      {value}
-                    </Tag>
-                  </WrapItem>
-
-                ))}
+            <Wrap spacing="10px" maxWidth={"400px"}>
+              {communityData.hashtag.split(",").map((value: string) => (
+                <WrapItem>
+                  <Tag
+                    size={"lg"}
+                    key={"lg"}
+                    variant="solid"
+                    colorScheme="telegram"
+                    gap={2}
+                  >
+                    <AiFillTags></AiFillTags>
+                    {value}
+                  </Tag>
+                </WrapItem>
+              ))}
             </Wrap>
-
-
           </Stack>
         </Flex>
       </Box>

@@ -7,12 +7,11 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { FaReddit } from "react-icons/fa";
 import { GrAdd } from "react-icons/gr";
 import { useRecoilValue } from "recoil";
 
+import { FaFreeCodeCamp } from "react-icons/fa";
 import { CommunityState } from "../../atoms/CommunitiesAtom";
-import CreateCommunityModel from "../../components/Modal/CreateCommunity/CreateCommunityModel";
 import MenuListItem from "./MenuListItem";
 
 type CommunitiesProps = {};
@@ -42,15 +41,15 @@ const ChoiceCommunity: React.FC<CommunitiesProps> = () => {
             Tạo nhóm mới
           </Flex>
         </MenuItem>
-          {mySnippets && mySnippets.length > 0 && (
+        {mySnippets && mySnippets.length > 0 && (
           <>
             {mySnippets
               .filter((item) => item.isModerator)
               .map((snippet) => (
                 <MenuListItem
                   key={snippet.groupId}
-                  icon={FaReddit}
-                  displayText={`r/${snippet.groupName}`}
+                  icon={FaFreeCodeCamp}
+                  displayText={`${snippet.groupName}`}
                   link={`/group/${snippet.groupId}`}
                   iconColor={"brand.100"}
                   imageURL={snippet.imageURLGAvatar}
@@ -58,17 +57,17 @@ const ChoiceCommunity: React.FC<CommunitiesProps> = () => {
               ))}
           </>
         )}
-        {mySnippets && mySnippets.map((snippet) => (
-          <MenuListItem
-            key={snippet.groupId}
-            icon={FaReddit}
-            displayText={`r/${snippet.groupName}`}
-            link={`/group/${snippet.groupId}`}
-            iconColor={"blue.500"}
-            imageURL={snippet.imageURLGAvatar}
-          />
-        ))}
-        
+        {mySnippets &&
+          mySnippets.map((snippet) => (
+            <MenuListItem
+              key={snippet.groupId}
+              icon={FaFreeCodeCamp}
+              displayText={`${snippet.groupName}`}
+              link={`/group/${snippet.groupId}`}
+              iconColor={"blue.500"}
+              imageURL={snippet.imageURLGAvatar}
+            />
+          ))}
       </Box>
     </>
   );

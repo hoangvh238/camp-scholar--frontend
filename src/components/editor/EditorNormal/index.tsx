@@ -1,37 +1,33 @@
-"use client"
-import React, { useState } from "react";
+"use client";
 import PlaygroundEditorTheme from "@lexicalLib/theme/EditorTheme";
-import TableCellNodes from "@nodes/TableCellNodes";
 import PlaygroundNodes from "@nodes/PlaygroundNodes";
+import React, { useState } from "react";
 
-import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
-import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
-import { ContentEditable } from "@lexical/react/LexicalContentEditable";
-import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
-import { ListPlugin } from "@lexical/react/LexicalListPlugin";
-import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { HashtagPlugin } from "@lexical/react/LexicalHashtagPlugin";
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
+import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
+import { LexicalComposer } from "@lexical/react/LexicalComposer";
+import { ContentEditable } from "@lexical/react/LexicalContentEditable";
+import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
+import { HashtagPlugin } from "@lexical/react/LexicalHashtagPlugin";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 
 import HTMLSerializerPlugin from "@plugins/HtmlSerializerPlugin";
 
 import AutoLinkPlugin from "@plugins/AutoLinkPlugin";
 import CodeHighlightPlugin from "@plugins/CodeHighlightPlugin";
-import YouTubePlugin from "@plugins/YouTubePlugin";
-import TwitterPlugin from "@plugins/TwitterPlugin";
 import FigmaPlugin from "@plugins/FigmaPlugin";
+import TwitterPlugin from "@plugins/TwitterPlugin";
+import YouTubePlugin from "@plugins/YouTubePlugin";
 // import CodeActionMenuPlugin from "@plugins/CodeActionMenuPlugin";
 import AutoEmbedPlugin from "@plugins/AutoEmbedPlugin";
-import Placeholder from "@ui/Placeholder";
 import ToolbarPlugin from "@plugins/ToolbarNormalPlugin";
+import Placeholder from "@ui/Placeholder";
 
-import { $generateNodesFromDOM } from "@lexical/html";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import DomToLexicalPlugin from "@lexicalLib/plugins/DomToLexicalPlugin";
-import TreeViewPlugin from "@plugins/TreeViewPlugin";
-import EditorSaveButtonPlugin from "@plugins/EditorSaveButtonPlugin";
 import FloatingTextFormatToolbarPlugin from "@lexicalLib/plugins/FloatingTextFormatToolbarPlugin";
+import EditorSaveButtonPlugin from "@plugins/EditorSaveButtonPlugin";
 
 const editorConfig = {
   onError(error: Error) {
@@ -46,10 +42,15 @@ type TPros = {
   htmlString: string;
   setHtmlString: React.Dispatch<React.SetStateAction<string>>;
   isNeedSave: boolean;
-  useEditorFor: string
+  useEditorFor: string;
 };
 
-function EditorNormal({ htmlString, setHtmlString, isNeedSave, useEditorFor }: TPros) {
+function EditorNormal({
+  htmlString,
+  setHtmlString,
+  isNeedSave,
+  useEditorFor,
+}: TPros) {
   const [floatingAnchorElem, setFloatingAnchorElem] =
     useState<HTMLDivElement | null>(null);
 
@@ -86,7 +87,8 @@ function EditorNormal({ htmlString, setHtmlString, isNeedSave, useEditorFor }: T
             {/* <TreeViewPlugin/> */}
             {floatingAnchorElem && (
               <FloatingTextFormatToolbarPlugin
-              anchorElem={floatingAnchorElem}/>
+                anchorElem={floatingAnchorElem}
+              />
             )}
             <HistoryPlugin />
             <AutoFocusPlugin />
@@ -100,11 +102,13 @@ function EditorNormal({ htmlString, setHtmlString, isNeedSave, useEditorFor }: T
             <YouTubePlugin />
             <FigmaPlugin />
             <TwitterPlugin />
-            
           </div>
         </div>
         {isNeedSave ? (
-          <EditorSaveButtonPlugin setHtmlString={setHtmlString} useFor={useEditorFor}/>
+          <EditorSaveButtonPlugin
+            setHtmlString={setHtmlString}
+            useFor={useEditorFor}
+          />
         ) : (
           <HTMLSerializerPlugin setHtmlString={setHtmlString} />
         )}

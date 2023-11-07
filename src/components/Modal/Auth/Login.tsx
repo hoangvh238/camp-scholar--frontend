@@ -2,30 +2,29 @@ import { Button, Flex, Input, Text, useColorModeValue } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useSetRecoilState } from "recoil";
 
-import { authModelState } from "../../../atoms/authModalAtom";
-import { loginAccount } from "../../../../apis/auth";
+import { login } from "@/redux/slices/userInfor";
+import { message } from "antd";
+import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { useDispatch } from "react-redux";
-import { login } from "@/redux/slices/userInfor";
-import { toast } from "react-toastify";
 import { ValidationError } from "yup";
-import axios from "axios";
+import { loginAccount } from "../../../../apis/auth";
+import { authModelState } from "../../../atoms/authModalAtom";
 
 type UserLogin = {
   userName: string;
   password: string;
-}
-
+};
 
 type EncodeType = {
-  userName: string,
-  role: string,
-}
+  userName: string;
+  role: string;
+};
 type LoginProps = {};
 
 const Login: React.FC<LoginProps> = () => {
   const setAuthModelState = useSetRecoilState(authModelState);
-  const [isLoading,setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [loginForm, setLoginForm] = useState<UserLogin>({
     userName: "",
     password: "",
@@ -36,51 +35,55 @@ const Login: React.FC<LoginProps> = () => {
   const placeholderColor = useColorModeValue("gray.500", "#CBD5E0");
   const dispatch = useDispatch();
 
-
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
-      try { 
-        const loginResponse =  await loginAccount(loginForm);
-        
-        const token =  loginResponse.data;
-        const tokenString = token.data.token;
-        var decoded:EncodeType =  jwt_decode(tokenString);
-        
-        const userBase = {
-          userName: decoded!.userName,
-          role: decoded!.role,
-        };
-        console.log();
-        
-        dispatch(
-          login({
-            tokenString,
-            userBase
-          })
-        );
-        
-        toast.success("Login success !");
-       
-        setTimeout(() => { window.location.reload() ;
-        }, 700);
-      } catch (error: unknown) {
-        
-        if (error instanceof ValidationError) {
-          if (error?.name === "ValidationError") {
-            toast.error("Cannot login");
-          }
+    try {
+      const loginResponse = await loginAccount(loginForm);
+
+      const token = loginResponse.data;
+      const tokenString = token.data.token;
+      var decoded: EncodeType = jwt_decode(tokenString);
+
+      const userBase = {
+        userName: decoded!.userName,
+        role: decoded!.role,
+      };
+      console.log();
+
+      dispatch(
+        login({
+          tokenString,
+          userBase,
+        }),
+      );
+
+      message.success("Login success !");
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 700);
+    } catch (error: unknown) {
+      if (error instanceof ValidationError) {
+        if (error?.name === "ValidationError") {
+          message.error("Không thể đăng nhập");
         }
-        if (axios.isAxiosError(error)) {
-          if (
-            error.response?.status === 401 ||
-            error.response?.status === 404 ||
-            error.response?.status === 400
-          ) {
-            toast.error("Wrong password or username");
-          }
+      }
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response?.status === 401 ||
+          error.response?.status === 404 ||
+          error.response?.status === 500
+        ) {
+          message.error("Sai mật khẩu hoặc tên đăng nhập");
         }
-        setIsLoading(false);
+        if (error.response?.status === 403) {
+          message.warning(
+            "Tài khoản đã bị khóa, liên hệ admin để được giải quyết",
+          );
+        }
+      }
+      setIsLoading(false);
       //export type TypeOptions = 'info' | 'success' | 'warning' | 'error' | 'default';
     }
   };
@@ -139,9 +142,7 @@ const Login: React.FC<LoginProps> = () => {
         }}
         bg={inputBg}
       />
-      <Text textAlign="center" color="red" fontSize="10pt">
-       
-      </Text>
+      <Text textAlign="center" color="red" fontSize="10pt"></Text>
       <Button
         width="100%"
         height="36px"
@@ -154,7 +155,7 @@ const Login: React.FC<LoginProps> = () => {
       </Button>
       <Flex justifyContent="center" mb={2}>
         <Text fontSize="9pt" mr={1}>
-         Quên mật khẩu ?
+          Quên mật khẩu ?
         </Text>
         <Text
           fontSize="9pt"

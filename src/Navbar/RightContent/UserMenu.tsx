@@ -13,22 +13,21 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { CgProfile } from "react-icons/cg";
-import { FaRedditSquare } from "react-icons/fa";
+import { FaFreeCodeCamp } from "react-icons/fa";
 import { MdOutlineLogin } from "react-icons/md";
 import { VscAccount } from "react-icons/vsc";
 
-import { useRouter } from "next/router";
-import { IoSparkles } from "react-icons/io5";
-import { useSetRecoilState } from "recoil";
-import { authModelState } from "../../atoms/authModalAtom";
-import { auth } from "../../firebase/clientApp";
-import { useDispatch, useSelector } from "react-redux";
+import Level from "@/components/common/Level";
 import { logout } from "@/redux/slices/userInfor";
 import { RootState } from "@/redux/store";
+import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { useSetRecoilState } from "recoil";
+import { authModelState } from "../../atoms/authModalAtom";
 
 type UserBase = {
-  userName: string,
-  role: string,
+  userName: string;
+  role: string;
 };
 
 type UserMenuProps = {
@@ -40,7 +39,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
   const dispatch = useDispatch();
   const setAuthModalState = useSetRecoilState(authModelState);
   const { colorMode, toggleColorMode } = useColorMode();
-  const coint = useSelector((state:RootState) => state.userInfor.userCoint);
+  const point = useSelector((state: RootState) => state.userInfor.userPoint);
+
   const handelNavigatePage = () => {
     if (user) {
       router.push({
@@ -68,9 +68,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
               <>
                 <Icon
                   fontSize={24}
-                  mr={1}
-                  color="gray.300"
-                  as={FaRedditSquare}
+                  mr={4}
+                  color="red.400"
+                  as={FaFreeCodeCamp}
                 />
                 <Flex
                   display={{ base: "none", lg: "flex" }}
@@ -79,12 +79,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
                   alignItems="flex-start"
                   mr={8}
                 >
-                  <Text fontWeight={700}>
-                    {user?.userName}
-                  </Text>
+                  <Text fontWeight={700}>{user?.userName}</Text>
                   <Flex alignItems="center">
-                    <Icon as={IoSparkles} color="brand.100" mr={1} />
-                    <Text fontWeight={"bold"} color={coint.coint > 0 ? "gray.1000" : "red.700"}>{coint.coint} XU</Text>
+                    <Level point={point.activityPoint}></Level>
                   </Flex>
                 </Flex>
               </>
@@ -115,7 +112,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
             >
               <Flex align="center" onClick={handelNavigatePage}>
                 <Icon fontSize={20} mr={2} as={CgProfile} />
-                Profile
+                Hồ sơ
               </Flex>
             </MenuItem>
             <MenuDivider />
@@ -127,7 +124,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
             >
               <Flex align="center">
                 <Icon fontSize={20} mr={2} as={MdOutlineLogin} />
-                Log Out
+                 Đăng xuất
               </Flex>
             </MenuItem>
           </>

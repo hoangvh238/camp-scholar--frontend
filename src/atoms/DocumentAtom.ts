@@ -1,3 +1,4 @@
+
 import { atom } from "recoil";
 
 export type Document = {
@@ -8,59 +9,40 @@ export type Document = {
   author : string,
   groupName : string,
   cost : number,
-  comments : Comment[],
-  report : [],
-  likes: Like[],
+  ratings : Ratings[];
+  bills : number;
+  authorPoints : number
 };
 
-// "documentId": 8,
-//     "documentName": "New Document Name 8",
-//     "description": "New Description 8",
-//     "cost": 50,
-//     "time": null,
-//     "ratings": 0,
-//     "groupName": "Cộng đồng trao đổi Toán Học",
-//     "author": "taimodels"
 
-export type Like = {
-  auth : string
-  likeId : number,
-  status : number , 
-  time : Date
+
+export type Ratings = {
+  description : string,
+  ratingId : number,
+  stars : number , 
+  time : Date,
+  user : number,
+  document : number,
 }  
 
-interface PostState {
-  selectedPost: Post | null;
-  posts: Post[];
+export type Bill = {
+  documentId : number
+  userId : number, 
+  time : Date,
+  billId : number
+} 
+
+interface DocumentsState {
+  documents : Document[]
 }
 
-const defaultPostState: PostState = {
-  selectedPost: null,
-  posts: [],
+
+const defaultDocumentState: DocumentsState = {
+   documents : []
 };
 
-export const postState = atom<PostState>({
-  key: "PostState",
-  default: defaultPostState,
+export const documentState = atom<DocumentsState>({
+  key: "DocumentState",
+  default: defaultDocumentState,
 });
 
-
-
-export type Comment = { 
- commentId: number,
- postId : number,
- commentParentId : number;
- content: string,
- time: Date,
- author : string,
- reports: [],
- likes: Like[]
-}
-
-
-export type Posting = {
- content : string;
- time : Date;
- groupId : number;
- titles : string;
-}

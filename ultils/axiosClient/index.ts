@@ -1,55 +1,55 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from "axios";
 
 const axiosServices = axios.create({
-    baseURL: "http://localhost:8080",
-    timeout: 50000,
-    withCredentials: true
+  baseURL: "http://localhost:8080",
+  timeout: 50000,
+  withCredentials: true,
 });
 
 axiosServices.interceptors.request.use(
-    function (config) {
-        config.headers['Content-Type'] = 'application/json';
-        return config;
-    },
-    function (error) {
-        return Promise.reject(error);
-    },
+  function (config) {
+    config.headers["Content-Type"] = "application/json";
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  },
 );
 
 axiosServices.interceptors.response.use(
-    (res: AxiosResponse) => res,
-    async (err) => {
-        return Promise.reject(err);
-    },
+  (res: AxiosResponse) => res,
+  async (err) => {
+    return Promise.reject(err);
+  },
 );
 
 axiosServices.interceptors.request.use(
-    function (config) {
-        config.headers['Content-Type'] = 'application/json';
-        return config;
-    },
-    function (error) {
-        return Promise.reject(error);
-    },
+  function (config) {
+    config.headers["Content-Type"] = "application/json";
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  },
 );
 
 const axiosUpload = axios.create({
-    baseURL: "https://fudeverapi.bsite.net/api",
-    timeout: 50000,
+  baseURL: "https://fudeverapi.bsite.net/api",
+  timeout: 50000,
 });
 
 axiosUpload.interceptors.request.use(
-    function (config) {
-        config.headers['Content-Type'] = 'multipart/form-data';
-        const access_token = localStorage.getItem('access_token');
-        if (access_token) {
-            config.headers['Authorization'] = `Bearer ${access_token}`;
-        }
-        return config;
-    },
-    function (error) {
-        return Promise.reject(error);
-    },
+  function (config) {
+    config.headers["Content-Type"] = "multipart/form-data";
+    const access_token = localStorage.getItem("access_token");
+    if (access_token) {
+      config.headers["Authorization"] = `Bearer ${access_token}`;
+    }
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  },
 );
 
 export const axiosClientUpload = axiosUpload;

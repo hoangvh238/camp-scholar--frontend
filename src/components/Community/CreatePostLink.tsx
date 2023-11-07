@@ -1,25 +1,21 @@
 import { Flex, Icon, Input, useColorModeValue } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { BsLink45Deg } from "react-icons/bs";
-import { FaReddit } from "react-icons/fa";
 import { IoImageOutline } from "react-icons/io5";
+import { TbUserSquareRounded } from "react-icons/tb";
 import { useSetRecoilState } from "recoil";
 
-import { authModelState } from "../../atoms/authModalAtom";
-import { auth } from "../../firebase/clientApp";
-import useDirectory from "../../hooks/useDirectory";
-import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { useSelector } from "react-redux";
+import { authModelState } from "../../atoms/authModalAtom";
 
 type CreatePost = {
-  groupID : number;
-}
-const CreatePostLink: React.FC<CreatePost> = ({groupID}) => {
+  groupID: number;
+};
+const CreatePostLink: React.FC<CreatePost> = ({ groupID }) => {
   const router = useRouter();
-  const user = useSelector((state:RootState)=>state.userInfor.currentUser);
-  const { toggleMenuOpen } = useDirectory();
+  const user = useSelector((state: RootState) => state.userInfor.currentUser);
   const setAuthModelState = useSetRecoilState(authModelState);
   const bg = useColorModeValue("white", "#1A202C");
   const borderColor = useColorModeValue("gray.300", "#2D3748");
@@ -35,7 +31,6 @@ const CreatePostLink: React.FC<CreatePost> = ({groupID}) => {
     // toggleMenuOpen();
     router.push(`/group/submit`);
     return;
-    
   };
 
   return (
@@ -49,9 +44,9 @@ const CreatePostLink: React.FC<CreatePost> = ({groupID}) => {
       borderColor={borderColor}
       p={2}
       mb={4}
-      onClick = {onClick}
+      onClick={onClick}
     >
-      <Icon as={FaReddit} fontSize={36} color="gray.300" mr={4} />
+      <Icon as={TbUserSquareRounded} fontSize={36} color="gray.300" mr={4} />
       <Input
         placeholder="Bạn đang nghĩ gì ?"
         fontSize="10pt"

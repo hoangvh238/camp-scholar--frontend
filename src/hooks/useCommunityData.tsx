@@ -1,21 +1,23 @@
-
+import { RootState } from "@/redux/store";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { useSelector } from "react-redux";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { authModelState } from "../atoms/authModalAtom";
+import {
+  exitGroup,
+  getGroupData,
+  getGroupJoin,
+  joinGroup,
+} from "../../apis/groups";
 import {
   Community,
   CommunitySnippet,
   CommunityState,
 } from "../atoms/CommunitiesAtom";
-import { auth, firestore } from "../firebase/clientApp";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-import { exitGroup, getAllGroup, getGroupData, getGroupJoin, joinGroup } from "../../apis/groups";
+import { authModelState } from "../atoms/authModalAtom";
 
 const useCommunityData = () => {
-  const user = useSelector((state:RootState)=> state.userInfor.currentUser);
+  const user = useSelector((state: RootState) => state.userInfor.currentUser);
   const router = useRouter();
   const setAuthModelState = useSetRecoilState(authModelState);
   const [communityStateValue, setCommunityStateValue] =
@@ -23,15 +25,18 @@ const useCommunityData = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const onJoinOrCommunity = async (communityData: Community, isJoined: boolean) => {
+  const onJoinOrCommunity = async (
+    communityData: Community,
+    isJoined: boolean,
+  ) => {
     if (!user.userName) {
       setAuthModelState({ open: true, view: "login" });
       return;
     }
 
     if (isJoined) {
-        await exitGroup(communityData.groupId);
-        getMySnippets();
+      await exitGroup(communityData.groupId);
+      getMySnippets();
       return;
     }
     await joinGroup(communityData.groupId);
@@ -42,17 +47,19 @@ const useCommunityData = () => {
     setLoading(true);
     try {
       const allGroup = getGroupJoin(user.userId);
+      const snippetList: CommunitySnippet[] = (await allGroup).data;
+      const updatedSnippets = snippetList.map((snippet) => {
+        const isModerator = snippet.hosts === user.userName;
+        return { ...snippet, isModerator };
+      });
 
-      const snippetList:CommunitySnippet[] = (await allGroup).data;
       setCommunityStateValue((prev) => ({
         ...prev,
-        mySnippets: snippetList as CommunitySnippet[],
+        mySnippets: updatedSnippets,
         snippetsFetched: true,
       }));
-
     } catch (error: any) {
       console.log("Get My Snippet Error", error);
-      setError(error.message);
     }
     setLoading(false);
   };
@@ -60,9 +67,8 @@ const useCommunityData = () => {
   const getCommunityData = async (communityId: string) => {
     try {
       const getGroupDTO = await getGroupData(communityId);
-      const groupData = getGroupDTO.data; 
-      console.log("grdata"+groupData);
-      
+      const groupData = getGroupDTO.data;
+
       setCommunityStateValue((prev) => ({
         ...prev,
         currentCommunity: {
@@ -94,78 +100,6 @@ const useCommunityData = () => {
       getCommunityData(communityId as string);
     }
   }, [router.query, communityStateValue.currentCommunity]);
-
-  const joinCommunity = async (communityData: Community) => {
-    try {
-
-      const newSnippet: CommunitySnippet = {
-        groupId: communityData.groupId,
-        imageURLGAvatar: communityData.imageURLGAvatar || "",
-        isModerator: user?.userName === communityData.host,
-        timeCreate: new Date(),
-        groupName: communityData.groupName
-      };
-      
-      await joinGroup(communityData.groupId);
-
-      setCommunityStateValue((prev) => ({
-        ...prev,
-        mySnippets: [...prev.mySnippets, newSnippet],
-      }));
-
-      // updateCommunitySnippet(communityData, user?.u!);
-    } catch (error: any) {
-      console.log("JoinCommunity Error", error);
-      setError(error.message);
-    }
-    setLoading(false);
-  };
-
-  // const updateCommunitySnippet = async (
-  //   communityData: Community,
-  //   userId: string
-  // ) => {
-  //   if (!communityData && !userId) return;
-
-  //   try {
-  //     const batch = writeBatch(firestore);
-
-  //     const newSnippet = {
-  //       userId: userId,
-  //       userEmail: user?.email,
-  //     };
-
-  //     batch.set(
-  //       doc(
-  //         firestore,
-  //         `communities/${communityData.id}/userInCommunity/${userId}`
-  //       ),
-  //       newSnippet
-  //     );
-
-  //     await batch.commit();
-  //   } catch (error: any) {
-  //     console.log("JoinCommunity Error", error);
-  //     setError(error.message);
-  //   }
-  // };
-
-  const leaveCommunity = async (communityId: number) => {
-    try {
-       await exitGroup(communityId);
-
-      setCommunityStateValue((prev) => ({
-        ...prev,
-        mySnippets: prev.mySnippets.filter(
-          (item) => item.groupId !== communityId
-        ),
-      }));
-    } catch (error: any) {
-      console.log("JoinCommunity Error", error);
-      setError(error.message);
-    }
-    setLoading(false);
-  };
 
   return {
     communityStateValue,

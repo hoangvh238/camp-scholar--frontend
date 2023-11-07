@@ -1,39 +1,25 @@
 
-    import { useRouter } from "next/router";
-    import React, { useEffect } from "react";
+import { userState } from "@/atoms/userAtom";
+import { useRecoilState } from "recoil";
+import { getUserData } from "../../apis/profile";
 
-    import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-    import { authModelState } from "../atoms/authModalAtom";
-    import { CommunityState } from "../atoms/CommunitiesAtom";
-    import { userState,User } from "@/atoms/userAtom";
-    import { disLike, like } from "../../apis/posts";
-    import { getUserData } from "../../apis/profile";
+const userProfile = () => {
+  const [user, setUser] = useRecoilState(userState);
 
-    const userProfile = () => {
-    const [user, setUser] = useRecoilState(userState);
-    const router = useRouter();
-    const setAuthModalState = useSetRecoilState(authModelState);
+  const onLoad = async (slug: string) => {
+    try {
+      const user = await getUserData(slug);
+      setUser(user.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    const onLoad = async (
-        slug : string
-    ) => {
-        
-        try {
-            const user = await getUserData(slug);
-            setUser(user.data.data);
-        } catch (error) {
-            console.log(error);
-            
-        }
-    };
+  return {
+    user,
+    setUser,
+    onLoad,
+  };
+};
 
-
-    
-    return {
-        user,
-        setUser,
-        onLoad
-    };
-    };
-
-    export default userProfile;
+export default userProfile;

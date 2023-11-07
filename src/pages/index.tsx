@@ -1,17 +1,14 @@
+import Survey from "@/components/Community/Survey";
+import EditorOutput from "@/components/editor/EditorOutput";
+import { RootState } from "@/redux/store";
 import { Stack } from "@chakra-ui/react";
-import {
-  collection,
-  getDocs,
-  limit,
-  orderBy,
-  query,
-  where,
-} from "firebase/firestore";
 import { motion } from "framer-motion";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import { Post, Like } from "../atoms/PostAtom";
+import { useSelector } from "react-redux";
+import { getAllPost } from "../../apis/posts";
+import { Post } from "../atoms/PostAtom";
 import CreatePostLink from "../components/Community/CreatePostLink";
 import PersonalHome from "../components/Community/PersonalHome";
 import Premium from "../components/Community/Premium";
@@ -19,18 +16,13 @@ import Recommendation from "../components/Community/Recommendation";
 import PageContent from "../components/Layout/PageContent";
 import PostItem from "../components/posts/PostItem";
 import PostLoader from "../components/posts/PostLoader";
-import useCommunityData from "../hooks/useCommunityData";
 import usePosts from "../hooks/usePosts";
-import { getAllPost } from "../../apis/posts";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-import Survey from "@/components/Community/Survey";
 
 
 const Home: NextPage = () => {
   const user = useSelector((state: RootState) => state.userInfor.currentUser);
   console.log(user);
-
+  const [html,setHTML] = useState();
   const [loading, setLoading] = useState(false);
   const {
     postStateValue,
@@ -39,20 +31,19 @@ const Home: NextPage = () => {
     onSelectPost,
     onVote,
   } = usePosts();
-  const { communityStateValue } = useCommunityData();
 
-  const buildUserHomeFeed = async () => {
-    try {
-      const postData = await getAllPost();
+  // const buildUserHomeFeed = async () => {
+  //   try {
+  //     const postData = await getAllPost();
 
-      setPostStateValue((prev) => ({
-        ...prev,
-        posts: postData.data as Post[],
-      }));
-    } catch (error) {
-      console.error("Building Home Error", error);
-    }
-  };
+  //     setPostStateValue((prev) => ({
+  //       ...prev,
+  //       posts: postData.data as Post[],
+  //     }));
+  //   } catch (error) {
+  //     console.error("Building Home Error", error);
+  //   }
+  // };
 
   const buildNoUserHomeFeed = async () => {
     setLoading(true);
@@ -76,9 +67,16 @@ const Home: NextPage = () => {
   //   if (communityStateValue.snippetsFetched) buildNoUserHomeFeed();
   // }, [communityStateValue.snippetsFetched]);
 
+
+
   useEffect(() => {
     buildNoUserHomeFeed();
   }, []);
+
+  useEffect(()=>{
+    console.log(html);
+    
+  },[html])
 
   // useEffect(() => {
 
@@ -91,9 +89,6 @@ const Home: NextPage = () => {
   //     }));
   //   };
   // }, [user, postStateValue.posts]);
-
-
-  console.log(postStateValue);
 
 
   return (
@@ -114,6 +109,7 @@ const Home: NextPage = () => {
             <PostLoader />
           ) : (
             <Stack>
+              <EditorOutput content={html}></EditorOutput>
               {postStateValue.posts.map((post, index) => {
                 // Check if post.postVotes is defined before using reduce
                 const votesAmt = post.likes ? post.likes.reduce((acc, vote) => {
@@ -141,7 +137,8 @@ const Home: NextPage = () => {
             </Stack>
           )}
         </>
-        <Stack spacing={5}>
+        <Stack spacing={5} position={"fixed"}>
+        
           <Recommendation />
           <Survey></Survey>
           <Premium />

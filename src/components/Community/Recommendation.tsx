@@ -10,15 +10,12 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { FaReddit } from "react-icons/fa";
-
+import { GiForestCamp } from "react-icons/gi";
+import { getSuggest } from "../../../apis/groups";
 import { Community } from "../../atoms/CommunitiesAtom";
-import { firestore } from "../../firebase/clientApp";
 import useCommunityData from "../../hooks/useCommunityData";
-import { getAllGroup, getSuggest } from "../../../apis/groups";
 
 const Recommendation: React.FC = () => {
   const [communities, setCommunities] = useState<Community[]>([]);
@@ -41,15 +38,10 @@ const Recommendation: React.FC = () => {
   };
 
   useEffect(() => {
-    if(!isViewAll) setCommunities([]);
-    else 
-    getCommunityRecommendation();
+    if (!isViewAll) setCommunities([]);
+    else getCommunityRecommendation();
   }, [isViewAll]);
 
-  useEffect(() => {
-    console.log(communities);
-
-  }, [communities]);
   return (
     <Flex
       direction="column"
@@ -92,63 +84,64 @@ const Recommendation: React.FC = () => {
           </Stack>
         ) : (
           <>
-            {communities && communities.map((item, index) => {
-              const isJoined = !!communityStateValue.mySnippets.find(
-                (snippet) => snippet.groupId === item.groupId
-              );
-              return (
-                <Link key={item.groupId} href={`/group/${item.groupId}`}>
-                  <Flex
-                    position="relative"
-                    align="center"
-                    fontSize="10pt"
-                    borderBottom="1px solid"
-                    borderColor={borderColor}
-                    p="10px 12px"
-                    fontWeight={600}
-                  >
-                    <Flex width="80%" align="center">
-                      <Flex width="15%">
-                        <Text mr={2}>{index + 1}</Text>
+            {communities &&
+              communities.map((item, index) => {
+                const isJoined = !!communityStateValue.mySnippets.find(
+                  (snippet) => snippet.groupId === item.groupId,
+                );
+                return (
+                  <Link key={item.groupId} href={`/group/${item.groupId}`}>
+                    <Flex
+                      position="relative"
+                      align="center"
+                      fontSize="10pt"
+                      borderBottom="1px solid"
+                      borderColor={borderColor}
+                      p="10px 12px"
+                      fontWeight={600}
+                    >
+                      <Flex width="80%" align="center">
+                        <Flex width="15%">
+                          <Text mr={2}>{index + 1}</Text>
+                        </Flex>
+                        <Flex align="center" width="80%">
+                          {item.imageURLGAvatar ? (
+                            <Image
+                              borderRadius="full"
+                              boxSize="28px"
+                              src={item.imageURLGAvatar}
+                              mr={2}
+                            />
+                          ) : (
+                            <Icon
+                              as={GiForestCamp}
+                              fontSize={30}
+                              color="brand.100"
+                              mr={2}
+                            />
+                          )}
+                          <span
+                            style={{
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                            }}
+                          >{`${item.groupName}`}</span>
+                        </Flex>
                       </Flex>
-                      <Flex align="center" width="80%">
-                        {item.imageURLGAvatar ? (
-                          <Image
-                            borderRadius="full"
-                            boxSize="28px"
-                            src={item.imageURLGAvatar}
-                            mr={2}
-                          />
-                        ) : (
-                          <Icon
-                            as={FaReddit}
-                            fontSize={30}
-                            color="brand.100"
-                            mr={2}
-                          />
-                        )}
-                        <span
-                          style={{
-                            whiteSpace: "nowrap",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                          }}
-                        >{`${item.groupName}`}</span>
-                      </Flex>
+                      <Box position="absolute" right="10px">
+                        <Button
+                          height="22px"
+                          fontSize="8pt"
+                          variant={isJoined ? "outline" : "solid"}
+                        >
+                          {isJoined ? "Joined" : "Join"}
+                        </Button>
+                      </Box>
                     </Flex>
-                    <Box position="absolute" right="10px">
-                      <Button
-                        height="22px"
-                        fontSize="8pt"
-                        variant={isJoined ? "outline" : "solid"}
-                      >
-                        {isJoined ? "Joined" : "Join"}
-                      </Button>
-                    </Box>
-                  </Flex>
-                </Link>
-              );
-            })}
+                  </Link>
+                );
+              })}
             <Box p="10px 20px">
               <Button
                 height="30px"

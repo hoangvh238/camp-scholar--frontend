@@ -1,6 +1,5 @@
-import { Stack, Button, Text, useColorModeValue, Icon } from "@chakra-ui/react";
+import { Button, Icon, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import React from "react";
 
 import { ImUsers } from "react-icons/im";
 

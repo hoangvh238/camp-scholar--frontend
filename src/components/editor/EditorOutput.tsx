@@ -1,23 +1,16 @@
-'use client'
-import React from 'react'
-import { FC } from 'react'
-import dynamic from 'next/dynamic'
-import { encode } from 'html-entities';
-
-
-
+"use client";
+import { FC } from "react";
 
 interface EditorOutputProps {
-  content: any
+  content: any;
 }
-
 
 const EditorOutput: FC<EditorOutputProps> = ({ content }) => {
   return (
     <>
-     <div dangerouslySetInnerHTML={{ __html: content }} ></div>
-    </> 
-  )
-}
+      <div dangerouslySetInnerHTML={{ __html: content }}></div>
+    </>
+  );
+};
 
-export default EditorOutput
+export default EditorOutput;

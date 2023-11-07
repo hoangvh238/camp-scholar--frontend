@@ -4,7 +4,7 @@ import { atom } from "recoil";
 export interface Community {
   groupId: number;
   groupName: string;
-  host: string;
+  hosts: string;
   hashtag: string;
   description: string;
   imageURLGAvatar : string;
@@ -14,6 +14,7 @@ export interface Community {
 }
 
 export interface CommunitySnippet {
+  hosts: string;
   groupId: number;
   groupName: string
   isModerator?: boolean;
@@ -31,7 +32,7 @@ export type CreateGroup = {
   groupName: string,
   description: string;
   timeCreate: Date;
-  category: string;
+  category: number;
   hashtag: string;
 }
 

@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Highlight,
   Input,
   Modal,
   ModalBody,
@@ -10,30 +9,32 @@ import {
   ModalHeader,
   ModalOverlay,
   Stack,
-  Text,
   useColorModeValue,
 } from "@chakra-ui/react";
 
-import { useForm } from 'react-hook-form';
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 
 import { User } from "@/atoms/userAtom";
 import FormImages from "@/components/form/form-images";
-import { UpdateImage } from "@/atoms/CommunitiesAtom";
-import { updateImageUser ,updateImageUserPhone} from "../../../../apis/profile";
+import { ImCheckboxChecked } from "react-icons/im";
+import {
+  updateImageUser,
+  updateImageUserPhone,
+} from "../../../../apis/profile";
+import EditPhoneModal from "./EditPhoneModal";
 interface ProfileSettingsFormType {
   name: string;
-  email: string
+  email: string;
   images: File[];
   bannerImages: File[];
 }
 
-
 type EditProfileModal = {
   open: boolean;
   handleClose: () => void;
-  user: User
+  user: User;
 };
 
 const EditProfileModal: React.FC<EditProfileModal> = ({
@@ -49,6 +50,16 @@ const EditProfileModal: React.FC<EditProfileModal> = ({
   const router = useRouter();
   const [phone, setPhone] = useState<string>("");
   const [error, setError] = useState(false);
+  const [editPhone, setEditPhone] = useState(false);
+
+  const handleCloseEditPhone = () => {
+    setEditPhone(false);
+  };
+
+  const handleEditPhone = () => {
+    setEditPhone(true);
+    handleClose();
+  };
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     // Lấy giá trị nhập vào từ input
     const inputValue = event.target.value;
@@ -56,7 +67,11 @@ const EditProfileModal: React.FC<EditProfileModal> = ({
     // Sử dụng biểu thức chính quy để kiểm tra chuỗi
     const regex = /^[0-9]*$/; // Chỉ cho phép chữ số (0-9)
 
-    if (regex.test(inputValue) && inputValue.length > 0 && inputValue.length <= 10) {
+    if (
+      regex.test(inputValue) &&
+      inputValue.length > 0 &&
+      inputValue.length <= 10
+    ) {
       // Nếu chuỗi chỉ chứa chữ số, thì cập nhật state phone
       setError(false);
       setPhone(inputValue);
@@ -75,38 +90,41 @@ const EditProfileModal: React.FC<EditProfileModal> = ({
     formState: { errors },
   } = useForm<ProfileSettingsFormType>({
     defaultValues: {
-      name: '',
-      email: '',
+      name: "",
+      email: "",
       bannerImages: [],
       images: [],
     },
   });
 
   const setImage = (file: File[]) => {
-    setValue('images', file);
+    setValue("images", file);
   };
 
   const setBanner = (file: File[]) => {
-    setValue('bannerImages', file);
+    setValue("bannerImages", file);
   };
 
   const onSubmit = async (data: ProfileSettingsFormType) => {
-    setLoading(true)
+    setLoading(true);
     let avatar: string = "";
     let cover: string = "";
     if (data.bannerImages != null)
       try {
         const PRESET = "camp_scholar";
-        const COULD_NAME = 'ds0av2boe';
+        const COULD_NAME = "ds0av2boe";
         const formData = new FormData();
-        formData.append('file', data.bannerImages[0]);
-        formData.append('upload_preset', PRESET); // Create an upload preset in Cloudinary
+        formData.append("file", data.bannerImages[0]);
+        formData.append("upload_preset", PRESET); // Create an upload preset in Cloudinary
 
         // Make a POST request to Cloudinary's upload endpoint
-        await fetch(`https://api.cloudinary.com/v1_1/${COULD_NAME}/image/upload`, {
-          method: 'POST',
-          body: formData,
-        })
+        await fetch(
+          `https://api.cloudinary.com/v1_1/${COULD_NAME}/image/upload`,
+          {
+            method: "POST",
+            body: formData,
+          },
+        )
           .then((response) => response.json())
           .then((data) => {
             // `data.url` contains the URL of the uploaded image on Cloudinary
@@ -114,7 +132,7 @@ const EditProfileModal: React.FC<EditProfileModal> = ({
             console.log(cover);
           })
           .catch((error) => {
-            console.error('Error uploading image to Cloudinary', error);
+            console.error("Error uploading image to Cloudinary", error);
           });
       } catch (error) {
         console.log("onUploader Image", error);
@@ -123,51 +141,53 @@ const EditProfileModal: React.FC<EditProfileModal> = ({
     if (data.images != null)
       try {
         const PRESET = "camp_scholar";
-        const COULD_NAME = 'ds0av2boe';
+        const COULD_NAME = "ds0av2boe";
         const formData = new FormData();
-        formData.append('file', data.images[0]);
-        formData.append('upload_preset', PRESET); // Create an upload preset in Cloudinary
+        formData.append("file", data.images[0]);
+        formData.append("upload_preset", PRESET); // Create an upload preset in Cloudinary
 
         // Make a POST request to Cloudinary's upload endpoint
-        await fetch(`https://api.cloudinary.com/v1_1/${COULD_NAME}/image/upload`, {
-          method: 'POST',
-          body: formData,
-        })
+        await fetch(
+          `https://api.cloudinary.com/v1_1/${COULD_NAME}/image/upload`,
+          {
+            method: "POST",
+            body: formData,
+          },
+        )
           .then((response) => response.json())
           .then((data) => {
             // `data.url` contains the URL of the uploaded image on Cloudinary
             avatar = data.url;
-
           })
           .catch((error) => {
-            console.error('Error uploading image to Cloudinary', error);
+            console.error("Error uploading image to Cloudinary", error);
           });
-
       } catch (error) {
         console.log("onUploader Image", error);
       }
     try {
-      if(phone!=user.phone && !error)   await updateImageUserPhone(avatar, cover,phone);
-      else 
-      await updateImageUser(avatar, cover);
+      if (phone != user.phone && !error)
+        await updateImageUserPhone(avatar, cover, phone);
+      else await updateImageUser(avatar, cover);
       setLoading(false);
       window.location.reload();
-    }
-    catch (error) {
+    } catch (error) {
       console.log("onUploader Image", error);
       setLoading(false);
       window.location.reload();
     }
-
-
-
   };
 
-  const draftImageFile = watch('images')[0];
-  const draftBannerImageFile = watch('bannerImages')[0];
+  const draftImageFile = watch("images")[0];
+  const draftBannerImageFile = watch("bannerImages")[0];
 
   return (
     <>
+      <EditPhoneModal
+        handClose={handleCloseEditPhone}
+        open={editPhone}
+        user={user}
+      ></EditPhoneModal>
       <Modal isOpen={open} onClose={handleClose} size="lg">
         <ModalOverlay />
         <ModalContent>
@@ -192,17 +212,19 @@ const EditProfileModal: React.FC<EditProfileModal> = ({
                   setBanner={setBanner}
                   setImage={setImage}
                 />
-                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="flex flex-col"
+                >
                   <div className="space-y-6">
-                    <Stack spacing={3}>
+                    <Stack spacing={3} flexDirection={"row"}>
                       <Input
                         required
-                        name="phone"
-                        placeholder="Enter phone..."
-                        type="userName"
+                        disabled
+                        placeholder="Chưa xác thực"
                         mb={2}
                         isInvalid
-                        errorBorderColor={error ? 'crimson' :'green.100'}
+                        errorBorderColor={error ? "crimson" : "green.100"}
                         onChange={onChange}
                         fontSize="10pt"
                         _placeholder={{ color: placeholderColor }}
@@ -211,43 +233,50 @@ const EditProfileModal: React.FC<EditProfileModal> = ({
                           border: "1px solid",
                           borderColor: searchBorder,
                         }}
-                        _focus={{
-                          outline: "none",
-                          bg: focusedInputBg,
-                          border: "1px solid",
-                          borderColor: searchBorder,
-                        }}
                         bg={inputBg}
                         value={user.phone}
                       />
-                      {error ? <Text fontSize='10px' color='tomato'>
-                        {"     "} Số điện thoại không được chứa kí tự đặc biệt
-                      </Text> : ""}
+                      {user.phone ? (
+                        <div className="flex justify-center content-center h-full mt-1 ">
+                          {" "}
+                          <ImCheckboxChecked
+                            color="green"
+                            size={30}
+                          ></ImCheckboxChecked>
+                        </div>
+                      ) : (
+                        <Button onClick={handleEditPhone}>Xác thực ngay</Button>
+                      )}
                     </Stack>
-
                   </div>
-                  <input type="file" {...register('images')} className="hidden" />
-                  <input type="file" {...register('bannerImages')} className="hidden" />
+                  <input
+                    type="file"
+                    {...register("images")}
+                    className="hidden"
+                  />
+                  <input
+                    type="file"
+                    {...register("bannerImages")}
+                    className="hidden"
+                  />
 
-                  <div className='mt-[100px] flex justify-center rounded-md '>
+                  <div className="mt-[100px] flex justify-center rounded-md ">
                     <Button
                       className="w-[100%] ml-auto"
                       type="submit"
                       isLoading={loading} // Sử dụng isLoading prop và thiết lập giá trị từ biến loading
-                      loadingText='Đang cập nhật'
-                      colorScheme='teal'
-                      variant='outline'
+                      loadingText="Đang cập nhật"
+                      colorScheme="teal"
+                      variant="outline"
                     >
-                      {loading ? 'Updating...' : 'Submit'} {/* Sử dụng biểu thức ba ngôi để điều khiển văn bản */}
+                      {loading ? "Updating..." : "Submit"}{" "}
+                      {/* Sử dụng biểu thức ba ngôi để điều khiển văn bản */}
                     </Button>
-
                   </div>
                 </form>
               </div>
             </ModalBody>
           </Box>
-
-
         </ModalContent>
       </Modal>
     </>

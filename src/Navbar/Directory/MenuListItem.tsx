@@ -1,8 +1,8 @@
 import {
   Flex,
   Icon,
-  MenuItem,
   Image,
+  MenuItem,
   useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";

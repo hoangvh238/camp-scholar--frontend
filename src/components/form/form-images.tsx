@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import clsx from 'clsx';
-import { useMemo } from 'react';
-import useSettingsDropZone from '../../hooks/use-settings-dropzone';
-import Image from 'next/image';
+import clsx from "clsx";
+import Image from "next/image";
+import { useMemo } from "react";
+import useSettingsDropZone from "../../hooks/use-settings-dropzone";
 
 interface FormImagesProps {
   image: string | null;
@@ -24,13 +24,13 @@ const FormImages = ({
 }: FormImagesProps) => {
   const draftImage = useMemo(
     () => (draftImageFile ? URL.createObjectURL(draftImageFile) : null),
-    [draftImageFile]
+    [draftImageFile],
   );
 
   const draftBannerImage = useMemo(
     () =>
       draftBannerImageFile ? URL.createObjectURL(draftBannerImageFile) : null,
-    [draftBannerImageFile]
+    [draftBannerImageFile],
   );
 
   const {
@@ -51,18 +51,18 @@ const FormImages = ({
     <>
       <div
         className={clsx([
-          'w-full h-[150px] relative cursor-pointer group',
-          isBannerDragged && 'outline-blue-500 outline-dashed',
+          "w-full h-[150px] relative cursor-pointer group",
+          isBannerDragged && "outline-blue-500 outline-dashed",
         ])}
         {...getRootbannerProps()}
         onClick={openBanner}
       >
         <Image
-          src={draftBannerImage || bannerImage || '/images/fallback.svg'}
+          src={draftBannerImage || bannerImage || "/images/fallback.svg"}
           layout="fill"
           alt=""
           objectFit="cover"
-          className='rounded-b-lg'
+          className="rounded-b-lg"
         />
         <input {...getInputBannerProps()} />
         <div className="absolute inset-0 bg-neutral-800 z-10 opacity-0 group-hover:opacity-70 transition-opacity">
@@ -78,14 +78,14 @@ const FormImages = ({
 
       <div
         className={clsx([
-          'w-32 h-32 rounded-md bg-white relative -top-16 left-[38%] overflow-hidden cursor-pointer group z-[100]',
-          isImageDragged && 'outline-blue-500 outline-dashed',
+          "w-32 h-32 rounded-md bg-white relative -top-16 left-[38%] overflow-hidden cursor-pointer group z-[100]",
+          isImageDragged && "outline-blue-500 outline-dashed",
         ])}
         {...getRootImageProps()}
         onClick={openImage}
       >
         <Image
-          src={draftImage || image || '/images/avatar-fallback.svg'}
+          src={draftImage || image || "/images/avatar-fallback.svg"}
           layout="fill"
           alt=""
           objectFit="cover"

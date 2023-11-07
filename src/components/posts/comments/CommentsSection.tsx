@@ -1,17 +1,13 @@
 
 // import CreateComment from './CreateComment'
 // import PostComment from './comments/PostComment'
-import { Post } from "@/atoms/PostAtom";
-import { RootState } from "@/redux/store";
-import { Key, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Comment, Like } from "@/atoms/PostAtom";
-import PostComment from "./PostComment";
-import { AbsoluteCenter, Box, Button, Divider, Heading, Textarea } from "@chakra-ui/react";
-import { getAllComment } from "../../../../apis/comments";
+import { Comment, Post } from "@/atoms/PostAtom";
 import usePosts from "@/hooks/usePosts";
-import { Text } from "@chakra-ui/react";
+import { AbsoluteCenter, Box, Button, Divider, Heading, Textarea } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { VscSend } from "react-icons/vsc";
+import { getAllComment } from "../../../../apis/comments";
+import PostComment from "./PostComment";
 type CommentWithReplies = Comment & {
   replies?: Comment[];
 

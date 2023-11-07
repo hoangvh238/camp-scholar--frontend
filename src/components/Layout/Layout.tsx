@@ -10,7 +10,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <div className="">
       <Navbar />
       <div className="pt-[45px]">
-      <main>{children}</main>
+        <main>{children}</main>
       </div>
     </div>
   );

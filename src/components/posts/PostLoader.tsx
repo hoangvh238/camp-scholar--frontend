@@ -1,11 +1,11 @@
-import React from "react";
 import {
-  Stack,
   Box,
-  SkeletonText,
   Skeleton,
+  SkeletonText,
+  Stack,
   useColorModeValue,
 } from "@chakra-ui/react";
+import React from "react";
 
 const PostLoader: React.FC = () => {
   const bg = useColorModeValue("white", "#1A202C");

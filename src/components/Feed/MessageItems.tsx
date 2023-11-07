@@ -10,7 +10,7 @@ import {
 import CryptoJS from "crypto-js";
 import { motion } from "framer-motion";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { MessageBody } from "./Messages";
 

@@ -1,12 +1,12 @@
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { CommunityState } from "../atoms/CommunitiesAtom";
 import {
   DirectoryMenuItem,
   directoryMenuState,
 } from "../atoms/directoryMenuAtom";
-import { FaReddit } from "react-icons/fa";
+import { FaFreeCodeCamp } from "react-icons/fa";
 
 const useDirectory = () => {
   const [directoryState, setDirectoryState] =
@@ -43,7 +43,7 @@ const useDirectory = () => {
           displayText: `r/${currentCommunity.groupName}`,
           link: `/group/${currentCommunity.groupId}`,
           imageURL: currentCommunity.imageURLGAvatar,
-          icon: FaReddit,
+          icon: FaFreeCodeCamp,
           iconColor: "blue.500",
         },
       }));

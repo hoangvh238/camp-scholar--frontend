@@ -11,23 +11,19 @@ import {
   Tooltip,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { doc, getDoc, Timestamp } from "firebase/firestore";
-import moment from "moment";
-import { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { FaRedditAlien, FaUserCheck } from "react-icons/fa";
-import { GiCakeSlice, GiCheckedShield } from "react-icons/gi";
-import { IoRocketSharp, IoShirtOutline } from "react-icons/io5";
-import { MdVerified } from "react-icons/md";
-import { useSetRecoilState } from "recoil";
-import EditProfileModal from "../Modal/EditProfile/EditProfileModal";
-import { authModelState } from "../../atoms/authModalAtom";
-import { auth, firestore } from "../../firebase/clientApp";
-import useDirectory from "../../hooks/useDirectory";
+
 import { User } from "@/atoms/userAtom";
-import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { PiMedalFill } from "react-icons/Pi"
+import { Timestamp } from "firebase/firestore";
+import { useState } from "react";
+import { FaMedal, FaUserCheck } from "react-icons/fa";
+import { IoShirtOutline } from "react-icons/io5";
+import { MdVerified } from "react-icons/md";
+import { useSelector } from "react-redux";
+import { useSetRecoilState } from "recoil";
+import { authModelState } from "../../atoms/authModalAtom";
+import useDirectory from "../../hooks/useDirectory";
+import EditProfileModal from "../Modal/EditProfile/EditProfileModal";
 interface RedditUserDocument {
   userId?: string;
   userName: string;
@@ -38,11 +34,11 @@ interface RedditUserDocument {
 }
 
 type Props = {
-  userData: User
+  userData: User;
+  totalGroup: number;
 };
 
-
-function ProfileSide({ userData }: Props) {
+function ProfileSide({ userData, totalGroup }: Props) {
   const [open, setOpen] = useState(false);
   const user = useSelector((state: RootState) => state.userInfor.currentUser);
   const [redditUser, setRedditUser] = useState<RedditUserDocument>();
@@ -51,17 +47,41 @@ function ProfileSide({ userData }: Props) {
   const bg = useColorModeValue("white", "#1A202C");
   const borderColor = useColorModeValue("gray.300", "#2D3748");
   const coint = useSelector((state: RootState) => state.userInfor.userCoint);
-  const point = useSelector((state: RootState) => state.userInfor.userPoint)
+  const point = useSelector((state: RootState) => state.userInfor.userPoint);
 
   const onClick = () => {
-    if (false) {
-      setAuthModelState({ open: true, view: "login" });
-      return;
-    }
-
     toggleMenuOpen();
   };
 
+  const levelTag = [
+    "Người mới",
+    "Chuyên cần",
+    "Chuyên sâu",
+    "Chuyên gia",
+    "Chuyên gia ưu tú",
+  ];
+  const levelColor = ["gray", "green", "blue", "yellow", "red"];
+  const depcriptions = [
+    "Cấp độ 1 : Cấp độ ban đầu của người dùng mới",
+    "Cấp độ 2 : Cấp độ của người dùng tích cực hoạt động trong hệ thống",
+    "Cấp độ 3 : Cấp độ của người dùng được mọi người đánh giá tốt trong hệ thống",
+    "Cấp độ 4 : Cấp độ người dùng có độ uy tín cao, được mọi người đánh giá cao trong hệ thống",
+    "Cấp độ 5: Cấp độ người dùng cao nhất, được đánh giá trên mức cao nhất của hệ thống",
+  ];
+
+  const getLevel = (point: number) => {
+    if (point < 1000) {
+      return 0;
+    } else if (point < 2000) {
+      return 1;
+    } else if (point < 3000) {
+      return 2;
+    } else if (point < 4000) {
+      return 3;
+    } else {
+      return 4;
+    }
+  };
 
   return (
     <Flex
@@ -72,7 +92,11 @@ function ProfileSide({ userData }: Props) {
       border="1px solid"
       borderColor={borderColor}
     >
-      <EditProfileModal open={open} handleClose={() => setOpen(false)} user={userData} />
+      <EditProfileModal
+        open={open}
+        handleClose={() => setOpen(false)}
+        user={userData}
+      />
       <Flex
         align="flex-end"
         justify="center"
@@ -92,7 +116,8 @@ function ProfileSide({ userData }: Props) {
           <Image
             src={userData.avatarURL}
             rounded="md"
-            height="80px"
+            minWidth={"110px"}
+            height="100px"
             mt="-50px"
             border="4px"
             borderColor="#fff"
@@ -100,7 +125,9 @@ function ProfileSide({ userData }: Props) {
         ) : (
           <Avatar
             src={redditUser?.redditImage}
-            name={userData?.userName || (userData?.email?.split("@")[0] as string)}
+            name={
+              userData?.userName || (userData?.email?.split("@")[0] as string)
+            }
             width="80px"
             height="80px"
             mt="-50px"
@@ -120,33 +147,37 @@ function ProfileSide({ userData }: Props) {
           <Text fontWeight="bold" fontSize="18pt">
             {userData?.userName || userData?.email?.split("@")[0]}
           </Text>
-          <Icon as={FaRedditAlien} fontSize="18pt" color="brand.100" />
-          <Icon as={GiCheckedShield} fontSize="18pt" color="brand.100" />
         </Flex>
       </Flex>
       <Text fontWeight="bold" fontSize="8pt" textAlign="center">
         {user.userId == userData.userId ? userData?.email : ""}
       </Text>
-      {user.userId == userData.userId ? <Button
-        width={80}
-        mt={2}
-        mb={2}
-        ml="auto"
-        mr="auto"
-        height="30px"
-        // bg="brand.100"
-        bgGradient="linear(to-r, brand.100, brand.100, yellow.500)"
-        _hover={{
-          bgGradient: "linear(to-r, yellow.500, brand.100, yellow.200)",
-        }}
-        display="flex"
-        justifyContent="start"
-        gap={10}
-        onClick={() => { setOpen(true) }}
-      >
-        <Icon as={IoShirtOutline} />
-        Chỉnh sửa thông tin cá nhân
-      </Button> : ""}
+      {user.userId == userData.userId ? (
+        <Button
+          width={80}
+          mt={2}
+          mb={2}
+          ml="auto"
+          mr="auto"
+          height="30px"
+          // bg="brand.100"
+          bgGradient="linear(to-r, brand.100, brand.100, yellow.500)"
+          _hover={{
+            bgGradient: "linear(to-r, yellow.500, brand.100, yellow.200)",
+          }}
+          display="flex"
+          justifyContent="start"
+          gap={10}
+          onClick={() => {
+            setOpen(true);
+          }}
+        >
+          <Icon as={IoShirtOutline} />
+          Chỉnh sửa thông tin cá nhân
+        </Button>
+      ) : (
+        ""
+      )}
       <Flex justify="center" gap={20} pt={5} pb={5}>
         <Stack>
           <Stack>
@@ -188,7 +219,7 @@ function ProfileSide({ userData }: Props) {
                 mt="auto"
                 mb="auto"
               />
-              2
+              {totalGroup}
             </Text>
           </Stack>
         </Stack>
@@ -197,55 +228,63 @@ function ProfileSide({ userData }: Props) {
             Cấp độ
           </Text>
           <Stack>
-          <Tooltip label={`Tiến trình : ${userData.activityPoint}/${userData.activityPoint > 1000 ? 3000 : 1000}`} fontSize='md'>
-              <span>  <CircularProgress value={userData.activityPoint > 1000 ? (userData.activityPoint)/ 30 : (userData.activityPoint / 10)} color='green.400'>
-              <CircularProgressLabel>{userData.activityPoint > 1000 ? Math.ceil(userData.activityPoint / 30) : (userData.activityPoint / 10)} %</CircularProgressLabel>
-            </CircularProgress></span>
+            <Tooltip
+              label={`${depcriptions[getLevel(userData.activityPoint)]}`}
+              fontSize="md"
+            >
+              <span>
+                <CircularProgress
+                  value={(userData.activityPoint % 1000) / 10} // Sử dụng phần dư để tính giá trị tiến trình trong khoảng từ 0 đến 100
+                  color={levelColor[getLevel(userData.activityPoint)]}
+                >
+                  <CircularProgressLabel>
+                    {`${(userData.activityPoint % 1000) / 10}%`}
+                  </CircularProgressLabel>
+                </CircularProgress>
+              </span>
             </Tooltip>
-          
           </Stack>
           <div className="w-full flex justify-center ">
-          <Tooltip label={userData.activityPoint > 1000 ? "Cấp độ chuyên gia" : "Cấp độ người mới"} fontSize='md'>
-                <span><PiMedalFill className="w-6 h-6"></PiMedalFill></span>
+            <Tooltip
+              label={levelTag[getLevel(userData.activityPoint)]}
+              fontSize="md"
+            >
+              <span>
+                <FaMedal
+                  className="w-6 h-6"
+                  color={levelColor[getLevel(userData.activityPoint)]}
+                ></FaMedal>
+              </span>
             </Tooltip>
           </div>
         </Stack>
-
       </Flex>
-      {user.userId == userData.userId ? <>  <Flex width="350px" pr={5} pl={5} gap={5} justify="center">
-        <Icon
-          as={IoRocketSharp}
-          color="brand.100"
-          textAlign="center"
-          m="auto"
-        />
-        <Text textAlign="center" fontSize="9pt">
-          Nhận sự hỗ trợ tốt hơn của chúng tôi khi đăng ký
-        </Text>
-      </Flex>
-        <Button
-          width={80}
-          mt={2}
-          mb={2}
-          ml="auto"
-          mr="auto"
-          height="30px"
-          display="flex"
-          justifyContent="center"
-          rounded="md"
-          onClick={onClick}
-        >
-          NEW POST
-        </Button></> : ""}
-      {/* <Text
-        textAlign="end"
-        fontSize="9pt"
-        p={2}
-        color="blue.500"
-        fontWeight="bold"
-      >
-        More Options
-      </Text> */}
+      {user.userId == userData.userId ? (
+        <>
+          {" "}
+          <Flex width="350px" pr={5} pl={5} gap={5} justify="center">
+            <Text textAlign="center" fontSize="9pt">
+              Bạn có nội dung gì mới ?
+            </Text>
+          </Flex>
+          <Button
+            width={80}
+            mt={2}
+            mb={2}
+            ml="auto"
+            mr="auto"
+            height="30px"
+            display="flex"
+            justifyContent="center"
+            rounded="md"
+            onClick={onClick}
+          >
+            Nhóm của tôi
+          </Button>
+        </>
+      ) : (
+        ""
+      )}
     </Flex>
   );
 }

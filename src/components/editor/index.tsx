@@ -1,66 +1,61 @@
 "use client";
-import React, { useState , Suspense} from "react";
-
+import React, { useState } from "react";
 
 import PlaygroundEditorTheme from "@lexicalLib/theme/EditorTheme";
 import PlaygroundNodes from "@nodes/PlaygroundNodes";
 
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 
-import TableCellNodes from "@nodes/TableCellNodes";
-import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
-import { ContentEditable } from "@lexical/react/LexicalContentEditable";
-import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
-import { ListPlugin } from "@lexical/react/LexicalListPlugin";
-import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { HashtagPlugin } from "@lexical/react/LexicalHashtagPlugin";
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
+import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
 import { ClearEditorPlugin } from "@lexical/react/LexicalClearEditorPlugin";
-import { TablePlugin } from "@lexical/react/LexicalTablePlugin";
-import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import LexicalClickableLinkPlugin from "@lexical/react/LexicalClickableLinkPlugin";
+import { LexicalComposer } from "@lexical/react/LexicalComposer";
+import { ContentEditable } from "@lexical/react/LexicalContentEditable";
+import { HashtagPlugin } from "@lexical/react/LexicalHashtagPlugin";
+import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { HorizontalRulePlugin } from "@lexical/react/LexicalHorizontalRulePlugin";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { TabIndentationPlugin } from "@lexical/react/LexicalTabIndentationPlugin";
+import { TablePlugin } from "@lexical/react/LexicalTablePlugin";
+import TableCellNodes from "@nodes/TableCellNodes";
 
-import FloatingTextFormatToolbarPlugin from "@plugins/FloatingTextFormatToolbarPlugin";
-import { TableContext } from "@plugins/TablePlugin";
-import ToolbarPlugin from "@plugins/ToolbarPlugin";
-import TreeViewPlugin from "@plugins/TreeViewPlugin";
-import Placeholder from "@ui/Placeholder";
-import DragDropPaste from "@plugins/DragDropPastePlugin";
 import AutoEmbedPlugin from "@plugins/AutoEmbedPlugin";
 import ComponentPickerPlugin from "@plugins/ComponentPickerPlugin";
-import EmojiPickerPlugin from "@plugins/EmojiPickerPlugin";
-import NewMentionsPlugin from "@plugins/MentionsPlugin";
+import DragDropPaste from "@plugins/DragDropPastePlugin";
 import EmojisPlugin from "@plugins/EmojisPlugin";
+import FloatingTextFormatToolbarPlugin from "@plugins/FloatingTextFormatToolbarPlugin";
 import KeywordsPlugin from "@plugins/KeywordsPlugin";
+import NewMentionsPlugin from "@plugins/MentionsPlugin";
+import { TableContext } from "@plugins/TablePlugin";
+import ToolbarPlugin from "@plugins/ToolbarPlugin";
+import Placeholder from "@ui/Placeholder";
 // import CommentPlugin from '@plugins/CommentPlugin';
 import AutoLinkPlugin from "@plugins/AutoLinkPlugin";
-import MarkdownShortcutPlugin from "@plugins/MarkdownShortcutPlugin";
+import CodeActionMenuPlugin from "@plugins/CodeActionMenuPlugin";
 import CodeHighlightPlugin from "@plugins/CodeHighlightPlugin";
-import LinkPlugin from "@plugins/LinkPlugin";
-import ListMaxIndentLevelPlugin from "@plugins/ListMaxIndentLevelPlugin";
-import TableCellResizer from "@plugins/TableCellResizer";
-import { TablePlugin as NewTablePlugin } from "@plugins/TablePlugin";
-import MentionsPlugin from "@plugins/MentionsPlugin";
-import ImagesPlugin from "@plugins/ImagesPlugin";
-import InlineImagePlugin from "@plugins/InlineImagePlugin";
-import PollPlugin from "@plugins/PollPlugin";
-import YouTubePlugin from "@plugins/YouTubePlugin";
-import TwitterPlugin from "@plugins/TwitterPlugin";
-import FigmaPlugin from "@plugins/FigmaPlugin";
+import DraggableBlockPlugin from "@plugins/DraggableBlockPlugin";
 import EquationsPlugin from "@plugins/EquationsPlugin";
 import ExcalidrawPlugin from "@plugins/ExcalidrawPlugin";
-import TabFocusPlugin from "@plugins/TabFocusPlugin";
-import PageBreakPlugin from "@plugins/PageBreakPlugin";
-import ActionsPlugin from "@plugins/ActionsPlugin";
-import StickyPlugin from "@plugins/StickyPlugin";
+import FigmaPlugin from "@plugins/FigmaPlugin";
 import FloatingLinkEditorPlugin from "@plugins/FloatingLinkEditorPlugin";
-import DraggableBlockPlugin from "@plugins/DraggableBlockPlugin";
-import CodeActionMenuPlugin from "@plugins/CodeActionMenuPlugin";
-import TableActionMenuPlugin from "@plugins/TableActionMenuPlugin";
-import SpeechToTextPlugin from "@plugins/SpeechToTextPlugin";
 import HTMLSerializerPlugin from "@plugins/HtmlSerializerPlugin";
+import ImagesPlugin from "@plugins/ImagesPlugin";
+import InlineImagePlugin from "@plugins/InlineImagePlugin";
+import LinkPlugin from "@plugins/LinkPlugin";
+import ListMaxIndentLevelPlugin from "@plugins/ListMaxIndentLevelPlugin";
+import MarkdownShortcutPlugin from "@plugins/MarkdownShortcutPlugin";
+import MentionsPlugin from "@plugins/MentionsPlugin";
+import PageBreakPlugin from "@plugins/PageBreakPlugin";
+import PollPlugin from "@plugins/PollPlugin";
+import SpeechToTextPlugin from "@plugins/SpeechToTextPlugin";
+import StickyPlugin from "@plugins/StickyPlugin";
+import TabFocusPlugin from "@plugins/TabFocusPlugin";
+import TableActionMenuPlugin from "@plugins/TableActionMenuPlugin";
+import { TablePlugin as NewTablePlugin } from "@plugins/TablePlugin";
+import TwitterPlugin from "@plugins/TwitterPlugin";
+import YouTubePlugin from "@plugins/YouTubePlugin";
 // import AutocompletePlugin from '@plugins/AutocompletePlugin';
 import TextCounterPlugin from "@plugins/TextCounterPlugin";
 import dynamic from "next/dynamic";
@@ -106,7 +101,6 @@ function EditorLarge({
     }
   };
 
-
   const handleSubmitNotification = () => {
     console.log("POST NOTIFICATION TO SEVER!");
   };
@@ -121,19 +115,27 @@ function EditorLarge({
     else return;
   };
 
-  const NoSSRTableSellResizer:any = dynamic(() => import('@lexicalLib/plugins/TableCellResizer'), {ssr:false});
-  const NoSSRFloatingLinkEditorPlugin:any = dynamic(() => import('@lexicalLib/plugins/FloatingLinkEditorPlugin'), {ssr:false});
-  const NOSSRActionsPlugin:any = dynamic(() => import('@lexicalLib/plugins/ActionsPlugin'), {ssr:false});
+  const NoSSRTableSellResizer: any = dynamic(
+    () => import("@lexicalLib/plugins/TableCellResizer"),
+    { ssr: false },
+  );
+  const NoSSRFloatingLinkEditorPlugin: any = dynamic(
+    () => import("@lexicalLib/plugins/FloatingLinkEditorPlugin"),
+    { ssr: false },
+  );
+  const NOSSRActionsPlugin: any = dynamic(
+    () => import("@lexicalLib/plugins/ActionsPlugin"),
+    { ssr: false },
+  );
   return (
     <div className="flex flex-col gap-[8px]">
-
       <div className="editor-shell">
         <LexicalComposer initialConfig={editorConfig}>
           <TableContext>
             <div className="border-2 rounded-[10px]">
               <div>{<ToolbarPlugin />}</div>
               <div className="relative">
-                <HistoryPlugin/>
+                <HistoryPlugin />
                 <DragDropPaste />
                 <AutoFocusPlugin />
                 <ClearEditorPlugin />
@@ -169,7 +171,7 @@ function EditorLarge({
                   hasCellMerge={true}
                   hasCellBackgroundColor={true}
                 />
-                <NoSSRTableSellResizer/>
+                <NoSSRTableSellResizer />
                 <NewTablePlugin cellEditorConfig={cellEditorConfig}>
                   <AutoFocusPlugin />
                   <RichTextPlugin
@@ -193,7 +195,7 @@ function EditorLarge({
                 <ImagesPlugin />
                 <InlineImagePlugin />
                 <LinkPlugin />
-                <NoSSRFloatingLinkEditorPlugin/>
+                <NoSSRFloatingLinkEditorPlugin />
                 <PollPlugin />
                 <TwitterPlugin />
                 <YouTubePlugin />

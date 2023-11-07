@@ -1,11 +1,11 @@
 import { Flex, Stack } from "@chakra-ui/react";
 import { User } from "firebase/auth";
 import {
+  Timestamp,
   collection,
   onSnapshot,
   orderBy,
   query,
-  Timestamp,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 

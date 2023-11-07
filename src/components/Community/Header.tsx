@@ -1,5 +1,6 @@
+import { RootState } from "@/redux/store";
 import {
-  Box,
+  Badge,
   Button,
   Flex,
   Icon,
@@ -8,8 +9,9 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
+import { GiForestCamp } from "react-icons/gi";
+import { useSelector } from "react-redux";
 import { Community } from "../../atoms/CommunitiesAtom";
-import { FaReddit } from "react-icons/fa";
 import useCommunityData from "../../hooks/useCommunityData";
 
 type HeaderProps = {
@@ -18,32 +20,30 @@ type HeaderProps = {
 
 const Header: React.FC<HeaderProps> = ({ communityData }) => {
   const bg = useColorModeValue("white", "#1A202C");
+  const user = useSelector((state: RootState) => state.userInfor.currentUser);
   const { communityStateValue, onJoinOrCommunity, loading } =
     useCommunityData();
   const isJoined = !!communityStateValue.mySnippets.find(
-    (item) => item.groupId === communityData?.groupId
+    (item) => item.groupId === communityData?.groupId,
   );
-  console.log("data"+communityData.groupId);
-  
+
   return (
     <Flex direction="column" width="100%" height="306px">
-     <Flex
-  align="flex-end"
-  justify="center"
-  color="white"
-  p="6px 10px"
-  bg="blue.500"
-  height="90%"
-  borderRadius="4px 4px 0px 0px"
-  fontWeight={600}
-  // Set the background image and size
-  bgImage={`url(${communityData.imageUrlGCover})`}
-  backgroundSize="cover"
-  bgGradient="linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75)),
+      <Flex
+        align="flex-end"
+        justify="center"
+        color="white"
+        p="6px 10px"
+        bg="blue.500"
+        height="90%"
+        borderRadius="4px 4px 0px 0px"
+        fontWeight={600}
+        // Set the background image and size
+        bgImage={`url(${communityData.imageUrlGCover})`}
+        backgroundSize="cover"
+        bgGradient="linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75)),
   url('https://source.unsplash.com/1600x900/?nature,photography,technolog')"
->
-  
-</Flex>
+      ></Flex>
 
       <Flex justifyContent="center" bg={bg} height="20%">
         <Flex width="95%" maxWidth="860px">
@@ -59,14 +59,16 @@ const Header: React.FC<HeaderProps> = ({ communityData }) => {
               border="4px solid white"
             />
           ) : (
-            <Icon
-              as={FaReddit}
-              fontSize={64}
+            <Image
+              borderRadius="full"
+              backgroundColor={bg}
+              boxSize="66px"
+              src={"/images/fireslow.gif"}
+              alt="profile Image"
               position="relative"
               top={-3}
               color="blue.500"
               border="4px solid white"
-              borderRadius="50%"
             />
           )}
           <Flex padding="10px 16px">
@@ -78,18 +80,24 @@ const Header: React.FC<HeaderProps> = ({ communityData }) => {
                 group/{communityData?.groupName}
               </Text>
             </Flex>
-            <Button
-              variant={isJoined ? "outline" : "solid"}
-              height="30px"
-              pr={6}
-              pl={6}
-              isLoading={loading}
-              onClick={() => {
-                onJoinOrCommunity(communityData, isJoined);
-              }}
-            >
-              {isJoined ? "Rời nhóm" : "Tham gia"}
-            </Button>
+            {user?.userName === communityData?.hosts ? (
+              <Badge variant="subtle" className="h-5" colorScheme="red">
+                Chủ nhóm
+              </Badge>
+            ) : (
+              <Button
+                variant={isJoined ? "outline" : "solid"}
+                height="30px"
+                pr={6}
+                pl={6}
+                isLoading={loading}
+                onClick={() => {
+                  onJoinOrCommunity(communityData, isJoined);
+                }}
+              >
+                {isJoined ? "Rời nhóm" : "Tham gia"}
+              </Button>
+            )}
           </Flex>
         </Flex>
       </Flex>

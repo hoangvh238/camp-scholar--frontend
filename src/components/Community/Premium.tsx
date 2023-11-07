@@ -1,13 +1,16 @@
 import {
   Button,
   Flex,
-  Icon,
+  Image,
+  List,
+  ListIcon,
+  ListItem,
   Stack,
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
-import { GiCheckedShield } from "react-icons/gi";
+import { MdCheckCircle, MdSettings } from "react-icons/md";
 
 const Premium: React.FC = () => {
   const bg = useColorModeValue("white", "#1A202C");
@@ -24,10 +27,36 @@ const Premium: React.FC = () => {
       borderColor={borderColor}
     >
       <Flex mb={2}>
-        <Icon as={GiCheckedShield} fontSize={26} color="brand.100" mt={2} />
+        <Image src="/images/fires.gif" height="100px" />
         <Stack spacing={1} fontSize="9pt" pl={2}>
-          <Text fontWeight={600}>Thử Camp Scholar PRO</Text>
-          <Text>Trải nghiệm Camp Scholar với những tính năng nâng cao !</Text>
+          <Flex mb={2}>
+            <Stack spacing={1} fontSize="9pt" pl={2}>
+              <Text fontWeight={600} fontSize={"14px"}>
+                Tham gia Camp Scholar PRO
+              </Text>
+              <Text className="text-[12px] font-bold font-italic">
+                Trải nghiệm Camp Scholar với 🚀
+              </Text>
+              <List spacing={3}>
+                <ListItem>
+                  <ListIcon as={MdCheckCircle} color="green.500" />
+                  Tìm kiếm nội dung với AI 🔍
+                </ListItem>
+                <ListItem>
+                  <ListIcon as={MdCheckCircle} color="green.500" />
+                  Tương tác, hỏi đáp PDF với AI 💬
+                </ListItem>
+                <ListItem>
+                  <ListIcon as={MdCheckCircle} color="green.500" />
+                  Giao diện tối tốt cho việc đọc bài 🌙
+                </ListItem>
+                <ListItem>
+                  <ListIcon as={MdSettings} color="green.500" />
+                  Chỉ với 50 Xu một tháng 💰
+                </ListItem>
+              </List>
+            </Stack>
+          </Flex>
         </Stack>
       </Flex>
       <Button height="30px" bg="brand.100">

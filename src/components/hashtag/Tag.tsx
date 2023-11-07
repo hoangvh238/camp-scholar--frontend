@@ -1,25 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import Select from 'react-select';
-import makeAnimated from 'react-select/animated';
-import { Category, Hashtag } from '@/atoms/categoryAtom';
-import { getFullCate, getHashTag } from '../../../apis/category';
+import { Category, Hashtag } from "@/atoms/CategoryAtom";
+import { useEffect, useState } from "react";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
+import { getFullCate, getHashTag } from "../../../apis/category";
 
 type Selection = {
   value: string;
   label: string;
   categoryId: number;
   description: string;
-}
+};
 
 type HashTagSelection = {
   value: string;
   label: string;
   tagId: number;
-}
+};
 function Tag() {
   const animatedComponents = makeAnimated();
   const [selectedOption, setSelectedOption] = useState<Selection>(); // Explicitly specify the type here
-  const [selectedOptionHashTag, setSelectedOptionHashTag] = useState<HashTagSelection[]>();
+  const [selectedOptionHashTag, setSelectedOptionHashTag] =
+    useState<HashTagSelection[]>();
   const [count, SetCount] = useState(0);
   const [options, setOptions] = useState<Selection[]>([]);
   const [optionsHashTag, setOptionsHashTag] = useState<HashTagSelection[]>([]);
@@ -36,12 +37,10 @@ function Tag() {
       }));
 
       setOptions(updatedOptions);
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error);
-
     }
-  }
+  };
   const handleSelectChange = (newValue: any) => {
     setSelectedOption(newValue);
   };
@@ -57,23 +56,18 @@ function Tag() {
       const updatedOptions = dataCate.map((data: Hashtag) => ({
         value: data.tagName,
         label: data.tagName,
-        tagId: data.tagId
-
+        tagId: data.tagId,
       }));
 
       setOptionsHashTag(updatedOptions);
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error);
-
     }
-  }
+  };
   useEffect(() => {
     if (!selectedOption) return;
     getFullHashTag(selectedOption.categoryId);
-    const data:HashTagSelection[] = [
-
-    ]
+    const data: HashTagSelection[] = [];
     setSelectedOptionHashTag(data);
   }, [selectedOption]);
 
@@ -85,35 +79,32 @@ function Tag() {
     }
 
     if (selectedOption) {
-    
-      localStorage.setItem('cate', JSON.stringify(selectedOption.value));
+      localStorage.setItem("cate", JSON.stringify(selectedOption.categoryId));
     }
     if (selectedOptionHashTag) {
-   
-      const values = selectedOptionHashTag.map(option => option.value);
-          
-      localStorage.setItem('hashtag', JSON.stringify(values.toString()));
+      const values = selectedOptionHashTag.map((option) => option.value);
+
+      localStorage.setItem("hashtag", JSON.stringify(values.toString()));
     }
-  }, [selectedOptionHashTag])
+  }, [selectedOptionHashTag]);
   useEffect(() => {
     getListCate();
-  }, [])
+  }, []);
 
   useEffect(() => {
-    // Đặt selectedOptionHashTag thành mảng rỗng khi selectedOption thay đổi
     setSelectedOptionHashTag([]);
   }, [selectedOption]);
   return (
     <>
       <div>
         <h3 className="font-[700] text-xl">{"Lĩnh vực"}</h3>
-        <p className='font-[300] text-sm pb-2'>
+        <p className="font-[300] text-sm pb-2">
           {"Chọn lĩnh vực hoạt động chính của trang web"}
         </p>
         <Select
           closeMenuOnSelect={false}
           components={animatedComponents}
-          onChange={handleSelectChange} // Use the explicitly typed function
+          onChange={handleSelectChange}
           defaultValue={null}
           isDisabled={false}
           isMulti={false} // Use boolean directly
@@ -122,8 +113,10 @@ function Tag() {
       </div>
       <div>
         <h3 className="font-[700] text-xl">{"Chọn chuyên đề hẹp của nhóm"}</h3>
-        <p className='font-[300] text-sm pb-2'>
-          {"Chuyên đề hẹp giúp nhóm bạn tập trung phát triển vào nội dung cụ thể hơn"}
+        <p className="font-[300] text-sm pb-2">
+          {
+            "Chuyên đề hẹp giúp nhóm bạn tập trung phát triển vào nội dung cụ thể hơn"
+          }
         </p>
         <Select
           closeMenuOnSelect={false}
@@ -133,10 +126,11 @@ function Tag() {
           isDisabled={false}
           isMulti={true} // Use boolean directly
           options={optionsHashTag}
-          value = {selectedOptionHashTag}
+          value={selectedOptionHashTag}
           isOptionDisabled={(option) => count >= 5}
         />
-      </div></>
+      </div>
+    </>
   );
 }
 
