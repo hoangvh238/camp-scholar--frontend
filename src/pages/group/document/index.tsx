@@ -1,3 +1,4 @@
+'use client'
 import { motion } from "framer-motion";
 import Head from "next/head";
 import { useEffect, useState } from "react";

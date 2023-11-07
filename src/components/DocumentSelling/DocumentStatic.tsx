@@ -1,3 +1,4 @@
+'use client'
 import type { TableColumnsType } from "antd";
 import { Table } from "antd";
 import React, { useEffect, useState } from "react";
