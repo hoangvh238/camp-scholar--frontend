@@ -1,4 +1,4 @@
-"use client";
+
 import DocViewer from "@cyntler/react-doc-viewer";
 import { getCookie } from "cookies-next";
 import React, { useState } from "react";

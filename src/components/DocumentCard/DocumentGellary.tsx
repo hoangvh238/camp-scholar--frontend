@@ -1,4 +1,4 @@
-"use client";
+
 import { Document } from "@/atoms/DocumentAtom";
 import useDocuments from "@/hooks/useDocument";
 import { Stack } from "@chakra-ui/react";
