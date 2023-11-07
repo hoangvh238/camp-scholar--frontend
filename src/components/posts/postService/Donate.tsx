@@ -45,7 +45,7 @@ const Donate: React.FC<DonateItems> = ({ postId, type }) => {
   const IconBg = useColorModeValue("none", "#A0AEC0");
   const [value, setValue] = React.useState(0);
   const handleChange = (value: any) => setValue(value);
-
+  const currCoint =   useSelector((state: RootState) => state.userInfor.userCoint).coint;
   const getBackgroundColor = (value: number) => {
     const hue = (value / 100) * 100;
     return `hsl(${hue}, 100%, 50%)`;
@@ -57,8 +57,8 @@ const Donate: React.FC<DonateItems> = ({ postId, type }) => {
       onClose();
       const coint: UserCoint = {
         coint:
-          useSelector((state: RootState) => state.userInfor.userCoint).coint -
-          value,
+        currCoint - value,
+          
       };
       dispatch(
         updateCoint({
