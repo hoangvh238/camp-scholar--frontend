@@ -1,6 +1,4 @@
-.env*.local
 .env
-.env.local
 /node_modules
 # next.js
 /.next/
