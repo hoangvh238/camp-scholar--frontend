@@ -44,8 +44,13 @@ const Donate: React.FC<DonateItems> = ({ postId, type }) => {
   const IconHoverBg = useColorModeValue("gray.200", "#2A4365");
   const IconBg = useColorModeValue("none", "#A0AEC0");
   const [value, setValue] = React.useState(0);
-  const handleChange = (value: any) => setValue(value);
-  const currCoint =   useSelector((state: RootState) => state.userInfor.userCoint).coint;
+
+  const handleChange = (newValue: number) => {
+    setValue(newValue);
+  };
+
+  const currentCoin = useSelector((state: RootState) => state.userInfor.userCoint.coint);
+
   const getBackgroundColor = (value: number) => {
     const hue = (value / 100) * 100;
     return `hsl(${hue}, 100%, 50%)`;
@@ -55,17 +60,12 @@ const Donate: React.FC<DonateItems> = ({ postId, type }) => {
     try {
       await donatePost(postId, value);
       onClose();
-      const coint: UserCoint = {
-        coint:
-        currCoint - value,
-          
-      };
-      dispatch(
-        updateCoint({
-          coint,
-        }),
-      );
 
+      const updatedCoin: UserCoint = {
+        coint: currentCoin - value,
+      };
+
+      dispatch(updateCoint({ coint: updatedCoin }));
       window.location.reload();
     } catch (error) {
       console.log(error);
@@ -86,24 +86,14 @@ const Donate: React.FC<DonateItems> = ({ postId, type }) => {
           <ModalCloseButton />
           <ModalBody pb={6}>
             <Flex>
-              <NumberInput
-                maxW="100px"
-                mr="2rem"
-                value={value}
-                onChange={handleChange}
-              >
+              <NumberInput maxW="100px" mr="2rem" value={value} onChange={handleChange}>
                 <NumberInputField />
                 <NumberInputStepper>
                   <NumberIncrementStepper />
                   <NumberDecrementStepper />
                 </NumberInputStepper>
               </NumberInput>
-              <Slider
-                flex="1"
-                focusThumbOnChange={false}
-                value={value}
-                onChange={handleChange}
-              >
+              <Slider flex="1" focusThumbOnChange={false} value={value} onChange={handleChange}>
                 <SliderTrack>
                   <SliderFilledTrack background={getBackgroundColor(value)} />
                 </SliderTrack>
@@ -111,37 +101,24 @@ const Donate: React.FC<DonateItems> = ({ postId, type }) => {
               </Slider>
             </Flex>
             <div className="flex justify-center mt-5 content-center gap-2">
-              <Text fontWeight={"bold"}>Bạn sẽ ủng hộ : {value}</Text>
+              <Text fontWeight="bold">Bạn sẽ ủng hộ: {value}</Text>
               <div className="flex flex-col justify-center">
-                <BsCoin></BsCoin>
+                <BsCoin />
               </div>
             </div>
           </ModalBody>
 
           <ModalFooter>
-            <Button
-              colorScheme="blue"
-              mr={3}
-              onClick={() => {
-                handleDonate();
-              }}
-            >
+            <Button colorScheme="blue" mr={3} onClick={handleDonate}>
               Gửi
             </Button>
             <Button onClick={onClose}>Hủy</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <Flex
-        onClick={onOpen}
-        align="center"
-        p="8px 10px"
-        borderRadius={4}
-        _hover={{ bg: IconHoverBg }}
-        cursor="pointer"
-      >
+      <Flex onClick={onOpen} align="center" p="8px 10px" borderRadius={4} _hover={{ bg: IconHoverBg }} cursor="pointer">
         <Icon as={LiaDonateSolid} mr={2} color={IconBg} />
-        {type == "post" ? (
+        {type === "post" ? (
           <Text fontSize="9pt" color={IconBg} onClick={onOpen}>
             Donate
           </Text>
@@ -152,4 +129,5 @@ const Donate: React.FC<DonateItems> = ({ postId, type }) => {
     </>
   );
 };
+
 export default Donate;
