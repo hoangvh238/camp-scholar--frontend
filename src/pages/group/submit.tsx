@@ -66,7 +66,7 @@ const Page: React.FC = () => {
             onChange={(e) => setGroup(Number(e.target.value))}
           >
             {communityStateValue.mySnippets.map((snippet) => (
-              <option value={snippet.groupId}>
+              <option key={snippet.groupId} value={snippet.groupId}>
                 {" "}
                 Group : {snippet.groupName}
               </option>

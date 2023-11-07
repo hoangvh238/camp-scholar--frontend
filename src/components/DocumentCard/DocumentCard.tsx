@@ -212,14 +212,6 @@ const DocumentCard: React.FC<DocumentCard> = ({
           >
             {document.documentName}
           </Typography>
-          <Typography
-            color="blue-gray"
-            className="font-medium"
-            nonce={undefined}
-            onResize={undefined}
-            onResizeCapture={undefined}
-            children={undefined}
-          ></Typography>
         </div>
         <Typography
           variant="small"

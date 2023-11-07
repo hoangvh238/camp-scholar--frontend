@@ -1,22 +1,11 @@
 "use client"
-import './index.module.css';
 import dynamic from 'next/dynamic';
+import './index.module.css';
 
-import {
-  $isCodeNode,
-  CodeNode,
-  getLanguageFriendlyName,
-  normalizeCodeLang,
-} from '@lexical/code';
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {$getNearestNodeFromDOMNode} from 'lexical';
-import {useEffect, useRef, useState} from 'react';
 import * as React from 'react';
-import {createPortal} from 'react-dom';
+import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
-import {CopyButton} from './components/CopyButton';
-import {canBePrettier, PrettierButton} from './components/PrettierButton';
-import {useDebounce} from './utils';
 
 
 

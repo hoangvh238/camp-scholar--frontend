@@ -107,7 +107,9 @@ const Donate: React.FC<DonateItems> = ({ postId, type }) => {
                 <SliderTrack>
                   <SliderFilledTrack background={getBackgroundColor(value)} />
                 </SliderTrack>
-                <SliderThumb fontSize="sm" boxSize="32px" children={value} />
+                <SliderThumb fontSize="sm" boxSize="32px">
+                  {value}
+                </SliderThumb>
               </Slider>
             </Flex>
             <div className="flex justify-center mt-5 content-center gap-2">
@@ -141,12 +143,10 @@ const Donate: React.FC<DonateItems> = ({ postId, type }) => {
         cursor="pointer"
       >
         <Icon as={LiaDonateSolid} mr={2} color={IconBg} />
-        {type == "post" ? (
-         <Text fontSize="9pt" color={IconBg} onClick={onOpen}>
-         {"Donate"}
-       </Text>
-        ) : (
-          ""
+        {type == "post" && (
+          <Text fontSize="9pt" color={IconBg}>
+            Donate
+          </Text>
         )}
       </Flex>
     </>

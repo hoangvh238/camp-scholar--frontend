@@ -181,7 +181,7 @@ const About: React.FC<AboutProps> = ({ communityData }) => {
 
             <Wrap spacing="10px" maxWidth={"400px"}>
               {communityData.hashtag.split(",").map((value: string) => (
-                <WrapItem>
+                <WrapItem key={value}>
                   <Tag
                     size={"lg"}
                     key={"lg"}

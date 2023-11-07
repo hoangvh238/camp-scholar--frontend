@@ -11,7 +11,7 @@ import {useEffect, useRef, useState} from 'react';
 import * as React from 'react';
 
 import {CopyButton} from '../CopyButton';
-import {canBePrettier, PrettierButton} from '../PrettierButton';
+// import {canBePrettier, PrettierButton} from '../PrettierButton';
 import {useDebounce} from '../../utils';
 
 const CODE_PADDING = 8;
@@ -128,13 +128,13 @@ function CodeActionMenuContainer({
         <div className="code-action-menu-container" style={{...position}}>
           <div className="code-highlight-language">{codeFriendlyName}</div>
           <CopyButton editor={editor} getCodeDOMNode={getCodeDOMNode} />
-          {canBePrettier(normalizedLang) ? (
+          {/* {canBePrettier(normalizedLang) ? (
             <PrettierButton
               editor={editor}
               getCodeDOMNode={getCodeDOMNode}
               lang={normalizedLang}
             />
-          ) : null}
+          ) : null} */}
         </div>
       ) : null}
     </>

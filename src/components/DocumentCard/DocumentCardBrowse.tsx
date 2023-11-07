@@ -4,12 +4,12 @@ import React, { useEffect, useState } from "react";
 import { Document } from "@/atoms/DocumentAtom";
 import { Flex, Stack, Tag, useColorModeValue } from "@chakra-ui/react";
 import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Typography,
+    Button,
+    Card,
+    CardBody,
+    CardFooter,
+    CardHeader,
+    Typography,
 } from "@material-tailwind/react";
 import { getCookie } from "cookies-next";
 import { LuView } from "react-icons/lu";
@@ -175,14 +175,6 @@ const DocumentCardBrowse: React.FC<DocumentCard> = ({
           >
             {document.documentName}
           </Typography>
-          <Typography
-            color="blue-gray"
-            className="font-medium"
-            nonce={undefined}
-            onResize={undefined}
-            onResizeCapture={undefined}
-            children={undefined}
-          ></Typography>
         </div>
         <Typography
           variant="small"
