@@ -278,7 +278,7 @@ const PaymentModal: React.FC<DocumentReviewModal> = ({
             onMouseLeave={() => setHoverTabBtn("")}
             onMouseMove={() => setHoverTabBtn("buy")}
      >
-            <Button style={{ whiteSpace: 'nowrap' }} color="green" variant="gradient" className="w-[100%] rounded-[10px] px-[55px] py-7 " nonce={undefined} onResize={undefined} onResizeCapture={undefined}>Nạp xu</Button>
+            <Button style={{ whiteSpace: 'nowrap' }} color="green" variant="gradient" className="w-[100%] rounded-[10px] px-[55px] py-7 ">Nạp xu</Button>
           </Tab>
           <Tab
             className="w-[48%] h-full"
@@ -288,7 +288,7 @@ const PaymentModal: React.FC<DocumentReviewModal> = ({
             onMouseLeave={() => setHoverTabBtn("")}
             onMouseMove={() => setHoverTabBtn("exchange")}
             >
-            <Button style={{ whiteSpace: 'nowrap' }} color="deep-orange" variant="gradient" className="w-[100%] rounded-[10px] px-[45px] py-7 " nonce={undefined} onResize={undefined} onResizeCapture={undefined}>Rút tiền</Button>
+            <Button style={{ whiteSpace: 'nowrap' }} color="deep-orange" variant="gradient" className="w-[100%] rounded-[10px] px-[45px] py-7 " >Rút tiền</Button>
           </Tab>
 
         </Flex>
