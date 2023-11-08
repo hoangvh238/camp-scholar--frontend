@@ -16,7 +16,7 @@ const PaypalBtn: React.FC<PaypalBtn> = ({ dolar, userId }) => {
       <PayPalScriptProvider
         options={{
           clientId:
-            "AfjeUBEZZPAGm0u1Wlz6t6V_W4Xkq0KpzZc4UeyOqfh3aVCkYCUlOwGnxhlkeHqhHg3q6IrjP_qMl2yC&currency=USD",
+            "AdaiaDzDPyBEbZW7PS9w2joYQkPNabn9o-86KZDcV8JP0nWj2ieLb7f0BtbW3A1ZhcTn4RoAz1ZybBtZ&currency=USD",
         }}
       >
         <PayPalButtons

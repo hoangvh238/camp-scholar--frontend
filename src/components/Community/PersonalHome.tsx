@@ -30,7 +30,7 @@ const PersonalHome: React.FC = () => {
         height="34px"
         borderRadius="4px 4px 0px 0px"
         fontWeight={600}
-        bgImage="url(/images/sgf6r5easbh31.jpg)"
+        bgImage="url(/images/recCommsArt.png)"
         backgroundSize="cover"
       ></Flex>
       <Flex direction="column" p="12px">

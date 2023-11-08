@@ -66,7 +66,7 @@ const Donate: React.FC<DonateItems> = ({ postId, type }) => {
           coint,
         }),
       );
-
+      message.success("Donate thành công "+`${value}`+" Xu")
     } catch (error) {
       message.warning("Bạn cần nạp thêm "+`${value - currCoint}`+" Xu")
     }

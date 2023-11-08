@@ -62,7 +62,7 @@ const Recommendation: React.FC = () => {
         bgImage="url(/images/recCommsArt.png)"
         backgroundSize="cover"
         bgGradient="linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75)),
-        url('images/xw6wqhhjubh31.webp')"
+        url('images/rePub.png')"
       >
         Những nhóm mà bạn có thể quan tâm
       </Flex>
