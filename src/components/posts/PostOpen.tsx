@@ -373,18 +373,18 @@ const PostOpen: React.FC<PostItemProps> = ({
                   />
                 )}
 
-                <Link href={`group/${post.groupId}`}>
+                <Link href={`/group/${post.groupId}`}>
                   <Text
                     fontWeight={700}
                     _hover={{ textDecoration: "underline" }}
                     onClick={(event) => event.stopPropagation}
-                  >{`Group/${post.groupName}`}</Text>
+                  >{`Nhóm/${post.groupName}`}</Text>
                 </Link>
                 <Icon as={BsDot} color="gray.500" fontSize={8} />
               </>
             )}
             <Text>
-              Posted by{" "}
+              Đăng bởi{" "}
               <Link className="font-bold" href={`profile/${post.author}`}>
                 {post.author}
               </Link>{" "}

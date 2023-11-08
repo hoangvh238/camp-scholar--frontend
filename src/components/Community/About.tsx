@@ -99,7 +99,7 @@ const About: React.FC<AboutProps> = ({ communityData }) => {
         borderRadius="4px 4px 0px 0px"
       >
         <Text fontSize="10pt" fontWeight={700}>
-          About Community
+          Về nhóm
         </Text>
         <Icon as={HiOutlineDotsHorizontal} cursor="pointer" />
       </Flex>
@@ -112,7 +112,7 @@ const About: React.FC<AboutProps> = ({ communityData }) => {
             </Flex>
             <Flex direction="column" flexGrow={1}>
               <Text>1</Text>
-              <Text>Online</Text>
+              <Text>Trực tuyến</Text>
             </Flex>
           </Flex>
           <Divider />
@@ -164,13 +164,7 @@ const About: React.FC<AboutProps> = ({ communityData }) => {
               fontWeight={700}
               justify={"center"}
             >
-              <Tag size="lg" colorScheme="telegram" borderRadius="full">
-                <Avatar
-                  size="xs"
-                  name={communityData.category}
-                  ml={-1}
-                  mr={2}
-                />
+              <Tag size="lg" variant={"outline"} borderRadius="full">
                 <TagLabel>{communityData.category}</TagLabel>
               </Tag>
             </Flex>

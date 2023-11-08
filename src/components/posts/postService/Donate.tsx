@@ -30,6 +30,7 @@ import { donatePost } from "../../../../apis/posts";
 import { UserCoint, updateCoint } from "@/redux/slices/userInfor";
 import { RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
+import { message } from "antd";
 
 type DonateItems = {
   postId: number;
@@ -66,9 +67,8 @@ const Donate: React.FC<DonateItems> = ({ postId, type }) => {
         }),
       );
 
-      window.location.reload();
     } catch (error) {
-      console.log(error);
+      message.warning("Bạn cần nạp thêm "+`${value - currCoint}`+" Xu")
     }
   };
 

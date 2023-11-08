@@ -386,12 +386,12 @@ const PostItem: React.FC<PostItemProps> = ({
                     fontWeight={700}
                     _hover={{ textDecoration: "underline" }}
                     onClick={(event) => event.stopPropagation}
-                  >{`Group/${post.groupName}`}</Text>
+                  >{`Nhóm/${post.groupName}`}</Text>
                 </Link>
                 <Icon as={BsDot} color="gray.500" fontSize={8} />
               </>
             )}
-            <Text className="pr-1">Posted by</Text>
+            <Text className="pr-1">Đăng bởi</Text>
             <Stack direction="row" className="pr-1">
               {" "}
               <Level point={post.authorPoints}></Level>

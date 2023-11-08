@@ -101,7 +101,7 @@ const Login: React.FC<LoginProps> = () => {
       <Input
         required
         name="userName"
-        placeholder="User name..."
+        placeholder="Tên đăng nhập..."
         type="userName"
         mb={2}
         onChange={onChange}

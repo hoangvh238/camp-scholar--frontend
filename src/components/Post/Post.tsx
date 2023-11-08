@@ -185,7 +185,7 @@ const Post: FC<PostProps> = ({
                   </>
                 )}
                 <Text color="gray.500">
-                  Posted by {post.author} {formatTimeToNow(new Date(post.time))}
+                  Đăng bởi {post.author} {formatTimeToNow(new Date(post.time))}
                 </Text>
               </Stack>
             )}

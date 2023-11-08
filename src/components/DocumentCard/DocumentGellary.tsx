@@ -143,9 +143,6 @@ const DocumentGallery: React.FC<Gallery> = ({ groupID, groupName }) => {
     onGetBuyList();
   }, []);
 
-  useEffect(() => {
-    console.log("da mua" + documentStateValue.documents);
-  }, [documentStateValue]);
 
   return (
     <>

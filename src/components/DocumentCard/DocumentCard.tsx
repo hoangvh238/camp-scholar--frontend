@@ -1,9 +1,15 @@
-
 import React, { useEffect, useState } from "react";
 
 import { Document } from "@/atoms/DocumentAtom";
 import { RootState } from "@/redux/store";
 import { Flex, Stack, Tag, useColorModeValue } from "@chakra-ui/react";
+import { getCookie } from "cookies-next";
+import { LuView } from "react-icons/lu";
+import { useSelector } from "react-redux";
+import { formatTimeToNow } from "../../../ultils/utils";
+import DocumentReviewModal from "../Modal/DocumentReview/DocumentReviewModal";
+import Level from "../common/Level";
+import Rate from "../common/Rating";
 import {
   Button,
   Card,
@@ -12,13 +18,6 @@ import {
   CardHeader,
   Typography,
 } from "../common/common";
-import { getCookie } from "cookies-next";
-import { LuView } from "react-icons/lu";
-import { useSelector } from "react-redux";
-import { formatTimeToNow } from "../../../ultils/utils";
-import DocumentReviewModal from "../Modal/DocumentReview/DocumentReviewModal";
-import Level from "../common/Level";
-import Rate from "../common/Rating";
 
 type DocumentCard = {
   document: Document;
@@ -77,6 +76,44 @@ const DocumentCard: React.FC<DocumentCard> = ({
     if (isAuth) setIsAuth(true);
     return total / document.ratings.length;
   };
+
+  const renderStatus = (document: Document) => {
+    if (document.bills > 5)
+      return (
+        <Flex
+          className="absolute w-[13%] rounded-[8px] h-[30px] flex justify-center content-center"
+          bg={"red.400"}
+        >
+          <Flex
+            className="px-1 py-1 text-[10px] font-bold"
+            justify={"center"}
+            align={"center"}
+            color={"white"}
+          >
+            {" "}
+            <div>HOT</div>
+          </Flex>
+        </Flex>
+      );
+
+      if (document.ratings.length > -1)
+      return (
+        <Flex
+          className="absolute w-[13%] rounded-[8px] h-[30px] flex justify-center content-center"
+          bg={"green.400"}
+        >
+          <Flex
+            className="px-1 py-1 text-[10px] font-bold"
+            justify={"center"}
+            align={"center"}
+            color={"white"}
+          >
+            {" "}
+            <div>NEW</div>
+          </Flex>
+        </Flex>
+      );
+  };
   const [rated, setRated] = React.useState(averageRating);
 
   useEffect(() => {
@@ -84,10 +121,7 @@ const DocumentCard: React.FC<DocumentCard> = ({
   }, []);
 
   return (
-    <Card
-      className="w-[350px] h-50"
-     
-    >
+    <Card className="w-[300px]">
       {document ? (
         <DocumentReviewModal
           urlImg={urlImg}
@@ -105,12 +139,7 @@ const DocumentCard: React.FC<DocumentCard> = ({
       ) : (
         ""
       )}
-      <CardHeader
-        shadow={false}
-        floated={false}
-        className="h-[200px]"
-        
-      >
+      <CardHeader shadow={false} floated={false} className="h-[180px]">
         <Flex
           zIndex={1}
           className="relative w-full flex justify-start pl-2 top-2"
@@ -125,6 +154,7 @@ const DocumentCard: React.FC<DocumentCard> = ({
               fontWeight={"extrabold"}
               key={"sm"}
               variant="solid"
+              height={"30px"}
               colorScheme={bgOpacity}
             >
               {formatTimeToNow(new Date(document.time))}
@@ -134,19 +164,10 @@ const DocumentCard: React.FC<DocumentCard> = ({
 
         <Flex
           zIndex={1}
-          className="relative w-full flex justify-start pl-2 top-[148px]"
+          className="relative w-full flex justify-start pl-2 top-[130px]"
         >
-          <Flex
-            className="absolute flex justify-start content-center"
-            bg={bgOpacity}
-          >
-            <Tag
-              size={"md"}
-              key={"md"}
-              variant="solid"
-              className="bg-white"
-              rounded={0}
-            >
+          <Flex className="absolute flex justify-start content-center">
+            <div className="relative top-0">
               <div className="flex items-center absolute gap-2">
                 <div>
                   <Stack direction="row" className="pr-1">
@@ -155,14 +176,13 @@ const DocumentCard: React.FC<DocumentCard> = ({
                   <Typography
                     variant="small"
                     color="white"
-                    className="text-[12px] bg-black font-semibold "
-                  
+                    className="text-[12px] bg-black font-semibold rounded-[4px] px-1 "
                   >
                     {document.author}
                   </Typography>
                 </div>
               </div>
-            </Tag>
+            </div>
           </Flex>
         </Flex>
 
@@ -170,18 +190,25 @@ const DocumentCard: React.FC<DocumentCard> = ({
           zIndex={1}
           className="relative w-full flex justify-end pr-2 top-2"
         >
+          <>{renderStatus(document)}</>
           <Flex
-            className="absolute w-[11%] rounded-[8px] h-[123px] flex justify-center content-center"
-            bg={bg}
+            className="absolute w-[35%] top-[135px] right-[0px]  rounded-l-[8px] h-[60px] flex justify-center content-center"
+            bg={"white"}
           >
-            <Rate
-              setIsAuth={setIsAuth}
-              rate={rated}
-              isAuth={false}
-              isDisable={true}
-              style={"col"}
-              docId={document.documentId}
-            ></Rate>
+            <Tag
+              size={"sm"}
+              fontWeight={"extrabold"}
+              key={"sm"}
+              className="flex justify-center   content-center mt-2 drop-shadow-xl"
+              variant="solid"
+              height={"30px"}
+              colorScheme={bgOpacity}
+              color={"black"}
+            >
+              <span className="text-black">{document.bills}</span>{" "}
+              <div className="w-1"></div>{" "}
+              <span className="text-gray-600">Đã bán</span>
+            </Tag>
           </Flex>
         </Flex>
 
@@ -191,14 +218,29 @@ const DocumentCard: React.FC<DocumentCard> = ({
           <div className="absolute inset-0 bg-black bg-opacity-25"></div>
         </Flex>
       </CardHeader>
-      <CardBody
-       
-      >
+      <CardBody>
+        <div className="flex mb-1 gap-1 content-center justify-center">
+          <div className="flex mb-1 gap-1 content-center justify-between">
+            <Rate
+              setIsAuth={setIsAuth}
+              rate={rated}
+              isAuth={false}
+              isDisable={true}
+              style={"row"}
+              docId={document.documentId}
+            ></Rate>
+            <Typography
+              color="blue-gray"
+              className="font-small mt-1/2 text-[13px] opacity-40 font-bold algin-center text-center  truncate  "
+            >
+              ({document.ratings.length})
+            </Typography>
+          </div>
+        </div>
         <div className="mb-2 flex items-center justify-start">
           <Typography
             color="blue-gray"
-            className="font-medium text-start font-semibold  "
-          
+            className="font-medium text-start font-semibold truncate  "
           >
             {document.documentName}
           </Typography>
@@ -206,16 +248,12 @@ const DocumentCard: React.FC<DocumentCard> = ({
         <Typography
           variant="small"
           color="gray"
-          className="font-normal opacity-75 h-[50px]"
-        
+          className="font-normal opacity-75 h-[30px]"
         >
           <p className="line-clamp-3">{document.description}</p>
         </Typography>
       </CardBody>
-      <CardFooter
-        className="pt-0"
-      
-      >
+      <CardFooter className="pt-0">
         <Button
           onMouseMove={() => setHoverCard(true)}
           onMouseLeave={() => setHoverCard(false)}
@@ -225,10 +263,9 @@ const DocumentCard: React.FC<DocumentCard> = ({
           ripple={false}
           fullWidth={true}
           className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
-        
         >
           {hoverCard ? (
-            <div className="w-full flex justify-center">
+            <div className="w-full flex justify-center font-bold">
               {" "}
               <LuView className="w-[15px] h-[15px]" />
             </div>

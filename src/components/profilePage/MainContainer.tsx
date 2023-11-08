@@ -20,7 +20,7 @@ import { HiArrowSmDown } from "react-icons/hi";
 import { MdVerified } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { countGroup } from "../../../apis/groups";
-import { getAllSavePost } from "../../../apis/posts";
+import { getAllSavePost, getPostAuth } from "../../../apis/posts";
 import { Post } from "../../atoms/PostAtom";
 import usePosts from "../../hooks/usePosts";
 import NotFound from "../Community/NotFound";
@@ -62,17 +62,35 @@ function MainContainer({ slug }: Props) {
     setLoading(true);
     try {
       const postData = await getAllSavePost();
+      setPostStateValue((prev) => ({
+        ...prev,
+        posts: postData.data as Post[],
+      }));
+    } catch (error) {
+      console.error("BuildNoUserHome", error);
+    }
+    setLoading(false);
+  };
+
+  const buildAuthPost = async () => {
+    setLoading(true);
+    try {
+      const postData = await getPostAuth(user.userId);
       const countData = await countGroup(user.userId);
       setPostStateValue((prev) => ({
         ...prev,
         posts: postData.data as Post[],
       }));
       setCountJoin(countData.data);
+      renderSaveByTimeAss(true);
     } catch (error) {
       console.error("BuildNoUserHome", error);
     }
     setLoading(false);
   };
+
+  
+  
 
   const renderSave = () => {
     buildNoUserHomeFeed();
@@ -108,7 +126,6 @@ function MainContainer({ slug }: Props) {
       const sortedPosts = [...prev.posts].sort((a, b) => {
         const sumLikesA = a.likes.reduce((acc, like) => acc + like.status, 0);
         const sumLikesB = b.likes.reduce((acc, like) => acc + like.status, 0);
-        console.log("vl1" + sumLikesA + "vl2" + sumLikesB);
 
         return sumLikesA - sumLikesB;
       });
@@ -130,11 +147,11 @@ function MainContainer({ slug }: Props) {
       };
     });
   };
-  // useEffect(() => {
-  //   if (!user) return;
-  //   buildNoUserHomeFeed();
+  useEffect(() => {
+    if (!user) return;
+    buildAuthPost();
 
-  // }, [user]);
+  }, [user]);
   return (
     <>
       {!user?.userId ? (
@@ -159,6 +176,7 @@ function MainContainer({ slug }: Props) {
                     <Tab
                       className="rounded-[4px]"
                       _selected={{ color: "white", bg: "blue.500" }}
+                      onClick={()=>{buildAuthPost()}}
                     >
                       Đã đăng 📝
                     </Tab>
@@ -190,6 +208,7 @@ function MainContainer({ slug }: Props) {
                               borderRadius={4}
                               _hover={{ bg: hoverBg }}
                               display={{ base: "none", md: "flex" }}
+                              onClick={()=>{renderSaveByTimeAss(!AcOrDeSort)}}
                             >
                               <Icon as={MdVerified} fontSize={20} />
                               <Text>Mới</Text>
@@ -308,7 +327,9 @@ function MainContainer({ slug }: Props) {
               <PostLoader />
             ) : (
               <Stack>
-                {postStateValue.posts.map((post, index) => {
+               {postStateValue.posts.length > 0 ?
+               <>
+                 {postStateValue.posts.map((post, index) => {
                   // Check if post.postVotes is defined before using reduce
                   const votesAmt = post.likes
                     ? post.likes.reduce((acc, vote) => {
@@ -335,7 +356,7 @@ function MainContainer({ slug }: Props) {
                       commentAmt={post.comments.length}
                     />
                   );
-                })}
+                })}</> : <div className="w-full text-center opacity-70">Không có bài viết nào !</div>}
               </Stack>
             )}
           </>

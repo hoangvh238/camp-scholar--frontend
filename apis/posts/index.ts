@@ -19,6 +19,7 @@ export const END_POINT = {
   POST_REPORT_TYPE: "/api/poster/all-report-types",
   POST_SAVE: "/api/poster/save",
   POST_SAVE_ALL: "/api/poster/save/getAll",
+  POST_AUTH: "/api/poster",
 };
 
 type Posting = {
@@ -39,6 +40,12 @@ export const getAllReportType = () => {
 
 export const getCurrentPost = (postId: number) => {
   return axiosClient.get(END_POINT.POST_CURRENT + "/" + postId, {
+    headers: { Authorization: `Bearer ${getCookie("token")}` }, // Sử dụng "Bearer" trước token
+  });
+};
+
+export const getPostAuth = (userID: number) => {
+  return axiosClient.get(END_POINT.POST_AUTH + "/" + userID, {
     headers: { Authorization: `Bearer ${getCookie("token")}` }, // Sử dụng "Bearer" trước token
   });
 };

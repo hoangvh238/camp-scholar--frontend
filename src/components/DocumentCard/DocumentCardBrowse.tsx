@@ -160,7 +160,7 @@ const DocumentCardBrowse: React.FC<DocumentCard> = ({
         <div className="mb-2 flex items-center justify-start">
           <Typography
             color="blue-gray"
-            className="font-medium text-start font-semibold  "
+            className="font-medium text-start font-semibold truncate "
           
           >
             {document.documentName}

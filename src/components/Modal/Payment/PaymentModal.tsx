@@ -69,7 +69,7 @@ const PaymentModal: React.FC<DocumentReviewModal> = ({
 
   const user = useSelector((state: RootState) => state.userInfor.currentUser)
 
-  const [dollarValue, setDollarValue] = useState(1);
+  const [dollarValue, setDollarValue] = useState(2);
   const [coinValue, setCoinValue] = useState(dollarValue * CoinToDollarRatio);
   const [activeTab, setActiveTab] = React.useState("manager");
   const [hoverTabBtn, setHoverTabBtn] = React.useState("");
@@ -96,7 +96,7 @@ const PaymentModal: React.FC<DocumentReviewModal> = ({
     }
     catch(error)
     {
-      message.error("Quy đổi thất bại");
+      message.error("Không đủ xu");
       console.log(error);
       
     }
