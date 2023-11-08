@@ -7,10 +7,11 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaSearchengin } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import SurveyModal from "../Modal/Survey/SurveyModal";
+import { getCookie } from "cookies-next";
 
 const Survey: React.FC = () => {
   const bg = useColorModeValue("white", "#1A202C");
@@ -18,8 +19,12 @@ const Survey: React.FC = () => {
   const userId = useSelector(
     (state: RootState) => state.userInfor.currentUser?.userId,
   );
-  console.log("usssser ;a" + userId);
 
+
+  const handleCheck = async () =>{
+    if( getCookie("survey") == null)
+    setOpen(true);
+  }
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -30,6 +35,9 @@ const Survey: React.FC = () => {
     setOpen(false);
   };
 
+  useEffect(()=>{
+    handleCheck();
+  },[])
   return (
     <Flex
       direction="column"
