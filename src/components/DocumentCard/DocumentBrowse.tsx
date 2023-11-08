@@ -82,9 +82,6 @@ const DocumentBrowse: React.FC<Gallery> = ({ groupID, groupName }) => {
     <>
       <Tabs id="custom-animation" value="html">
         <TabsHeader
-          nonce={undefined}
-          onResize={undefined}
-          onResizeCapture={undefined}
         >
           {data.map(({ label, value }) => (
             <Tab
