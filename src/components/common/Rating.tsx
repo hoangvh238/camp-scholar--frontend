@@ -35,7 +35,7 @@ function Rate({ rate,isAuth,isDisable,style,setIsAuth,docId}: Props) {
 
   return (
     <>
-        <Rating ratedColor={typeColor[Math.floor(rated)]} readonly={isDisable} value={rated} className={`flex ${style == "col" ? "flex-col":""}`} onChange={(value) => handleRating(value)} nonce={undefined} onResize={undefined} onResizeCapture={undefined} />
+        <Rating ratedColor={typeColor[Math.floor(rated)]} readonly={isDisable} value={rated} className={`flex ${style == "col" ? "flex-col":""}`} onChange={(value) => handleRating(value)} />
       
     </>
   );

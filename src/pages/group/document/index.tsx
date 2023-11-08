@@ -197,18 +197,14 @@ export default function Page() {
       <PageSingleContent>
         <Tabs id="custom-animation" value="html">
           <TabsHeader
-            nonce={undefined}
-            onResize={undefined}
-            onResizeCapture={undefined}
+           
           >
             {dataUserGellary.map(({ label, value }) => (
               <Tab
                 className="w-[33%] min-w-[200px]"
                 key={value}
                 value={value}
-                nonce={undefined}
-                onResize={undefined}
-                onResizeCapture={undefined}
+                
               >
                 {label}
               </Tab>
@@ -220,9 +216,7 @@ export default function Page() {
               mount: { y: 0 },
               unmount: { y: 250 },
             }}
-            nonce={undefined}
-            onResize={undefined}
-            onResizeCapture={undefined}
+          
           >
             {dataUserGellary.map(({ value, desc }) => (
               <TabPanel key={value} value={value}>
