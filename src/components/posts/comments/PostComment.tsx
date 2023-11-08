@@ -51,6 +51,7 @@ interface PostCommentProps {
   _votesAmt: number;
   _currentVote: Like | undefined;
   postId: number;
+  sortByLike : any
 }
 
 const PostComment: FC<PostCommentProps> = ({
@@ -58,6 +59,7 @@ const PostComment: FC<PostCommentProps> = ({
   comment,
   _votesAmt,
   _currentVote,
+  sortByLike,
   postId,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -81,7 +83,7 @@ const PostComment: FC<PostCommentProps> = ({
 
   const handleLike = async (event: React.MouseEvent<Element, MouseEvent>) => {
     if (!(await onVoteComment(event, comment.commentId, 1))) return;
-
+   
     if (currentVote === 1) {
       handleSetAmt(votesAmt - 1);
       handleVoting(0);
@@ -92,13 +94,15 @@ const PostComment: FC<PostCommentProps> = ({
       handleSetAmt(votesAmt + 1);
       handleVoting(1);
     }
+
+    sortByLike();
   };
 
   const handleDisLike = async (
     event: React.MouseEvent<Element, MouseEvent>,
   ) => {
     if (!(await onVoteComment(event, comment.commentId, -1))) return;
-
+    
     if (currentVote === 1) {
       handleSetAmt(votesAmt - 2);
       handleVoting(-1);
@@ -109,6 +113,7 @@ const PostComment: FC<PostCommentProps> = ({
       handleSetAmt(votesAmt - 1);
       handleVoting(-1);
     }
+    sortByLike();
   };
 
   const handleComment = async () => {

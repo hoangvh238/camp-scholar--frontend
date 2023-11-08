@@ -393,6 +393,9 @@ const PaymentModal: React.FC<DocumentReviewModal> = ({
         <Typography variant="h5" color="white" >
           Quy đổi thành tiền
         </Typography>
+        <Typography variant="small" color="white" >
+          Tiền sẽ gửi vào ví gần nhất bạn đã nạp xu
+        </Typography>
       </CardHeader>
       <CardBody >
         <form className="mt-1 flex flex-col gap-4">

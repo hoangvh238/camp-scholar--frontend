@@ -42,7 +42,7 @@ const AuthModel: React.FC = () => {
           <ModalHeader textAlign="center">
             {modelState.view === "login" && "Đăng nhập"}
             {modelState.view === "signup" && "Đăng ký"}
-            {modelState.view === "resetPassword" && "Reset Password"}
+            {modelState.view === "resetPassword" && "Khôi phục mật khẩu"}
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody

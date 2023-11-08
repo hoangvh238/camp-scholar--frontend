@@ -72,7 +72,7 @@ const OAuthButtonsFacebook: React.FC = () => {
         onClick={() => signInWithFacebook()}
       >
         <Image src="/images/facebook.png" height="20px" mr={4} />
-        tiếp tục với Facebook
+        Tiếp tục với Facebook
       </Button>
       {error && <Text>{error.message}</Text>}
     </>

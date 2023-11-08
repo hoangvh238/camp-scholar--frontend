@@ -38,12 +38,11 @@ export default function Page() {
 
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
 
-  const buildUserHomeFeed = async () => {
+  const buildPost = async () => {
     setLoading(true);
     try {
       const res = await getCurrentPost(postID);
       setSelectedPost(res.data.data);
-      console.log("datatatata" + res.data.data);
 
       setLoading(false);
     } catch (error) {
@@ -52,12 +51,17 @@ export default function Page() {
   };
 
   useEffect(() => {
-    buildUserHomeFeed();
+    if(!postID) return;
+    buildPost();
   }, [postID]);
 
   useEffect(() => {
     if (!selectedPost) return;
-    const votesAmt = selectedPost?.likes
+    console.log("hihihihi");
+    
+    console.log(selectedPost);
+    
+    const votesAmt = selectedPost.likes
       ? selectedPost.likes.reduce((acc, vote) => {
           if (vote.status === 1) return acc + 1;
           if (vote.status === -1) return acc - 1;
@@ -65,14 +69,20 @@ export default function Page() {
         }, 0)
       : 0;
 
-    const currentVote = selectedPost?.likes?.find(
+    const currentVote = selectedPost.likes?.find(
       (like) => like.auth === user?.userName,
     );
-
+    console.log("day ne"+currenVote);
+    console.log("nua ne"+votesAmt);
+    
+  
     setTotal(votesAmt);
-    if (!currentVote) return;
+
+    if (currentVote)
     setCurrenVote(currentVote.status);
+
   }, [selectedPost]);
+  
 
   return (
     <motion.div

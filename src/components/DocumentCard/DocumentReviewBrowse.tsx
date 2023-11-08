@@ -12,7 +12,7 @@ const DocumentReviewBrowse = ({ docId }: docReview) => {
   };
   const docs = [
     {
-      uri: `http://localhost:8080/doc/host/full/${docId}`,
+      uri: ` http://localhost:8080/doc/host/full/${docId}`,
     }, // Remote file
   ];
   const [activeDocument, setActiveDocument] = useState(docs[0]);

@@ -14,8 +14,8 @@ const DocumentReview = ({ docId, isBuying }: docReview) => {
   const docs = [
     {
       uri: isBuying
-        ? `http://localhost:8080/doc/full/${docId}`
-        : `http://localhost:8080/doc/preview/${docId}`,
+        ? ` http://localhost:8080/doc/full/${docId}`
+        : ` http://localhost:8080/doc/preview/${docId}`,
     }, // Remote file
   ];
   const [activeDocument, setActiveDocument] = useState(docs[0]);

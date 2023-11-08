@@ -162,7 +162,7 @@ const SignUp: React.FC = () => {
         type="submit"
         isLoading={loading}
       >
-        Sign Up
+        Đăng ký
       </Button>
       <Flex fontSize="9pt" justifyContent="center">
         <Text mr={1}>Đã có tài khoản?</Text>
@@ -177,7 +177,7 @@ const SignUp: React.FC = () => {
             }))
           }
         >
-          Log In
+          Đăng nhập
         </Text>
       </Flex>
     </form>

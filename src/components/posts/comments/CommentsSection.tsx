@@ -31,6 +31,7 @@ const CommentsSection: React.FC<CommentsProps> = ({
   communityId,
 }) => {
   const [comments, setComments] = useState<CommentWithReplies[]>(post.comments);
+ 
   const [updateTrigger, setUpdateTrigger] = useState(false);
   const { onComment } = usePosts();
   const [input, setInput] = useState<string>("");
@@ -43,6 +44,42 @@ const CommentsSection: React.FC<CommentsProps> = ({
       return comment;
     });
   };
+
+  const sortComment = () =>{
+     setComments(comments.sort((a, b) => {
+      const likesA = a.likes.reduce((acc, vote) => {
+        if (vote.status === 1) return acc + 1;
+        if (vote.status === -1) return acc - 1;
+        return acc;
+      }, 0);
+      const likesB = b.likes.reduce((acc, vote) => {
+        if (vote.status === 1) return acc + 1;
+        if (vote.status === -1) return acc - 1;
+        return acc;
+      }, 0);
+  
+      // Sort in descending order
+      return likesB - likesA;
+    }))
+  }
+
+  const sortCommentExits = (comments:Comment[]) =>{
+    setComments(comments.sort((a, b) => {
+     const likesA = a.likes.reduce((acc, vote) => {
+       if (vote.status === 1) return acc + 1;
+       if (vote.status === -1) return acc - 1;
+       return acc;
+     }, 0);
+     const likesB = b.likes.reduce((acc, vote) => {
+       if (vote.status === 1) return acc + 1;
+       if (vote.status === -1) return acc - 1;
+       return acc;
+     }, 0);
+ 
+     // Sort in descending order
+     return likesB - likesA;
+   }))
+ }
 
   const handleComment = async () => {
     await onComment(input, post.postId,0);
@@ -63,7 +100,6 @@ const CommentsSection: React.FC<CommentsProps> = ({
       });
       setUpdateTrigger(true);
       setComments(newComments);
-
     } catch (error) {
       console.error("Error updating comments", error);
     }
@@ -79,26 +115,13 @@ const CommentsSection: React.FC<CommentsProps> = ({
   useEffect(() => {
 
     getPostComments();
+    sortComment();
 
   }, []);
 
 
 
-  // comments.sort((a, b) => {
-  //   const likesA = a.likes.reduce((acc, vote) => {
-  //     if (vote.status === 1) return acc + 1;
-  //     if (vote.status === -1) return acc - 1;
-  //     return acc;
-  //   }, 0);
-  //   const likesB = b.likes.reduce((acc, vote) => {
-  //     if (vote.status === 1) return acc + 1;
-  //     if (vote.status === -1) return acc - 1;
-  //     return acc;
-  //   }, 0);
-
-  //   // Sort in descending order
-  //   return likesB - likesA;
-  // });
+ 
 
   // comments.sort((a, b) => {
   //   const repliesA = a.replies ? a.replies.length : 0;
@@ -164,6 +187,7 @@ const CommentsSection: React.FC<CommentsProps> = ({
             <div key={topLevelComment.commentId} className='flex flex-col'>
               <div className='mb-2'>
                 <PostComment
+                sortByLike={()=>{sortComment()}}
                   updateComments={updateComments}
                   comment={topLevelComment}
                   _currentVote={topLevelCommentVote}
@@ -189,6 +213,7 @@ const CommentsSection: React.FC<CommentsProps> = ({
                     key={reply.commentId}
                     className='ml-2 py-2 pl-4 border-l-2 border-zinc-200'>
                     <PostComment
+                    sortByLike={()=>{sortComment()}}
                       updateComments={updateComments}
                       comment={reply}
                       _currentVote={replyVote}

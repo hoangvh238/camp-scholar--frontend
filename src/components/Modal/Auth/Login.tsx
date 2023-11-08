@@ -168,7 +168,7 @@ const Login: React.FC<LoginProps> = () => {
             }))
           }
         >
-          Reset
+          Khôi phục
         </Text>
       </Flex>
       <Flex fontSize="9pt" justifyContent="center">

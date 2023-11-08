@@ -16,7 +16,7 @@ const AuthButtons: React.FC = () => {
         mr={2}
         onClick={() => setAuthModelState({ open: true, view: "login" })}
       >
-        Log In
+        Đăng nhập
       </Button>
       <Button
         variant="solid"
@@ -26,7 +26,7 @@ const AuthButtons: React.FC = () => {
         mr={2}
         onClick={() => setAuthModelState({ open: true, view: "signup" })}
       >
-        Sign Up
+        Đăng ký
       </Button>
     </>
   );

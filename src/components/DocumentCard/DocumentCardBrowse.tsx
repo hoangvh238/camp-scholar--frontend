@@ -35,7 +35,7 @@ const DocumentCardBrowse: React.FC<DocumentCard> = ({
   const fetchImage = async (doc: Document) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/doc/preview/cover/${doc.documentId}`,
+        ` http://localhost:8080/doc/preview/cover/${doc.documentId}`,
         {
           method: "GET",
           headers: {

@@ -418,7 +418,7 @@ const PostItem: React.FC<PostItemProps> = ({
               ""
             )}
             <Collapse
-              startingHeight={post.content?.length < 600 ? 50 : 400}
+              startingHeight={300}
               in={isReading}
             >
               {/* <Divider></Divider> */}

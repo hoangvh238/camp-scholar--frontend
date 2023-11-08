@@ -82,7 +82,7 @@ const DocumentUpload: React.FC<DocumentProps> = ({ groupID }) => {
         });
 
         try {
-            const response = await axios.post('http://localhost:8080/doc/document/' + groupID, formData, {
+            const response = await axios.post(' http://localhost:8080/doc/document/' + groupID, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${getCookie("token")}`,

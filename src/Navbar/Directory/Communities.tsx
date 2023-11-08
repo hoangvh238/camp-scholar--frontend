@@ -87,17 +87,7 @@ const Communities: React.FC<CommunitiesProps> = () => {
               ))}
           </>
         )}
-        {mySnippets &&
-          mySnippets.map((snippet) => (
-            <MenuListItem
-              key={snippet.groupId}
-              icon={GiCampingTent}
-              displayText={`${snippet.groupName}`}
-              link={`/group/${snippet.groupId}`}
-              iconColor={"blue.500"}
-              imageURL={snippet.imageURLGAvatar}
-            />
-          ))}
+        
       </Box>
     </>
   );

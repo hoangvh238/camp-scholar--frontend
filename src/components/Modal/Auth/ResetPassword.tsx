@@ -111,7 +111,7 @@ const ResetPassword: React.FC = () => {
             }))
           }
         >
-          LOGIN
+          Đăng nhập
         </Text>
         <Icon as={BsDot} />
         <Text
@@ -122,7 +122,7 @@ const ResetPassword: React.FC = () => {
             }))
           }
         >
-          SIGN UP
+          Đăng ký
         </Text>
       </Flex>
     </Flex>

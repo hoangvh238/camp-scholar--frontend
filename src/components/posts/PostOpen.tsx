@@ -298,7 +298,7 @@ const PostOpen: React.FC<PostItemProps> = ({
             >
               <Tooltip
                 hasArrow
-                label="100 bình luận"
+                label={commentAmt}
                 bg="gray.300"
                 color="black"
               >
