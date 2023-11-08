@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 
-import DocumentCard from "@/components/DocumentCard/DocumentCard";
 import DocumentStatic from "@/components/DocumentSelling/DocumentStatic";
 import PageSingleContent from "@/components/Layout/pageSingleContent";
 import useDocuments from "@/hooks/useDocument";
@@ -116,13 +115,7 @@ export default function Page() {
               <>
                 {" "}
                 {documentStateValue?.documents?.map((data, index) => (
-                  <DocumentCard
-                    isBuying={true}
-                    onBough={onBuy}
-                    document={data}
-                    buyList={documentStateValue.documents}
-                    key={index}
-                  ></DocumentCard>
+                  <></>
                 ))}
               </>
             ) : (
