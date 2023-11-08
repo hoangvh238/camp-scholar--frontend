@@ -256,19 +256,19 @@ const PaymentModal: React.FC<DocumentReviewModal> = ({
 
 
   const renderUserInfo = () => {
-    return <Card className="w-full max-w-[23rem] min-w-[23rem] border-t-2" nonce={undefined} onResize={undefined} onResizeCapture={undefined}>
-      <CardHeader floated={false} className="h-40 hover:scale-105" nonce={undefined} onResize={undefined} onResizeCapture={undefined}>
+    return <Card className="w-full max-w-[23rem] min-w-[23rem] border-t-2" >
+      <CardHeader floated={false} className="h-40 hover:scale-105" >
         <Flex flexDirection={"column"} height={"full"} width={"full"}>
-          <Typography variant="lead" color="blue-gray" className="mb-2 text-center" nonce={undefined} onResize={undefined} onResizeCapture={undefined}>
+          <Typography variant="lead" color="blue-gray" className="mb-2 text-center" >
             Số dư khả dụng
           </Typography>
-          <Typography variant="h1" color={coins > 0 ? "blue-gray" : "red"} className="mb-2 text-center" nonce={undefined} onResize={undefined} onResizeCapture={undefined}>
+          <Typography variant="h1" color={coins > 0 ? "blue-gray" : "red"} className="mb-2 text-center" >
             {coins} Xu
           </Typography>
         </Flex>
 
       </CardHeader>
-      <CardBody className="text-center" nonce={undefined} onResize={undefined} onResizeCapture={undefined}>
+      <CardBody className="text-center" >
         <Flex justifyContent={"space-between"}>
           <Tab
             className="w-[48%]"
@@ -277,7 +277,7 @@ const PaymentModal: React.FC<DocumentReviewModal> = ({
             onClick={() => setActiveTab("buy")}
             onMouseLeave={() => setHoverTabBtn("")}
             onMouseMove={() => setHoverTabBtn("buy")}
-            nonce={undefined} onResize={undefined} onResizeCapture={undefined}>
+     >
             <Button style={{ whiteSpace: 'nowrap' }} color="green" variant="gradient" className="w-[100%] rounded-[10px] px-[55px] py-7 " nonce={undefined} onResize={undefined} onResizeCapture={undefined}>Nạp xu</Button>
           </Tab>
           <Tab
@@ -287,7 +287,7 @@ const PaymentModal: React.FC<DocumentReviewModal> = ({
             onClick={() => setActiveTab("exchange")}
             onMouseLeave={() => setHoverTabBtn("")}
             onMouseMove={() => setHoverTabBtn("exchange")}
-            nonce={undefined} onResize={undefined} onResizeCapture={undefined}>
+            >
             <Button style={{ whiteSpace: 'nowrap' }} color="deep-orange" variant="gradient" className="w-[100%] rounded-[10px] px-[45px] py-7 " nonce={undefined} onResize={undefined} onResizeCapture={undefined}>Rút tiền</Button>
           </Tab>
 
@@ -297,20 +297,20 @@ const PaymentModal: React.FC<DocumentReviewModal> = ({
 
   }
   const renderBuyCoins = () => {
-    return (<Card className="w-full max-w-[24rem]" nonce={undefined} onResize={undefined} onResizeCapture={undefined}>
+    return (<Card className="w-full max-w-[24rem]" >
       <CardHeader
         color="blue"
         floated={false}
         shadow={false}
-        className="m-0 grid place-items-center px-4 py-8 text-center" nonce={undefined} onResize={undefined} onResizeCapture={undefined}                  >
+        className="m-0 grid place-items-center px-4 py-8 text-center" >
         <div className="mb-8 h-20 p-6 text-white">
           <BsPaypal className="h-20 w-20" />
         </div>
-        <Typography variant="h5" color="white" nonce={undefined} onResize={undefined} onResizeCapture={undefined}>
+        <Typography variant="h5" color="white">
           Thanh toán bằng PayPal
         </Typography>
       </CardHeader>
-      <CardBody nonce={undefined} onResize={undefined} onResizeCapture={undefined}>
+      <CardBody >
         <form className="mt-1 flex flex-col gap-4">
 
           <div className="my-3">
@@ -320,7 +320,7 @@ const PaymentModal: React.FC<DocumentReviewModal> = ({
                 <Typography
                   variant="small"
                   color="blue-gray"
-                  className="mb-2 font-medium" nonce={undefined} onResize={undefined} onResizeCapture={undefined}                            >
+                  className="mb-2 font-medium"                            >
                   Số Xu <span className="text-[12px] text-red-200  ">*tối thiểu 20 xu</span>
                 </Typography>
                 <NumberInput
@@ -341,7 +341,7 @@ const PaymentModal: React.FC<DocumentReviewModal> = ({
                 <Typography
                   variant="small"
                   color="blue-gray"
-                  className="mb-2 font-medium" nonce={undefined} onResize={undefined} onResizeCapture={undefined}                            >
+                  className="mb-2 font-medium"                            >
                   Thành tiền <span className="text-[12px] text-red-200  ">*tối thiểu 1$</span>
                 </Typography>
                 <NumberInput
@@ -363,12 +363,12 @@ const PaymentModal: React.FC<DocumentReviewModal> = ({
           </div>
           {accept ? <div> <PaypalBtn userId={user.userId} dolar={dollarValue}></PaypalBtn></div> :
             <>
-              <Button color="light-blue" className="rounded-[10px]" variant="gradient" onClick={handleCofirm} nonce={undefined} onResize={undefined} onResizeCapture={undefined}>
+              <Button color="light-blue" className="rounded-[10px]" variant="gradient" onClick={handleCofirm} >
                 Thanh toán
               </Button>
             </>}
           <Typography
-            nonce={undefined} onResize={undefined} onResizeCapture={undefined}
+         
             variant="small"
             color="gray"
             className="mt-2 flex items-center justify-center gap-2 font-medium opacity-60"
@@ -381,20 +381,20 @@ const PaymentModal: React.FC<DocumentReviewModal> = ({
   }
 
   const renderExchange = () => {
-    return (<Card className="w-full max-w-[24rem]" nonce={undefined} onResize={undefined} onResizeCapture={undefined}>
+    return (<Card className="w-full max-w-[24rem]" >
       <CardHeader
         color="deep-orange"
         floated={false}
         shadow={false}
-        className="m-0 grid place-items-center px-4 py-8 text-center" nonce={undefined} onResize={undefined} onResizeCapture={undefined}                  >
+        className="m-0 grid place-items-center px-4 py-8 text-center"                   >
         <div className="mb-8 h-20 p-6 text-white">
           <GiReceiveMoney className="h-20 w-20" />
         </div>
-        <Typography variant="h5" color="white" nonce={undefined} onResize={undefined} onResizeCapture={undefined}>
+        <Typography variant="h5" color="white" >
           Quy đổi thành tiền
         </Typography>
       </CardHeader>
-      <CardBody nonce={undefined} onResize={undefined} onResizeCapture={undefined}>
+      <CardBody >
         <form className="mt-1 flex flex-col gap-4">
 
 
@@ -405,7 +405,7 @@ const PaymentModal: React.FC<DocumentReviewModal> = ({
                 <Typography
                   variant="small"
                   color="blue-gray"
-                  className="mb-2 font-medium" nonce={undefined} onResize={undefined} onResizeCapture={undefined}                            >
+                  className="mb-2 font-medium"                           >
                   Số Xu <span className="text-[12px] text-red-200  ">*tối thiểu 30 xu</span>
                 </Typography>
                 <NumberInput
@@ -426,7 +426,7 @@ const PaymentModal: React.FC<DocumentReviewModal> = ({
                 <Typography
                   variant="small"
                   color="blue-gray"
-                  className="mb-2 font-medium" nonce={undefined} onResize={undefined} onResizeCapture={undefined}                            >
+                  className="mb-2 font-medium"                        >
                   Thành tiền <span className="text-[12px] text-red-200  ">*tối thiểu 1$</span>
                 </Typography>
                 <NumberInput
@@ -446,7 +446,7 @@ const PaymentModal: React.FC<DocumentReviewModal> = ({
             </div>
 
           </div>
-          <Button onClick={()=>{exchange()}} color="deep-orange" className="rounded-[10px]" variant="gradient" nonce={undefined} onResize={undefined} onResizeCapture={undefined}>
+          <Button onClick={()=>{exchange()}} color="deep-orange" className="rounded-[10px]" variant="gradient">
             Quy đổi
           </Button>
         </form>
@@ -524,21 +524,21 @@ const PaymentModal: React.FC<DocumentReviewModal> = ({
                   indicatorProps={{
                     className: "bg-transparent border-b-2 border-gray-900 shadow-none rounded-none",
                   }}
-                  nonce={undefined} onResize={undefined} onResizeCapture={undefined}>
+             >
                   {data.map(({ label, value }) => (
                     <Tab
                       key={value}
                       value={value}
                       onClick={() => setActiveTab(value)}
                       className={activeTab === value ? "text-gray-900 font-bold" : ""}
-                      nonce={undefined} onResize={undefined} onResizeCapture={undefined}>
+                  >
                       {label}
                     </Tab>
                   ))}
                 </TabsHeader>
                 <TabsBody
                   className="w-full h-full flex content-center justify-center mt-20"
-                  nonce={undefined} onResize={undefined} onResizeCapture={undefined}>
+            >
                   {data.map(({ value, desc }) => (
                     <TabPanel className="w-full" key={value} value={value}>
                       {desc}

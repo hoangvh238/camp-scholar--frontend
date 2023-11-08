@@ -110,22 +110,16 @@ const ReportModal: React.FC<ReportModalProps> = ({
               <Divider className="mt-0 pt-0 pt-0 pb-0"></Divider>
               <Card
                 className="w-100"
-                nonce={undefined}
-                onResize={undefined}
-                onResizeCapture={undefined}
+               
               >
                 <List
-                  nonce={undefined}
-                  onResize={undefined}
-                  onResizeCapture={undefined}
+                  
                 >
                   {reportOptions &&
                     reportOptions.map((value: Report, index: number) => (
                       <>
                         <ListItem
-                          nonce={undefined}
-                          onResize={undefined}
-                          onResizeCapture={undefined}
+                         
                           ripple={false}
                           className={`py-1 pr-1 pl-4  ${
                             index + 1 === type ? "bg-gray-200" : ""
@@ -136,14 +130,10 @@ const ReportModal: React.FC<ReportModalProps> = ({
                         >
                           {index + 1}. {value.name}
                           <ListItemSuffix
-                            nonce={undefined}
-                            onResize={undefined}
-                            onResizeCapture={undefined}
+                          
                           >
                             <IconButton
-                              nonce={undefined}
-                              onResize={undefined}
-                              onResizeCapture={undefined}
+                            
                               variant="text"
                               color="blue-gray"
                             >

@@ -128,9 +128,7 @@ const DocumentReviewModal: React.FC<DocumentReviewModal> = ({
           >
             <Card
               className="w-full h-[640px] flex-row justify-center"
-              nonce={undefined}
-              onResize={undefined}
-              onResizeCapture={undefined}
+              
             >
               {!isPreviewMode ? <ModalCloseButton /> : ""}
               {isPreviewMode ? (
@@ -154,9 +152,7 @@ const DocumentReviewModal: React.FC<DocumentReviewModal> = ({
                     shadow={false}
                     floated={false}
                     className="m-0 w-2/5 shrink-0 rounded-r-none"
-                    nonce={undefined}
-                    onResize={undefined}
-                    onResizeCapture={undefined}
+                   
                   >
                     <Carousel
                       className="rounded-sm"
@@ -175,9 +171,7 @@ const DocumentReviewModal: React.FC<DocumentReviewModal> = ({
                           ))}
                         </div>
                       )}
-                      nonce={undefined}
-                      onResize={undefined}
-                      onResizeCapture={undefined}
+                     
                     >
                       <img
                         src={urlImg}
@@ -197,10 +191,9 @@ const DocumentReviewModal: React.FC<DocumentReviewModal> = ({
                     </Carousel>
                   </CardHeader>
                   <CardBody
-                    nonce={undefined}
+                 
                     className="w-full"
-                    onResize={undefined}
-                    onResizeCapture={undefined}
+                   
                   >
                     <Flex alignContent={"center"} height={"4%"} gap={2}>
                       <Flex gap={1}>
@@ -225,18 +218,14 @@ const DocumentReviewModal: React.FC<DocumentReviewModal> = ({
                         variant="h4"
                         color="blue-gray"
                         className="mb-2"
-                        nonce={undefined}
-                        onResize={undefined}
-                        onResizeCapture={undefined}
+                      
                       >
                         {document.documentName}
                       </Typography>
                       <Typography
                         color="gray"
                         className="mb-8 font-normal overflow-y-scroll "
-                        nonce={undefined}
-                        onResize={undefined}
-                        onResizeCapture={undefined}
+                       
                       >
                         {document.description}
                       </Typography>
@@ -252,9 +241,7 @@ const DocumentReviewModal: React.FC<DocumentReviewModal> = ({
                             className="flex gap-2"
                             variant="h5"
                             color="blue-gray"
-                            nonce={undefined}
-                            onResize={undefined}
-                            onResizeCapture={undefined}
+                           
                           >
                             {document.cost == 0
                               ? "Miễn phí"
@@ -275,9 +262,7 @@ const DocumentReviewModal: React.FC<DocumentReviewModal> = ({
                           <Typography
                             variant="lead"
                             color="blue-gray"
-                            nonce={undefined}
-                            onResize={undefined}
-                            onResizeCapture={undefined}
+                           
                           >
                             ({document.ratings.length})
                           </Typography>
@@ -285,9 +270,7 @@ const DocumentReviewModal: React.FC<DocumentReviewModal> = ({
                             className="text-[12px] align-middle"
                             variant="lead"
                             color="blue-gray"
-                            nonce={undefined}
-                            onResize={undefined}
-                            onResizeCapture={undefined}
+                           
                           >
                             {isAuth
                               ? "Đã đánh giá"
@@ -301,9 +284,7 @@ const DocumentReviewModal: React.FC<DocumentReviewModal> = ({
                           variant="small"
                           color="blue-gray"
                           className="mb-2"
-                          nonce={undefined}
-                          onResize={undefined}
-                          onResizeCapture={undefined}
+                          
                         >
                           {document.bills} Lượt mua
                         </Typography>
@@ -324,9 +305,7 @@ const DocumentReviewModal: React.FC<DocumentReviewModal> = ({
                             onClick={() => setIsPreviewMode(true)}
                             variant="h5"
                             color="blue-gray"
-                            nonce={undefined}
-                            onResize={undefined}
-                            onResizeCapture={undefined}
+                           
                           >
                             {isBuying ? "Xem ngay" : "Xem trước"}
                           </Typography>
@@ -348,9 +327,7 @@ const DocumentReviewModal: React.FC<DocumentReviewModal> = ({
                             <Typography
                               variant="h5"
                               color="blue-gray"
-                              nonce={undefined}
-                              onResize={undefined}
-                              onResizeCapture={undefined}
+                             
                               onClick={onOpen}
                             >
                               Mua ngay

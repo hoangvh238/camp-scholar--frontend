@@ -151,18 +151,14 @@ const DocumentGallery: React.FC<Gallery> = ({ groupID, groupName }) => {
     <>
       <Tabs id="custom-animation" value="html">
         <TabsHeader
-          nonce={undefined}
-          onResize={undefined}
-          onResizeCapture={undefined}
+         
         >
           {data.map(({ label, value }) => (
             <Tab
               className="w-[33%] min-w-[200px] font-bold"
               key={value}
               value={value}
-              nonce={undefined}
-              onResize={undefined}
-              onResizeCapture={undefined}
+             
               onClick={
                 value === "user"
                   ? () => {
@@ -181,9 +177,7 @@ const DocumentGallery: React.FC<Gallery> = ({ groupID, groupName }) => {
             mount: { y: 0 },
             unmount: { y: 250 },
           }}
-          nonce={undefined}
-          onResize={undefined}
-          onResizeCapture={undefined}
+         
         >
           {data.map(({ value, desc }) => (
             <TabPanel key={value} value={value}>

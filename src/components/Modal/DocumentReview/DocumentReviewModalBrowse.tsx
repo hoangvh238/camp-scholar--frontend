@@ -110,9 +110,7 @@ const DocumentReviewModalBrowse: React.FC<DocumentReviewModal> = ({
               value={input} // Kết nối giá trị của Input với trạng thái 'input'
               onChange={handleInputChange} // Xử lý sự kiện thay đổi giá trị
               label="Nhập nguyên nhân..."
-              nonce={undefined}
-              onResize={undefined}
-              onResizeCapture={undefined}
+             
             />
           </AlertDialogBody>
           <AlertDialogFooter>
@@ -139,9 +137,7 @@ const DocumentReviewModalBrowse: React.FC<DocumentReviewModal> = ({
           >
             <Card
               className="w-full h-[640px] flex-row justify-center"
-              nonce={undefined}
-              onResize={undefined}
-              onResizeCapture={undefined}
+             
             >
               {!isPreviewMode ? <ModalCloseButton /> : ""}
               {isPreviewMode ? (
@@ -164,9 +160,7 @@ const DocumentReviewModalBrowse: React.FC<DocumentReviewModal> = ({
                     shadow={false}
                     floated={false}
                     className="m-0 w-2/5 shrink-0 rounded-r-none"
-                    nonce={undefined}
-                    onResize={undefined}
-                    onResizeCapture={undefined}
+                   
                   >
                     <Carousel
                       className="rounded-sm"
@@ -185,9 +179,7 @@ const DocumentReviewModalBrowse: React.FC<DocumentReviewModal> = ({
                           ))}
                         </div>
                       )}
-                      nonce={undefined}
-                      onResize={undefined}
-                      onResizeCapture={undefined}
+                      
                     >
                       <img
                         src={urlImg}
@@ -207,10 +199,9 @@ const DocumentReviewModalBrowse: React.FC<DocumentReviewModal> = ({
                     </Carousel>
                   </CardHeader>
                   <CardBody
-                    nonce={undefined}
+              
                     className="w-full"
-                    onResize={undefined}
-                    onResizeCapture={undefined}
+                  
                   >
                     <Flex alignContent={"center"} height={"4%"} gap={2}>
                       <Flex gap={1}>
@@ -235,18 +226,14 @@ const DocumentReviewModalBrowse: React.FC<DocumentReviewModal> = ({
                         variant="h4"
                         color="blue-gray"
                         className="mb-2"
-                        nonce={undefined}
-                        onResize={undefined}
-                        onResizeCapture={undefined}
+                        
                       >
                         {document.documentName}
                       </Typography>
                       <Typography
                         color="gray"
                         className="mb-8 font-normal overflow-y-scroll "
-                        nonce={undefined}
-                        onResize={undefined}
-                        onResizeCapture={undefined}
+                       
                       >
                         {document.description}
                       </Typography>
@@ -262,9 +249,7 @@ const DocumentReviewModalBrowse: React.FC<DocumentReviewModal> = ({
                             className="flex gap-2"
                             variant="h5"
                             color="blue-gray"
-                            nonce={undefined}
-                            onResize={undefined}
-                            onResizeCapture={undefined}
+                           
                           >
                             Giá bán :{" "}
                             {document.cost == 0
@@ -290,9 +275,7 @@ const DocumentReviewModalBrowse: React.FC<DocumentReviewModal> = ({
                             onClick={() => setIsPreviewMode(true)}
                             variant="h5"
                             color="blue-gray"
-                            nonce={undefined}
-                            onResize={undefined}
-                            onResizeCapture={undefined}
+                           
                           >
                             {"Kiểm tra"}
                           </Typography>
@@ -313,9 +296,7 @@ const DocumentReviewModalBrowse: React.FC<DocumentReviewModal> = ({
                           <Typography
                             variant="h5"
                             color="light-green"
-                            nonce={undefined}
-                            onResize={undefined}
-                            onResizeCapture={undefined}
+                           
                             onClick={() => {
                               handleAccept(document.documentId);
                             }}
@@ -337,9 +318,7 @@ const DocumentReviewModalBrowse: React.FC<DocumentReviewModal> = ({
                           <Typography
                             variant="h5"
                             color="red"
-                            nonce={undefined}
-                            onResize={undefined}
-                            onResizeCapture={undefined}
+                            
                             onClick={onOpen}
                           >
                             Từ chối

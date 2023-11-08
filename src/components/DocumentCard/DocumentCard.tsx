@@ -86,9 +86,7 @@ const DocumentCard: React.FC<DocumentCard> = ({
   return (
     <Card
       className="w-[350px] h-50"
-      nonce={undefined}
-      onResize={undefined}
-      onResizeCapture={undefined}
+     
     >
       {document ? (
         <DocumentReviewModal
@@ -111,9 +109,7 @@ const DocumentCard: React.FC<DocumentCard> = ({
         shadow={false}
         floated={false}
         className="h-[200px]"
-        nonce={undefined}
-        onResize={undefined}
-        onResizeCapture={undefined}
+        
       >
         <Flex
           zIndex={1}
@@ -160,9 +156,7 @@ const DocumentCard: React.FC<DocumentCard> = ({
                     variant="small"
                     color="white"
                     className="text-[12px] bg-black font-semibold "
-                    nonce={undefined}
-                    onResize={undefined}
-                    onResizeCapture={undefined}
+                  
                   >
                     {document.author}
                   </Typography>
@@ -198,17 +192,13 @@ const DocumentCard: React.FC<DocumentCard> = ({
         </Flex>
       </CardHeader>
       <CardBody
-        nonce={undefined}
-        onResize={undefined}
-        onResizeCapture={undefined}
+       
       >
         <div className="mb-2 flex items-center justify-start">
           <Typography
             color="blue-gray"
             className="font-medium text-start font-semibold  "
-            nonce={undefined}
-            onResize={undefined}
-            onResizeCapture={undefined}
+          
           >
             {document.documentName}
           </Typography>
@@ -217,18 +207,14 @@ const DocumentCard: React.FC<DocumentCard> = ({
           variant="small"
           color="gray"
           className="font-normal opacity-75 h-[50px]"
-          nonce={undefined}
-          onResize={undefined}
-          onResizeCapture={undefined}
+        
         >
           <p className="line-clamp-3">{document.description}</p>
         </Typography>
       </CardBody>
       <CardFooter
         className="pt-0"
-        nonce={undefined}
-        onResize={undefined}
-        onResizeCapture={undefined}
+      
       >
         <Button
           onMouseMove={() => setHoverCard(true)}
@@ -239,9 +225,7 @@ const DocumentCard: React.FC<DocumentCard> = ({
           ripple={false}
           fullWidth={true}
           className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
-          nonce={undefined}
-          onResize={undefined}
-          onResizeCapture={undefined}
+        
         >
           {hoverCard ? (
             <div className="w-full flex justify-center">
