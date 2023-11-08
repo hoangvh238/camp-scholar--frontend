@@ -10,7 +10,6 @@ import DocumentCard from "@/components/DocumentCard/DocumentCard";
 import DocumentStatic from "@/components/DocumentSelling/DocumentStatic";
 import PageSingleContent from "@/components/Layout/pageSingleContent";
 import useDocuments from "@/hooks/useDocument";
-
 import { Stack } from "@chakra-ui/react";
 import {
   Tab,
@@ -196,7 +195,7 @@ export default function Page() {
         <link rel="icon" href="/images/header.png" />
       </Head>
       <PageSingleContent>
-        <Tabs value="html">
+        <Tabs id="custom-animation" value="html">
           <TabsHeader
             nonce={undefined}
             onResize={undefined}
@@ -216,7 +215,11 @@ export default function Page() {
             ))}
           </TabsHeader>
           <TabsBody
-           
+            animate={{
+              initial: { y: 250 },
+              mount: { y: 0 },
+              unmount: { y: 250 },
+            }}
             nonce={undefined}
             onResize={undefined}
             onResizeCapture={undefined}
