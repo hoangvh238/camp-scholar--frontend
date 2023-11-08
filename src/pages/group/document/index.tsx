@@ -10,6 +10,15 @@ import DocumentCard from "@/components/DocumentCard/DocumentCard";
 import DocumentStatic from "@/components/DocumentSelling/DocumentStatic";
 import PageSingleContent from "@/components/Layout/pageSingleContent";
 import useDocuments from "@/hooks/useDocument";
+
+import { Stack } from "@chakra-ui/react";
+import {
+  Tab,
+  TabPanel,
+  Tabs,
+  TabsBody,
+  TabsHeader,
+} from "@material-tailwind/react";
 import { Skeleton } from "antd";
 import { getAllStatusDocUpload } from "../../../../apis/documents";
 
@@ -173,6 +182,8 @@ export default function Page() {
     getAllStatusDoc();
   }, []);
 
+  useEffect(() => {}, [documentStateValue]);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -185,7 +196,46 @@ export default function Page() {
         <link rel="icon" href="/images/header.png" />
       </Head>
       <PageSingleContent>
-        {renderPaymentDoc}
+        <Tabs value="html">
+          <TabsHeader
+            nonce={undefined}
+            onResize={undefined}
+            onResizeCapture={undefined}
+          >
+            {dataUserGellary.map(({ label, value }) => (
+              <Tab
+                className="w-[33%] min-w-[200px]"
+                key={value}
+                value={value}
+                nonce={undefined}
+                onResize={undefined}
+                onResizeCapture={undefined}
+              >
+                {label}
+              </Tab>
+            ))}
+          </TabsHeader>
+          <TabsBody
+           
+            nonce={undefined}
+            onResize={undefined}
+            onResizeCapture={undefined}
+          >
+            {dataUserGellary.map(({ value, desc }) => (
+              <TabPanel key={value} value={value}>
+                <Stack
+                  justify={"center"}
+                  gap={5}
+                  flexDirection={"row"}
+                  flexWrap={"wrap"}
+                >
+                  {" "}
+                  {desc}
+                </Stack>
+              </TabPanel>
+            ))}
+          </TabsBody>
+        </Tabs>
       </PageSingleContent>
     </motion.div>
   );
