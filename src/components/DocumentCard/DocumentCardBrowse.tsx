@@ -66,6 +66,9 @@ const DocumentCardBrowse: React.FC<DocumentCard> = ({
     fetchImage(document);
   }, []);
 
+  useEffect(() => {
+    console.log("url" + urlImg);
+  }, [urlImg]);
   return (
     <Card
       className="w-[350px] h-50"
