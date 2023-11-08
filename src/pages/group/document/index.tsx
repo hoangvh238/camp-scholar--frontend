@@ -10,14 +10,6 @@ import DocumentCard from "@/components/DocumentCard/DocumentCard";
 import DocumentStatic from "@/components/DocumentSelling/DocumentStatic";
 import PageSingleContent from "@/components/Layout/pageSingleContent";
 import useDocuments from "@/hooks/useDocument";
-import { Stack } from "@chakra-ui/react";
-import {
-  Tab,
-  TabPanel,
-  Tabs,
-  TabsBody,
-  TabsHeader,
-} from "@material-tailwind/react";
 import { Skeleton } from "antd";
 import { getAllStatusDocUpload } from "../../../../apis/documents";
 
@@ -105,7 +97,34 @@ export default function Page() {
 
   const onBuy = async () => {};
 
-
+  const renderPaymentDoc = () => {
+    return (
+      <>
+        {loading ? (
+          <Skeleton active />
+        ) : (
+          <>
+            {documentStateValue?.documents?.length !== 0 ? (
+              <>
+                {" "}
+                {documentStateValue?.documents?.map((data, index) => (
+                  <DocumentCard
+                    isBuying={true}
+                    onBough={onBuy}
+                    document={data}
+                    buyList={documentStateValue.documents}
+                    key={index}
+                  ></DocumentCard>
+                ))}
+              </>
+            ) : (
+              <div>Không có tài liệu nào khả dụng</div>
+            )}
+          </>
+        )}
+      </>
+    );
+  };
 
   const dataUserGellary = [
     {
@@ -140,16 +159,19 @@ export default function Page() {
     {
       label: "Đã mua",
       value: "react",
-      desc: "hi",
+      desc: renderPaymentDoc(),
     },
     {
       label: "Thống kê thu nhập",
       value: "ai",
-      desc: "hello",
+      desc: <DocumentStatic />,
     },
   ];
 
-
+  useEffect(() => {
+    onGetBuyList();
+    getAllStatusDoc();
+  }, []);
 
   return (
     <motion.div
@@ -163,50 +185,7 @@ export default function Page() {
         <link rel="icon" href="/images/header.png" />
       </Head>
       <PageSingleContent>
-        <Tabs id="custom-animation" value="html">
-          <TabsHeader
-            nonce={undefined}
-            onResize={undefined}
-            onResizeCapture={undefined}
-          >
-            {dataUserGellary.map(({ label, value }) => (
-              <Tab
-                className="w-[33%] min-w-[200px]"
-                key={value}
-                value={value}
-                nonce={undefined}
-                onResize={undefined}
-                onResizeCapture={undefined}
-              >
-                {label}
-              </Tab>
-            ))}
-          </TabsHeader>
-          <TabsBody
-            animate={{
-              initial: { y: 250 },
-              mount: { y: 0 },
-              unmount: { y: 250 },
-            }}
-            nonce={undefined}
-            onResize={undefined}
-            onResizeCapture={undefined}
-          >
-            {dataUserGellary.map(({ value, desc }) => (
-              <TabPanel key={value} value={value}>
-                <Stack
-                  justify={"center"}
-                  gap={5}
-                  flexDirection={"row"}
-                  flexWrap={"wrap"}
-                >
-                  {" "}
-                  {desc}
-                </Stack>
-              </TabPanel>
-            ))}
-          </TabsBody>
-        </Tabs>
+        {renderPaymentDoc}
       </PageSingleContent>
     </motion.div>
   );
