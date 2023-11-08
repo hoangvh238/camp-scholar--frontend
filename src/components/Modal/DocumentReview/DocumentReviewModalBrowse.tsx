@@ -13,7 +13,7 @@ import {
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import { Input } from "@material-tailwind/react";
+import { Input } from "../../common/common";
 import React, { useState } from "react";
 import { BsCoin, BsDot } from "react-icons/bs";
 import { SiCodereview } from "react-icons/si";
@@ -36,7 +36,7 @@ import {
   CardHeader,
   Carousel,
   Typography,
-} from "@material-tailwind/react";
+} from "../../common/common";
 import { message } from "antd";
 import { AiOutlineCheck } from "react-icons/ai";
 import { FaBan } from "react-icons/fa";

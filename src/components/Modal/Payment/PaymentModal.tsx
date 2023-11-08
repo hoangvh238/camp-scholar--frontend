@@ -30,7 +30,7 @@ import {
   TabsBody,
   TabsHeader,
   Typography
-} from "@material-tailwind/react";
+} from "../../common/common";
 
 import { Bill, Exchange } from "@/atoms/userAtom";
 import { RootState } from "@/redux/store";

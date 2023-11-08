@@ -38,7 +38,7 @@ import {
   CardHeader,
   Carousel,
   Typography,
-} from "@material-tailwind/react";
+} from "../../common/common";
 import { message } from "antd";
 import { TiShoppingCart } from "react-icons/ti";
 import { useSelector } from "react-redux";

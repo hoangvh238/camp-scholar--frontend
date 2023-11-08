@@ -10,7 +10,7 @@ import {
     CardFooter,
     CardHeader,
     Typography,
-} from "@material-tailwind/react";
+} from "../common/common";
 import { getCookie } from "cookies-next";
 import { LuView } from "react-icons/lu";
 import { formatTimeToNow } from "../../../ultils/utils";

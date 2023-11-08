@@ -17,7 +17,7 @@ import {
   Tabs,
   TabsBody,
   TabsHeader,
-} from "@material-tailwind/react";
+} from "../../../components/common/common";
 import { Skeleton } from "antd";
 import { getAllStatusDocUpload } from "../../../../apis/documents";
 

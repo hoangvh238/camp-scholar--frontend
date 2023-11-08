@@ -16,7 +16,7 @@ import {
   List,
   ListItem,
   ListItemSuffix,
-} from "@material-tailwind/react";
+} from "../../common/common";
 import { Divider } from "antd";
 
 import { RootState } from "@/redux/store";

@@ -1,9 +1,7 @@
-import { Badge, Tooltip } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import { Ratings } from "@/atoms/DocumentAtom";
-import { Avatar, Rating } from "@material-tailwind/react";
+import { Rating } from "./common";
+import { message } from "antd";
+import React from "react";
 import { ratingDoc } from "../../../apis/documents";
-import {message} from "antd"
 type Props = {
   isDisable : boolean,
   style : "col" | "row",

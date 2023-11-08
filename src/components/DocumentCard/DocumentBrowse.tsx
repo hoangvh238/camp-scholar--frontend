@@ -7,7 +7,7 @@ import {
   Tabs,
   TabsBody,
   TabsHeader,
-} from "@material-tailwind/react";
+} from "../common/common";
 import { Skeleton } from "antd";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
